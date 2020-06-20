@@ -76,16 +76,24 @@ public class PlayerController : MonoBehaviour
 
 
             // If the input is moving the player right and the player is facing left...
-            if (moveInput > 0 && !facingRight)
+            //if (moveInput > 0 && !facingRight)
+            //{
+            //    // ... flip the player.
+            //    Flip();
+            //}
+            //// Otherwise if the input is moving the player left and the player is facing right...
+            //else if (moveInput < 0 && facingRight)
+            //{
+            //    // ... flip the player.
+            //    Flip();
+            //}
+            if (moveInput > 0)
             {
-                // ... flip the player.
-                Flip();
+                transform.eulerAngles = new Vector3(0, 0, 0);
             }
-            // Otherwise if the input is moving the player left and the player is facing right...
-            else if (moveInput < 0 && facingRight)
+            else if (moveInput < 0)
             {
-                // ... flip the player.
-                Flip();
+                transform.eulerAngles = new Vector3(0, 180, 0);
             }
 
             if (moveInput == 0)
@@ -96,8 +104,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
-
+        //bow calc
+        Vector2 arrowPosistion = arrowPos.position;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = mousePos - arrowPosistion;
+        //transform.right = direction;
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded)
         {
@@ -105,13 +116,14 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("tenseBow");
             
         }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded)
         {
-            Debug.Log(arrow.transform.rotation);
+            //Debug.Log(arrow.transform.rotation);
+            Quaternion tempRot = arrowPos.rotation;
+            GameObject tempArrow = Instantiate(arrow, arrowPos.position, tempRot);
+            tempArrow.GetComponent<Rigidbody2D>().AddForce(direction.normalized * 25, ForceMode2D.Impulse);
+
             anim.SetTrigger("releaseBow");
-            Quaternion tmpRot = arrowPos.gameObject.transform.rotation;
-            GameObject tempArrow = Instantiate(arrow, arrowPos.position, tmpRot);
-            tempArrow.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 25, ForceMode2D.Impulse);
             isShooting = false;
         }
 
@@ -122,11 +134,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
-        if (isJumping)
-        {
-    
-        }
     }
 
 
