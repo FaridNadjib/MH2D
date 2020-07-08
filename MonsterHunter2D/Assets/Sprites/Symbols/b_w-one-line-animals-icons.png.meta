@@ -1,0 +1,850 @@
+fileFormatVersion: 2
+guid: 76e36d70c94db1c47b68c7bf8a0986ac
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3704234784781655289
+    second: b_w-one-line-animals-icons_0
+  - first:
+      213: 2968490652161456432
+    second: b_w-one-line-animals-icons_1
+  - first:
+      213: -4686682936280171253
+    second: b_w-one-line-animals-icons_2
+  - first:
+      213: 2979974172999354661
+    second: b_w-one-line-animals-icons_3
+  - first:
+      213: 3456946642747519317
+    second: b_w-one-line-animals-icons_4
+  - first:
+      213: 5388772641333374005
+    second: b_w-one-line-animals-icons_5
+  - first:
+      213: -4478203826961748470
+    second: b_w-one-line-animals-icons_6
+  - first:
+      213: 7660296801020172899
+    second: b_w-one-line-animals-icons_7
+  - first:
+      213: -2806534457987354816
+    second: b_w-one-line-animals-icons_8
+  - first:
+      213: 7021150694991568157
+    second: b_w-one-line-animals-icons_9
+  - first:
+      213: 8438485122769765056
+    second: b_w-one-line-animals-icons_10
+  - first:
+      213: 397177134457388983
+    second: b_w-one-line-animals-icons_11
+  - first:
+      213: 3902723131432310261
+    second: b_w-one-line-animals-icons_12
+  - first:
+      213: 3639351132370998129
+    second: b_w-one-line-animals-icons_13
+  - first:
+      213: -3166213697999762054
+    second: b_w-one-line-animals-icons_14
+  - first:
+      213: -8043936810939545369
+    second: b_w-one-line-animals-icons_15
+  - first:
+      213: -4718830379690413075
+    second: b_w-one-line-animals-icons_16
+  - first:
+      213: 7990678508488683640
+    second: b_w-one-line-animals-icons_17
+  - first:
+      213: -3884099492858577600
+    second: b_w-one-line-animals-icons_18
+  - first:
+      213: -8433830790916545662
+    second: b_w-one-line-animals-icons_19
+  - first:
+      213: -5999157842279858876
+    second: b_w-one-line-animals-icons_20
+  - first:
+      213: 6862302690847117984
+    second: b_w-one-line-animals-icons_21
+  - first:
+      213: -1557571569400418383
+    second: b_w-one-line-animals-icons_22
+  - first:
+      213: 2967232770348370354
+    second: b_w-one-line-animals-icons_23
+  - first:
+      213: 7034154116788044675
+    second: b_w-one-line-animals-icons_24
+  - first:
+      213: 2780929280711321412
+    second: b_w-one-line-animals-icons_25
+  - first:
+      213: -7303091438936882275
+    second: b_w-one-line-animals-icons_26
+  - first:
+      213: -7327242676423831009
+    second: b_w-one-line-animals-icons_27
+  - first:
+      213: 5785679453618891965
+    second: b_w-one-line-animals-icons_28
+  - first:
+      213: 4927787357335043861
+    second: b_w-one-line-animals-icons_29
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 249
+        width: 53
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fc5e8f29e5186330800000000000000
+      internalID: 3704234784781655289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_1
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 249
+        width: 48
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 039b6293582323920800000000000000
+      internalID: 2968490652161456432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_2
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 248
+        width: 65
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0db22853be85feb0800000000000000
+      internalID: -4686682936280171253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_3
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 249
+        width: 57
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5290775c8befa5920800000000000000
+      internalID: 2979974172999354661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_4
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 246
+        width: 41
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551f178e7aa89ff20800000000000000
+      internalID: 3456946642747519317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_5
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 246
+        width: 59
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53ce4069a24c8ca40800000000000000
+      internalID: 5388772641333374005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 189
+        width: 54
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0e662e88593ad1c0800000000000000
+      internalID: -4478203826961748470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_7
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 187
+        width: 55
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a5ed2ca57de4a60800000000000000
+      internalID: 7660296801020172899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_8
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 187
+        width: 59
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04f25c5b7cf2d09d0800000000000000
+      internalID: -2806534457987354816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_9
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 187
+        width: 54
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1d95718b53207160800000000000000
+      internalID: 7021150694991568157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_10
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 187
+        width: 57
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c24c1992858b1570800000000000000
+      internalID: 8438485122769765056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_11
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 187
+        width: 46
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bf7d3cdf7e038500800000000000000
+      internalID: 397177134457388983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_12
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 125
+        width: 42
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f519b1b202492630800000000000000
+      internalID: 3902723131432310261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_13
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 130
+        width: 56
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17393e1a292918230800000000000000
+      internalID: 3639351132370998129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_14
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 125
+        width: 36
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7d8fbfba695f04d0800000000000000
+      internalID: -3166213697999762054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_15
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 125
+        width: 43
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e8824cc6123e5090800000000000000
+      internalID: -8043936810939545369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_16
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 124
+        width: 39
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de33b3765c8538eb0800000000000000
+      internalID: -4718830379690413075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_17
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 123
+        width: 33
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 870f0dc54c794ee60800000000000000
+      internalID: 7990678508488683640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_18
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 68
+        width: 25
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04db3ef0718e81ac0800000000000000
+      internalID: -3884099492858577600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_19
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 64
+        width: 38
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 283eaab749305fa80800000000000000
+      internalID: -8433830790916545662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_20
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 64
+        width: 29
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44df8633ab5bebca0800000000000000
+      internalID: -5999157842279858876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_21
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 76
+        width: 47
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a2562570fbcb3f50800000000000000
+      internalID: 6862302690847117984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_22
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 67
+        width: 44
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bfe3a5f8e4626ae0800000000000000
+      internalID: -1557571569400418383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_23
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 75
+        width: 53
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b9438acb7abd2920800000000000000
+      internalID: 2967232770348370354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_24
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 8
+        width: 57
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 383c08296e55e9160800000000000000
+      internalID: 7034154116788044675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_25
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 5
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 447e7426278d79620800000000000000
+      internalID: 2780929280711321412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_26
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 12
+        width: 46
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9388fb970536aa90800000000000000
+      internalID: -7303091438936882275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_27
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 13
+        width: 44
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f12dca07b97605a90800000000000000
+      internalID: -7327242676423831009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_28
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 11
+        width: 41
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbcea392fccda4050800000000000000
+      internalID: 5785679453618891965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: b_w-one-line-animals-icons_29
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 11
+        width: 43
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51fbd923e74036440800000000000000
+      internalID: 4927787357335043861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 4cc34f94c03abce43b96dc3ef9edb3fa, type: 3}
+      name: _NormalMap
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
