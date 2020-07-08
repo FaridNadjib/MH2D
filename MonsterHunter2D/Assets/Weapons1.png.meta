@@ -1,28 +1,31 @@
 fileFormatVersion: 2
-guid: 6eac13b25af2aef41836bc495e50b4e4
+guid: 8225dc01b45dcd647b144629e1b097f6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5089538021776121650
-    second: Rocks1_0
+      213: -4082779710633277283
+    second: Weapons1_0
   - first:
-      213: 928586340548848664
-    second: Rocks1_1
+      213: -6447511871380748456
+    second: Weapons1_1
   - first:
-      213: 4201002398623087651
-    second: Rocks1_2
+      213: 8156032583192058923
+    second: Weapons1_2
   - first:
-      213: 2291839356396918694
-    second: Rocks1_3
+      213: -4418555559345939229
+    second: Weapons1_3
   - first:
-      213: -398397520345515166
-    second: Rocks1_4
+      213: -6199122647348980522
+    second: Weapons1_4
   - first:
-      213: -1603301410023391544
-    second: Rocks1_5
+      213: 7353219317093197291
+    second: Weapons1_5
   - first:
-      213: -2790566096946999771
-    second: Rocks1_6
+      213: 3298034199045299854
+    second: Weapons1_6
+  - first:
+      213: 9221185446751282638
+    second: Weapons1_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -108,13 +111,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rocks1_0
+      name: Weapons1_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 350
-        width: 214
-        height: 159
+        x: 28
+        y: 11
+        width: 53
+        height: 495
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec0a03d72245e59b0800000000000000
-      internalID: -5089538021776121650
+      spriteID: d9808831c7d0757c0800000000000000
+      internalID: -4082779710633277283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_1
+      name: Weapons1_1
       rect:
         serializedVersion: 2
-        x: 307
-        y: 376
-        width: 191
-        height: 132
+        x: 102
+        y: 107
+        width: 35
+        height: 375
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81ca1bb5b5003ec00800000000000000
-      internalID: 928586340548848664
+      spriteID: 8578c350d16d586a0800000000000000
+      internalID: -6447511871380748456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_2
+      name: Weapons1_2
       rect:
         serializedVersion: 2
-        x: 11
-        y: 4
-        width: 338
-        height: 324
+        x: 161
+        y: 85
+        width: 53
+        height: 400
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,20 +167,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32c3e767c65fc4a30800000000000000
-      internalID: 4201002398623087651
+      spriteID: b2c9ca10c6c003170800000000000000
+      internalID: 8156032583192058923
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_3
+      name: Weapons1_3
       rect:
         serializedVersion: 2
-        x: 358
-        y: 182
-        width: 146
-        height: 179
+        x: 227
+        y: 107
+        width: 35
+        height: 377
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,62 +188,62 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a75c4080cf3ecf10800000000000000
-      internalID: 2291839356396918694
+      spriteID: 3ec9bd811232ea2c0800000000000000
+      internalID: -4418555559345939229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_4
+      name: Weapons1_4
       rect:
         serializedVersion: 2
-        x: 433
-        y: 91
-        width: 69
-        height: 75
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 311
+        y: 133
+        width: 10
+        height: 322
+      alignment: 9
+      pivot: {x: 0.7076233, y: 0.0035086211}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26bb868e09b987af0800000000000000
-      internalID: -398397520345515166
+      spriteID: 6d45fadebca48f9a0800000000000000
+      internalID: -6199122647348980522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_5
+      name: Weapons1_5
       rect:
         serializedVersion: 2
-        x: 360
-        y: 16
-        width: 65
-        height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 366
+        y: 121
+        width: 129
+        height: 377
+      alignment: 9
+      pivot: {x: 0.7333757, y: 0.0057234624}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ce3cabbcddefb9e0800000000000000
-      internalID: -1603301410023391544
+      spriteID: be561e68202eb0660800000000000000
+      internalID: 7353219317093197291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rocks1_6
+      name: Weapons1_6
       rect:
         serializedVersion: 2
-        x: 457
-        y: 10
-        width: 44
-        height: 54
+        x: 288
+        y: 14
+        width: 83
+        height: 83
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,8 +251,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52ec93d7beae549d0800000000000000
-      internalID: -2790566096946999771
+      spriteID: e8e5f2b51a8f4cd20800000000000000
+      internalID: 3298034199045299854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Weapons1_7
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 18
+        width: 81
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec5ac91de4b38ff70800000000000000
+      internalID: 9221185446751282638
       vertices: []
       indices: 
       edges: []
@@ -263,9 +287,7 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {fileID: 2800000, guid: ea7d182d74c72b44ca5f80324099ed1f, type: 3}
-      name: _NormalMap
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
