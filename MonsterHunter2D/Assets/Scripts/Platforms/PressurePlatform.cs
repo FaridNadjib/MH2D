@@ -51,7 +51,7 @@ public class PressurePlatform : MovingPlatform
 
         if (player != null)
         {
-            //player.blockInput = false;
+            player.blockInput = false;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
@@ -79,7 +79,7 @@ public class PressurePlatform : MovingPlatform
             if (!cameraEventTriggered && objectCam != null)
             {
                 player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                //player.blockInput = true;
+                player.blockInput = true;
                 cameraEventTriggered = true;
                 cameraEventActive = true;
                 objectCam.enabled = true;
