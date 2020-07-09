@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     bool facingRight = true;
     bool isSprinting;
     bool isSliding;
-    public bool blockInput = false;
+    bool blockInput = false;
 
     [Header("Groundcheck related variables:")]
     [SerializeField] Transform groundPosition;

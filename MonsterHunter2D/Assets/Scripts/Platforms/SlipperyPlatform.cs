@@ -9,7 +9,7 @@ public class SlipperyPlatform : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            other.gameObject.GetComponent<PlayerController>().blockInput = true;
+            //other.gameObject.GetComponent<PlayerController>().blockInput = true;
         }
     }
 
@@ -17,7 +17,7 @@ public class SlipperyPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerController>().blockInput = false;
+            //other.gameObject.GetComponent<PlayerController>().blockInput = false;
         }
     }
 }

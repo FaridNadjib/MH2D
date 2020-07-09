@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6135721246753481518}
   - component: {fileID: 6113816782317840429}
   m_Layer: 0
-  m_Name: Bomb1
+  m_Name: BombNormal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 0.83, y: 0.83}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &2349654189400975080
