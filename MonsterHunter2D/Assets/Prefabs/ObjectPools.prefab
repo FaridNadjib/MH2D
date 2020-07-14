@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolGrowRate: 5
-  arrowNormalPrefab: {fileID: 944453011589694319, guid: 124746409fabfac42ac6d9c715e25384,
+  arrowNormalPrefab: {fileID: 944453011589694319, guid: bfce73b82ffe7cd40b1bdb3708e63469,
     type: 3}
-  arrowRopePrefab: {fileID: 0}
+  arrowRopePrefab: {fileID: 944453011589694319, guid: bfce73b82ffe7cd40b1bdb3708e63469,
+    type: 3}
   spearNormalPrefab: {fileID: 6354839863572949040, guid: 27664b35172b1334ca2be62bbb996cb8,
     type: 3}
   spearPlatformPrefab: {fileID: 6354839863572949040, guid: 6d408fbd01a30214faee3e2f6ba890b4,
