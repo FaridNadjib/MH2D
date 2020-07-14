@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6604280075017618647}
   - component: {fileID: 6604280075017618646}
   - component: {fileID: 6604280075017618645}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9215745644778502648}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 9215745645270490603}
   - component: {fileID: 9215745645270490605}
   - component: {fileID: 9215745645270490599}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StonePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1957719069
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -4295351524904358409, guid: 24fbe6fdb22f3054b8327465d99189d2,
     type: 3}
@@ -249,6 +249,7 @@ MonoBehaviour:
   stayAtStartTime: 0
   speedToEnd: 20
   speedToStart: 5
+  hold: 0
 --- !u!1 &9215745645366714522
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9215745645366714523}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StartPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9215745645833665049}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TriggeredPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -173,7 +173,7 @@ public class Projectile : MonoBehaviour
         }
 
         // Set the layer to default so the playercan collide with the projectiles again.
-        gameObject.layer = 0;
+        gameObject.layer = 10;
 
     }
 

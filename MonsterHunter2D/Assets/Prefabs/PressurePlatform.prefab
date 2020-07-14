@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6928966620162545011}
   - component: {fileID: 6928966620162545007}
   - component: {fileID: 6928966620162545006}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StonePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1957719069
-  m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -8
   m_Sprite: {fileID: -4295351524904358409, guid: 24fbe6fdb22f3054b8327465d99189d2,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -129,10 +129,13 @@ MonoBehaviour:
   stayAtStartTime: 0
   speedToEnd: 0.5
   speedToStart: 0.5
-  door: {fileID: 0}
-  doorEndPos: {fileID: 0}
-  doorStartPos: {fileID: 0}
-  doorCam: {fileID: 0}
+  hold: 0
+  objectToMove: {fileID: 0}
+  objectEndPos: {fileID: 0}
+  objectStartPos: {fileID: 0}
+  objectSpeed: 0
+  objectCam: {fileID: 0}
+  cameraEventTime: 4
 --- !u!251 &6928966620162545006
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -161,7 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6928966620267096067}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StartPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6928966620738237057}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PressurePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6928966621792874848}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

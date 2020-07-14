@@ -20,6 +20,11 @@ public class LevelManager : MonoBehaviour
 
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().transform.position = pos;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void CheckpointReached(Vector2 checkPointPos)
