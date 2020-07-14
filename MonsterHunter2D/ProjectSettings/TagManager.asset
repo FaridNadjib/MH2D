@@ -15,8 +15,8 @@ TagManager:
   - 
   - Player
   - PlayerProjectiles
-  - 
-  - 
+  - Ground
+  - CheckpointLight
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: CheckpointLight
+    uniqueID: 333648451
+    locked: 0
   - name: Player
     uniqueID: 4285238555
+    locked: 0
+  - name: Water
+    uniqueID: 3863803991
     locked: 0

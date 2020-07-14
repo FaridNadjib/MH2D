@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4929347735374150000}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: StaticPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4929347735845413874}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StartPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4929347736017165957}
   - component: {fileID: 4929347736017165954}
   - component: {fileID: 4929347736017165956}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: StonePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,9 +132,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1957719069
-  m_SortingLayer: 2
-  m_SortingOrder: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -8
   m_Sprite: {fileID: -4295351524904358409, guid: 24fbe6fdb22f3054b8327465d99189d2,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4929347736433506961}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
