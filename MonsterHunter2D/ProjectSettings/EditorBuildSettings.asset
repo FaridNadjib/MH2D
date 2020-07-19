@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DemoCave.unity
+    path: Assets/Scenes/Joachim/DemoCave.unity
     guid: 3b8479cb150e1654ca36d8291c300947
   m_configObjects: {}
