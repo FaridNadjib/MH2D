@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     private State lastState;
     private Animator anim;
     private PlayerController target;
-    [SerializeField] private Vector3 nextPos;
+    [SerializeField] private Vector3 nextPosAroundPlayer;
     [SerializeField] private Vector3 attackPos;
     [MinMaxSlider(-10, 10)]
     [SerializeField] private Vector2 minMaxPlayerOffsetX;
@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour
             target = other.GetComponent<PlayerController>();
 
             if (!moveBetweenCheckpoints)
-                GetNextPosition();
+                SetNextPositionAroundPlayer();
 
             anim.SetBool("isWakingUp", true);
             activeState = State.Alerted;
@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
             if (activeState == State.Unalerted)
             {
                 lastState = State.Attacking;
-                GetAttackPosition();
+                SetAttackPosition();
             }
             else if (activeState != State.Hit)
                 lastState = activeState;
@@ -113,24 +113,27 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets a random next waypoint from the waypoint array.
+    /// Sets a next waypoint from the waypoints-array.
     /// </summary>
-    private void GetNextWaypoint()
+    private void SetNextWaypoint()
     {
         targetWaypointIndex = UnityEngine.Random.Range(0, waypoints.Length);
     }
 
     /// <summary>
-    /// Gets a random position around the player.
+    /// Sets a random position around the player.
     /// </summary>
-    private void GetNextPosition()
+    private void SetNextPositionAroundPlayer()
     {
         float offsetX = UnityEngine.Random.Range(minMaxPlayerOffsetX.x, minMaxPlayerOffsetX.y);
         float offsetY = UnityEngine.Random.Range(minMaxPlayerOffsetY.x, minMaxPlayerOffsetY.y);
-        nextPos = new Vector3(target.transform.position.x + offsetX, target.transform.position.y + offsetY, 0);
+        nextPosAroundPlayer = new Vector3(target.transform.position.x + offsetX, target.transform.position.y + offsetY, 0);
     }
 
-    private void GetAttackPosition()
+    /// <summary>
+    /// Sets a new attack-position with an offset around the player.
+    /// </summary>
+    private void SetAttackPosition()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         attackPos = new Vector3(target.transform.position.x + UnityEngine.Random.Range(-attackOffsetX, attackOffsetX), target.transform.position.y, 0);
@@ -138,11 +141,11 @@ public class Enemy : MonoBehaviour
 
 
     /// <summary>
-    /// Moves to a position. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
+    /// Moves the enemy to a position. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
     /// </summary>
     protected virtual void MoveToPosition()
     {
-        if (transform.position == nextPos || transform.position == waypoints[targetWaypointIndex].position)
+        if (transform.position == nextPosAroundPlayer || transform.position == waypoints[targetWaypointIndex].position)
         {
             currentWaitTime += Time.deltaTime;
 
@@ -150,7 +153,7 @@ public class Enemy : MonoBehaviour
                 return;
 
             activeState = State.Attacking;
-            GetAttackPosition();
+            SetAttackPosition();
             currentWaitTime = 0f;
             anim.SetBool("isAttacking", true);
         }
@@ -162,7 +165,7 @@ public class Enemy : MonoBehaviour
                 if (moveBetweenCheckpoints)
                     transform.position = Vector2.MoveTowards(transform.position, waypoints[targetWaypointIndex].position, step);
                 else
-                    transform.position = Vector2.MoveTowards(transform.position, nextPos, step);
+                    transform.position = Vector2.MoveTowards(transform.position, nextPosAroundPlayer, step);
             }
             else
             {
@@ -173,7 +176,7 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the enemy towards the attack-position. If the enemy is at the attack-position, a new position is calculated and the state is changed.
+    /// Moves the enemy towards the attack-position. If the enemy reaches the attack-position, a new position is calculated and the state is changed.
     /// </summary>
     protected virtual void Attack()
     {
@@ -183,9 +186,9 @@ public class Enemy : MonoBehaviour
             activeState = State.Alerted;
 
             if (moveBetweenCheckpoints)
-                GetNextWaypoint();
+                SetNextWaypoint();
             else
-                GetNextPosition();
+                SetNextPositionAroundPlayer();
         }
         else
         {
@@ -202,9 +205,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     /// <summary>
-    /// 
+    /// Waits a specified duration after being hit and sets the last saved state before being hit as the active state.
     /// </summary>
     private void WaitAfterHit()
     {
@@ -237,8 +239,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Gizmos.DrawSphere(nextPos, 1f);
-            Gizmos.DrawLine(transform.position, nextPos);
+            Gizmos.DrawSphere(nextPosAroundPlayer, 1f);
+            Gizmos.DrawLine(transform.position, nextPosAroundPlayer);
         }
     }
 }
