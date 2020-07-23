@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     private PlayerController target;
     [SerializeField] private Vector3 nextPosAroundPlayer;
     [SerializeField] private Vector3 attackPos;
+    private Vector3 startPos;
     [MinMaxSlider(-10, 10)]
     [SerializeField] private Vector2 minMaxPlayerOffsetX;
     [MinMaxSlider(4, 12)]
@@ -28,6 +29,16 @@ public class Enemy : MonoBehaviour
     [Tooltip("Should this enemy move between fixed checkpoints or should it move based on the player position?")]
     [SerializeField] private bool moveBetweenCheckpoints = false;
     [SerializeField] private bool moveInRandomCurve = false;
+    [SerializeField] private float arcHeight;
+    [SerializeField] private Vector3 curvePoint;
+    [SerializeField] private Vector2 minMaxCurvePointOffsetX;
+    [SerializeField] private Vector2 minMaxCurvePointOffsetY;
+    [SerializeField] private float timeToMoveToAttackPos;
+    [SerializeField] private float timeToMoveToPosAroundPlayer;
+    [SerializeField] private float timeToMoveToPos;
+    [SerializeField] private float currentTime;
+
+
 
 
     private CharacterResources resources;
@@ -89,8 +100,10 @@ public class Enemy : MonoBehaviour
 
             if (activeState == State.Unalerted)
             {
+                timeToMoveToPos = timeToMoveToAttackPos;
                 lastState = State.Attacking;
                 SetAttackPosition();
+                CalculateThirdCurvePoint();
             }
             else if (activeState != State.Hit)
                 lastState = activeState;
@@ -106,7 +119,7 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("isWakingUp", true);
             }
 
-            rb.AddForceAtPosition(other.GetContact(0).normal, other.GetContact(0).point, ForceMode2D.Impulse);
+            //rb.AddForceAtPosition(other.GetContact(0).normal, other.GetContact(0).point, ForceMode2D.Impulse);
 
             anim.SetTrigger("gotDamaged");
         }
@@ -147,29 +160,38 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position == nextPosAroundPlayer || transform.position == waypoints[targetWaypointIndex].position)
         {
+            startPos = transform.position;
             currentWaitTime += Time.deltaTime;
 
             if (currentWaitTime < waitAtWaypointTime)
                 return;
 
+            timeToMoveToPos = timeToMoveToAttackPos;
+
             activeState = State.Attacking;
             SetAttackPosition();
             currentWaitTime = 0f;
+            CalculateThirdCurvePoint();
+
             anim.SetBool("isAttacking", true);
+
+
         }
         else
         {
             if (!moveInRandomCurve)
             {
-                float step = movementSpeed * Time.deltaTime;
                 if (moveBetweenCheckpoints)
-                    transform.position = Vector2.MoveTowards(transform.position, waypoints[targetWaypointIndex].position, step);
+                    transform.position = Vector2.MoveTowards(transform.position, waypoints[targetWaypointIndex].position, movementSpeed * Time.deltaTime);
                 else
-                    transform.position = Vector2.MoveTowards(transform.position, nextPosAroundPlayer, step);
+                    transform.position = Vector2.MoveTowards(transform.position, nextPosAroundPlayer, movementSpeed * Time.deltaTime);
             }
             else
             {
-
+                if (moveBetweenCheckpoints)
+                    MoveInArc(waypoints[targetWaypointIndex].position, movementSpeed);
+                else
+                    MoveInArc(nextPosAroundPlayer, movementSpeed);
             }
 
         }
@@ -182,27 +204,97 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position == attackPos)
         {
+            startPos = transform.position;
             anim.SetBool("isAttacking", false);
             activeState = State.Alerted;
+
+            timeToMoveToPos = timeToMoveToPosAroundPlayer;
 
             if (moveBetweenCheckpoints)
                 SetNextWaypoint();
             else
                 SetNextPositionAroundPlayer();
+
+            CalculateThirdCurvePoint();
         }
         else
         {
             if (!moveInRandomCurve)
             {
-                float step = attackSpeed * Time.deltaTime;
-                transform.position = Vector2.MoveTowards(transform.position, attackPos, step);
+                transform.position = Vector2.MoveTowards(transform.position, attackPos, attackSpeed * Time.deltaTime);
             }
             else
             {
-
+                MoveInArc(attackPos, attackSpeed / 2);
             }
 
         }
+    }
+
+    private void CalculateThirdCurvePoint()
+    {
+        float direction = attackPos.x - transform.position.x;
+        float xOffset = UnityEngine.Random.Range(minMaxCurvePointOffsetX.x, minMaxCurvePointOffsetX.y);
+
+        if (direction > 0)
+        {
+            curvePoint = new Vector3(target.transform.position.x + xOffset, nextPosAroundPlayer.y, 0);
+        }
+        else
+        {
+            curvePoint = new Vector3(target.transform.position.x - xOffset, nextPosAroundPlayer.y, 0);
+        }
+
+
+
+    }
+
+    private void MoveStraight()
+    {
+        
+    }
+
+
+    private void MoveInArc(Vector3 targetPos, float speed)
+    {
+        // float x0 = startPos.x;
+        // float x1 = targetPos.x;
+        // float dist = x1 - x0;
+        // float nextX = Mathf.MoveTowards(transform.position.x, x1, speed * Time.deltaTime);
+        // float baseY = Mathf.Lerp(startPos.y, targetPos.y, (nextX - x0) / dist);
+        // float arc = arcHeight * (nextX - x0) * (nextX - x1) / (-0.25f * dist * dist);
+        // if (dist != 0)
+        //     transform.position = new Vector3(nextX, baseY + arc, transform.position.z);
+
+
+        if (currentTime < timeToMoveToPos)
+        {
+            currentTime += Time.deltaTime * timeToMoveToPos;
+
+
+            Vector3 m1 = new Vector3();
+            Vector3 m2 = new Vector3();
+
+
+            if (activeState == State.Attacking)
+            {
+                m1 = Vector3.Lerp(startPos, curvePoint, timeToMoveToPos);
+                m2 = Vector3.Lerp(curvePoint, attackPos, timeToMoveToPos);
+            }
+            else if (activeState == State.Alerted)
+            {
+                if (!moveBetweenCheckpoints)
+                {
+                    m1 = Vector3.Lerp(startPos, curvePoint, timeToMoveToPos);
+                    m2 = Vector3.Lerp(curvePoint, nextPosAroundPlayer, timeToMoveToPos);
+                }
+            }
+
+            transform.position = Vector3.Lerp(m1, m2, timeToMoveToPos);
+        }
+        else
+            currentTime = 0f;
+
     }
 
     /// <summary>
@@ -242,5 +334,9 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawSphere(nextPosAroundPlayer, 1f);
             Gizmos.DrawLine(transform.position, nextPosAroundPlayer);
         }
+
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawSphere(curvePoint, 2f);
     }
 }

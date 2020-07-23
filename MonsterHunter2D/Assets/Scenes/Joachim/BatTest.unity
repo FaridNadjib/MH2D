@@ -283,6 +283,38 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[2]
       value: 
       objectReference: {fileID: 1875439099}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: arcHeight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: moveInRandomCurve
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: minMaxCurvePointOffsetX.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: minMaxCurvePointOffsetX.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: minMaxCurvePointOffsetY.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: minMaxCurvePointOffsetY.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: timeToMoveToPosAroundPlayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
+      propertyPath: timeToMoveToAttackPos
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 202509313, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
       propertyPath: m_BodyType
       value: 1
@@ -833,12 +865,21 @@ MonoBehaviour:
   waitAtWaypointTime: 2
   waitAfterHitTime: 0.5
   activeState: 0
-  nextPos: {x: 0, y: 0, z: 0}
+  nextPosAroundPlayer: {x: 0, y: 0, z: 0}
   attackPos: {x: 0, y: 0, z: 0}
   minMaxPlayerOffsetX: {x: -6, y: 6}
   minMaxPlayerOffsetY: {x: 4, y: 8}
   attackOffsetX: 3
   moveBetweenCheckpoints: 1
+  moveInRandomCurve: 0
+  arcHeight: 0
+  curvePoint: {x: 0, y: 0, z: 0}
+  minMaxCurvePointOffsetX: {x: 0, y: 0}
+  minMaxCurvePointOffsetY: {x: 0, y: 0}
+  timeToMoveToAttackPos: 0
+  timeToMoveToPosAroundPlayer: 0
+  timeToMoveToPos: 0
+  currentTime: 0
 --- !u!58 &614599698
 CircleCollider2D:
   m_ObjectHideFlags: 0
