@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GD.MinMaxSlider;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,9 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 nextPosAroundPlayer;
     [SerializeField] private Vector3 attackPos;
     private Vector3 startPos;
-    [MinMaxSlider(-10, 10)]
     [SerializeField] private Vector2 minMaxPlayerOffsetX;
-    [MinMaxSlider(4, 12)]
     [SerializeField] private Vector2 minMaxPlayerOffsetY;
     [SerializeField] private float attackOffsetX;
     private bool alertedOnce = false;

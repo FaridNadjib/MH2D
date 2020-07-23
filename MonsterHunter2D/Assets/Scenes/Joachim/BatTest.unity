@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
       propertyPath: moveInRandomCurve
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 202509309, guid: 9ce762203b791764e94127feca7ed8bd, type: 3}
       propertyPath: minMaxCurvePointOffsetX.x
