@@ -30,13 +30,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 curvePoint;
     [SerializeField] private Vector2 minMaxCurvePointOffsetX;
     [SerializeField] private Vector2 minMaxCurvePointOffsetY;
-    [SerializeField] private float timeToMoveToAttackPos;
-    [SerializeField] private float timeToMoveToPosAroundPlayer;
-    [SerializeField] private float timeToMoveToPos;
     [SerializeField] private float currentTime;
+    [SerializeField] private Vector3 knockBack;
 
+    private Vector2 direction;
 
-
+    private float currentSpeed;
 
     private CharacterResources resources;
     private Rigidbody2D rb;
@@ -47,7 +46,7 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         resources = GetComponent<CharacterResources>();
         rb = GetComponent<Rigidbody2D>();
-        
+        startPos = transform.position;      
     }
 
     // Start is called before the first frame update
@@ -85,6 +84,8 @@ public class Enemy : MonoBehaviour
 
             anim.SetBool("isWakingUp", true);
             activeState = State.Alerted;
+            currentSpeed = movementSpeed;
+
         }
     }
 
@@ -97,15 +98,15 @@ public class Enemy : MonoBehaviour
 
             if (activeState == State.Unalerted)
             {
-                timeToMoveToPos = timeToMoveToAttackPos;
                 lastState = State.Attacking;
+                currentSpeed = attackSpeed;
+                startPos = transform.position;
+
                 SetAttackPosition();
                 CalculateThirdCurvePoint();
             }
             else if (activeState != State.Hit)
                 lastState = activeState;
-
-            activeState = State.Hit;
 
             //int damage = other.gameObject.GetComponent<Projectile>().damageValue;
             float damage = 5f;
@@ -116,14 +117,16 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("isWakingUp", true);
             }
 
-            //rb.AddForceAtPosition(other.GetContact(0).normal, other.GetContact(0).point, ForceMode2D.Impulse);
+            direction = other.GetContact(0).point - (Vector2)transform.position; 
 
             anim.SetTrigger("gotDamaged");
+
+            activeState = State.Hit;
         }
     }
 
     /// <summary>
-    /// Sets a next waypoint from the waypoints-array.
+    /// Sets a next random waypoint from the waypoints-array.
     /// </summary>
     private void SetNextWaypoint()
     {
@@ -131,7 +134,7 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets a random position around the player.
+    /// Sets a position around the player based on the minimum and maximum offset values for the X- and Y-axis.
     /// </summary>
     private void SetNextPositionAroundPlayer()
     {
@@ -145,34 +148,38 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void SetAttackPosition()
     {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         attackPos = new Vector3(target.transform.position.x + UnityEngine.Random.Range(-attackOffsetX, attackOffsetX), target.transform.position.y, 0);
     }
 
-
     /// <summary>
-    /// Moves the enemy to a position. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
+    /// Moves the enemy to a position based on his current state. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
     /// </summary>
     protected virtual void MoveToPosition()
     {
         if (transform.position == nextPosAroundPlayer || transform.position == waypoints[targetWaypointIndex].position)
         {
+
+            print("reached posAroundPlayer");
+
             startPos = transform.position;
             currentWaitTime += Time.deltaTime;
 
             if (currentWaitTime < waitAtWaypointTime)
                 return;
 
-            timeToMoveToPos = timeToMoveToAttackPos;
+            currentWaitTime = 0f;
 
             activeState = State.Attacking;
+            currentSpeed = attackSpeed;
             SetAttackPosition();
-            currentWaitTime = 0f;
             CalculateThirdCurvePoint();
 
+            Flip();
+
             anim.SetBool("isAttacking", true);
-
-
         }
         else
         {
@@ -185,12 +192,8 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                if (moveBetweenCheckpoints)
-                    MoveInArc(waypoints[targetWaypointIndex].position, movementSpeed);
-                else
-                    MoveInArc(nextPosAroundPlayer, movementSpeed);
+                MoveInCurve();
             }
-
         }
     }
 
@@ -201,11 +204,14 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position == attackPos)
         {
+
+            print("reached attackPos");
             startPos = transform.position;
             anim.SetBool("isAttacking", false);
             activeState = State.Alerted;
 
-            timeToMoveToPos = timeToMoveToPosAroundPlayer;
+            currentSpeed = movementSpeed;
+
 
             if (moveBetweenCheckpoints)
                 SetNextWaypoint();
@@ -222,18 +228,16 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                MoveInArc(attackPos, attackSpeed / 2);
+                MoveInCurve();
             }
-
         }
     }
 
     private void CalculateThirdCurvePoint()
     {
-        float direction = attackPos.x - transform.position.x;
         float xOffset = UnityEngine.Random.Range(minMaxCurvePointOffsetX.x, minMaxCurvePointOffsetX.y);
 
-        if (direction > 0)
+        if (CalculateDirectionToPlayerPos() >= 0)
         {
             curvePoint = new Vector3(target.transform.position.x + xOffset, nextPosAroundPlayer.y, 0);
         }
@@ -241,57 +245,37 @@ public class Enemy : MonoBehaviour
         {
             curvePoint = new Vector3(target.transform.position.x - xOffset, nextPosAroundPlayer.y, 0);
         }
-
-
-
     }
 
-    private void MoveStraight()
+    private void MoveInCurve()
     {
-        
-    }
-
-
-    private void MoveInArc(Vector3 targetPos, float speed)
-    {
-        // float x0 = startPos.x;
-        // float x1 = targetPos.x;
-        // float dist = x1 - x0;
-        // float nextX = Mathf.MoveTowards(transform.position.x, x1, speed * Time.deltaTime);
-        // float baseY = Mathf.Lerp(startPos.y, targetPos.y, (nextX - x0) / dist);
-        // float arc = arcHeight * (nextX - x0) * (nextX - x1) / (-0.25f * dist * dist);
-        // if (dist != 0)
-        //     transform.position = new Vector3(nextX, baseY + arc, transform.position.z);
-
-
-        if (currentTime < timeToMoveToPos)
+        if (currentTime < 1.0f)
         {
-            currentTime += Time.deltaTime * timeToMoveToPos;
+            currentTime += Time.deltaTime * currentSpeed;
 
-
-            Vector3 m1 = new Vector3();
-            Vector3 m2 = new Vector3();
-
+            Vector3 lerpToCurvePoint = new Vector3();
+            Vector3 lerptoEndPoint = new Vector3();
 
             if (activeState == State.Attacking)
             {
-                m1 = Vector3.Lerp(startPos, curvePoint, timeToMoveToPos);
-                m2 = Vector3.Lerp(curvePoint, attackPos, timeToMoveToPos);
+                lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentTime);
+                lerptoEndPoint = Vector3.Lerp(curvePoint, attackPos, currentTime);
+
+                transform.position = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentTime);
             }
             else if (activeState == State.Alerted)
             {
                 if (!moveBetweenCheckpoints)
                 {
-                    m1 = Vector3.Lerp(startPos, curvePoint, timeToMoveToPos);
-                    m2 = Vector3.Lerp(curvePoint, nextPosAroundPlayer, timeToMoveToPos);
+                    lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentTime);
+                    lerptoEndPoint = Vector3.Lerp(curvePoint, nextPosAroundPlayer, currentTime);
+
+                    transform.position = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentTime);
                 }
             }
-
-            transform.position = Vector3.Lerp(m1, m2, timeToMoveToPos);
         }
         else
             currentTime = 0f;
-
     }
 
     /// <summary>
@@ -301,16 +285,38 @@ public class Enemy : MonoBehaviour
     {
         currentWaitTime += Time.deltaTime;
 
+        rb.AddForce(direction.normalized * Time.deltaTime);
+
         if (currentWaitTime >= waitAfterHitTime)
         {
+
+            rb.velocity = Vector2.zero; 
             activeState = lastState;
             currentWaitTime = 0f;
+            startPos = transform.position;
 
             if (activeState == State.Attacking)
             {
                 anim.SetBool("isAttacking", true);
             }
         }
+    }
+
+    private float CalculateDirectionToPlayerPos()
+    {
+        float direction;
+
+        if (transform.position.x > target.transform.position.x)
+            direction = 1;
+        else
+            direction = -1;
+
+        return direction;
+    }
+
+    private void Flip()
+    {           
+        transform.localScale = new Vector3(CalculateDirectionToPlayerPos(), transform.localScale.y, transform.localScale.z);
     }
 
     private void OnDrawGizmosSelected() 
