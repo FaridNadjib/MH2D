@@ -89,6 +89,11 @@ public class Projectile : MonoBehaviour
             platformEffector.enabled = false;
             platformEffectorBoxCol.enabled = false ;
         }
+
+        if (gameObject.GetComponent<Collider2D>() != null)
+        {
+            gameObject.GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     // Update is called once per frame
@@ -121,6 +126,20 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         hasHit = true;
+
+        // On collision with an enemy the rigidbody and collider will be disabled and the projectile will become child of the enemy.
+        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null)
+        {
+            transform.SetParent(collision.gameObject.transform);
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            onlyOnce = true;
+
+            if (gameObject.GetComponent<Collider2D>() != null)
+            {
+                gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+        }
 
         // The stickybomb sticks to the object it collided with.
         if(!onlyOnce && type == ActiveWeaponType.BombSticky)
