@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
             activeState = State.Hit;
 
             //int damage = other.gameObject.GetComponent<Projectile>().damageValue;
-            int damage = 5;
+            float damage = 5f;
             resources.ReduceHealth(damage);
 
             if (anim.GetBool("isWakingUp") == false)

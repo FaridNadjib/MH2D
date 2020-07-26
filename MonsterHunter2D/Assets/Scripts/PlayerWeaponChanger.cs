@@ -55,7 +55,7 @@ public class PlayerWeaponChanger : MonoBehaviour
         weaponKeysDictionary.Add("alpha3Weapons", alpha3Weapons);
 
         alpha1Weapons.Enqueue(ActiveWeaponType.ArrowNormal);
-        alpha1Weapons.Enqueue(ActiveWeaponType.ArrowRope);
+        //alpha1Weapons.Enqueue(ActiveWeaponType.ArrowRope);
         alpha2Weapons.Enqueue(ActiveWeaponType.SpearNormal);
         alpha2Weapons.Enqueue(ActiveWeaponType.SpearPlatform);
         alpha3Weapons.Enqueue(ActiveWeaponType.BombNormal);

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [Header("Walking related variables:")]
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
+    [SerializeField] float sprintStaminaConsumption;
     [Range(0f,1f)]
     [SerializeField] float airSpeed;
     float moveInput;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float offset;
     [SerializeField] float shootTime;
     [SerializeField] float shootDuration;
+    [SerializeField] float shootStaminaConsumption;
     Vector2 projectilePosition;
     ActiveWeaponHand activeHand;
     float shootTimeCounter;
@@ -71,6 +73,13 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
+    //Connections to other scripts:
+    CharacterResources characterResources;
+    RagdollController ragdoll;
+
+    // Use this to check if the player is currently alive or not.
+    public bool IsAlive { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +87,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         speed = walkSpeed;
+
+        // Get the other scripts related to the player, all are on the same gameobject.
+        characterResources = GetComponent<CharacterResources>();
+        ragdoll = GetComponent<RagdollController>();
 
         // Subscribe to event which gets triggered when equipped weapon is changed.
         PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => { this.activeWeapon = activeWeapon;
@@ -89,6 +102,19 @@ public class PlayerController : MonoBehaviour
             else
                 rightHandWeapon.sprite = tempProjectile.GetComponent<SpriteRenderer>().sprite;
             ObjectPoolsController.instance.AddToPool(tempProjectile, activeWeapon.ToString());
+        };
+
+        // Subscribe to event which get triggered when health of this units reaches 0.
+        characterResources.OnUnitDied += () => {
+            // Activate the ragdoll and disable movement.
+            blockInput = true;
+            anim.enabled = false;
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+            ragdoll.EnableRagdoll();
+            IsAlive = false;
+            // ToDo: show message on screen to press l to reload last save or esc to open menu.
         };
     }
 
@@ -136,12 +162,13 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     anim.SetBool("isWalking", true);
-                    if (Input.GetKey(KeyCode.LeftShift) && !isCrouching)
+                    if (Input.GetKey(KeyCode.LeftShift) && !isCrouching && characterResources.HasStamina)
                     {
+                        characterResources.ReduceStamina(sprintStaminaConsumption * Time.deltaTime);
                         anim.SetBool("isSprinting", true);
                         isSprinting = true;
                         speed = sprintSpeed;
-                        if (Input.GetKeyDown(KeyCode.S) && isSprinting)
+                        if (Input.GetKeyDown(KeyCode.S) && isSprinting && characterResources.HasStamina)
                         {
                             anim.SetTrigger("slideDown");
                             anim.SetBool("isSliding", true);
@@ -179,8 +206,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // Shooting calculations.
-        ShootingCheck();
-    
+        if(!blockInput)
+            ShootingCheck();
+
+
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            characterResources.ReduceHealth(20f);
+        }
     }
 
     private void FixedUpdate()
@@ -261,7 +294,7 @@ public class PlayerController : MonoBehaviour
     private void ShootingCheck()
     {
         // Only start shooting if hes on the ground and not moving and time passed after his last shot. Set the animation according to active weapon hand.
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded && moveInput == 0 && canShootAgain)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded && moveInput == 0 && canShootAgain && characterResources.HasStamina)
         {
             isShooting = true;
             canShootAgain = false;
@@ -287,6 +320,9 @@ public class PlayerController : MonoBehaviour
         // As long as the player is aiming, update the animation and make him build up power for harder shots.
         if (isShooting)
         {
+            // Spend stamina while the bow is tensed.
+            characterResources.ReduceStamina(shootStaminaConsumption * Time.deltaTime);
+
             // Calculate the direction the player is pointing towards.       
             Vector2 mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
             projectilePosition = activeHand == ActiveWeaponHand.Left ? leftHandWeaponPos.position : rightHandWeaponPos.position;
@@ -326,7 +362,7 @@ public class PlayerController : MonoBehaviour
                 DrawLine();
 
             // If the key was released activate the projectile.
-            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina)
             {
                 GameObject tempProjectile = ObjectPoolsController.instance.GetFromPool(activeWeapon.ToString());
                 tempProj = tempProjectile;
@@ -390,5 +426,22 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < numberOfPoints; i++)
             line.SetPosition(i, new Vector3(PointPosition(i * spaceBetweenPoints).x, PointPosition(i * spaceBetweenPoints).y, 0));
+    }
+
+    public void RespawnPlayer(Vector2 position)
+    {
+        // Set the playerstats to default values.
+        characterResources.RestoreValues();
+
+        // Disable the ragdoll system and give the control back to the player.
+        ragdoll.DisableRagdoll();
+        blockInput = false;
+        anim.enabled = true;
+        gameObject.GetComponent<Collider2D>().enabled = true;
+        rb.isKinematic = false;
+        IsAlive = true;
+
+        // Set the position of the player.
+        transform.position = position;
     }
 }

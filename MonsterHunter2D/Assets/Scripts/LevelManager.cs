@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
             if (pos == null)
                 return;
 
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().transform.position = pos;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().RespawnPlayer(pos);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
