@@ -1,0 +1,274 @@
+fileFormatVersion: 2
+guid: b52a5216992a746469ec492cd0880a7b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2047378811257792681
+    second: Women2_0
+  - first:
+      213: -7033699924377347763
+    second: Women2_1
+  - first:
+      213: 3998941421936821317
+    second: Women2_2
+  - first:
+      213: 2219506035771717468
+    second: Women2_3
+  - first:
+      213: -226174818124190586
+    second: Women2_4
+  - first:
+      213: 1690075729230420496
+    second: Women2_5
+  - first:
+      213: 702762486038092226
+    second: Women2_6
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Women2_0
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 534
+        width: 153
+        height: 203
+      alignment: 9
+      pivot: {x: 0.5623247, y: 0.07052537}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 757515291df3693e0800000000000000
+      internalID: -2047378811257792681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_1
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 256
+        width: 196
+        height: 447
+      alignment: 9
+      pivot: {x: 0.5139003, y: 0.55180776}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d49dbc65f27436e90800000000000000
+      internalID: -7033699924377347763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_2
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 395
+        width: 68
+        height: 110
+      alignment: 9
+      pivot: {x: 0.5400659, y: 0.51238406}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 544c32439081f7730800000000000000
+      internalID: 3998941421936821317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_3
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 322
+        width: 57
+        height: 52
+      alignment: 9
+      pivot: {x: 0.18931378, y: 0.6571814}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c573207eaf44dce10800000000000000
+      internalID: 2219506035771717468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_4
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 247
+        width: 38
+        height: 44
+      alignment: 9
+      pivot: {x: 0.60754514, y: 0.46903992}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68ca19483377cdcf0800000000000000
+      internalID: -226174818124190586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_5
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 133
+        width: 60
+        height: 74
+      alignment: 9
+      pivot: {x: 0.3410719, y: 0.44477454}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01ad94cdbea547710800000000000000
+      internalID: 1690075729230420496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Women2_6
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 117
+        width: 146
+        height: 71
+      alignment: 9
+      pivot: {x: 0.4999998, y: 0.38488126}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c955c5f1c6b0c900800000000000000
+      internalID: 702762486038092226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 8d6e46ad23e8be440a250c438cdb2f09, type: 3}
+      name: _NormalMap
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

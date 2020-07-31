@@ -1,0 +1,298 @@
+fileFormatVersion: 2
+guid: 92f1a89ffb75f014ca5d986edf50b8fc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7675585262089743603
+    second: EnemyGroundDino_0
+  - first:
+      213: -198350356785099166
+    second: EnemyGroundDino_1
+  - first:
+      213: -1092400440707435853
+    second: EnemyGroundDino_2
+  - first:
+      213: -6728214010997945753
+    second: EnemyGroundDino_3
+  - first:
+      213: 2048083270151295278
+    second: EnemyGroundDino_4
+  - first:
+      213: -4173998323580652223
+    second: EnemyGroundDino_5
+  - first:
+      213: -4386423679416282188
+    second: EnemyGroundDino_6
+  - first:
+      213: -4275784031398939743
+    second: EnemyGroundDino_7
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EnemyGroundDino_0
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 696
+        width: 191
+        height: 219
+      alignment: 9
+      pivot: {x: 0.9265439, y: 0.7480056}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03dae10fd7da7590800000000000000
+      internalID: -7675585262089743603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_1
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 673
+        width: 506
+        height: 318
+      alignment: 9
+      pivot: {x: 0.51341724, y: 0.45730072}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26e80c2c6615f3df0800000000000000
+      internalID: -198350356785099166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_2
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 699
+        width: 159
+        height: 250
+      alignment: 9
+      pivot: {x: 0.10503306, y: 0.051915526}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b23723469307d0f0800000000000000
+      internalID: -1092400440707435853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_3
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 486
+        width: 167
+        height: 136
+      alignment: 9
+      pivot: {x: 0.032483153, y: 0.26287842}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76a49ad210590a2a0800000000000000
+      internalID: -6728214010997945753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_4
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 438
+        width: 428
+        height: 164
+      alignment: 9
+      pivot: {x: 0.52775943, y: 0.45860255}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e21d9cb02e04c6c10800000000000000
+      internalID: 2048083270151295278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_5
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 178
+        width: 107
+        height: 167
+      alignment: 9
+      pivot: {x: 0.4365501, y: 0.9980069}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14536e5b3aaf216c0800000000000000
+      internalID: -4173998323580652223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_6
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 180
+        width: 114
+        height: 179
+      alignment: 9
+      pivot: {x: 0.5, y: 0.98358476}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b3d70267ea4023c0800000000000000
+      internalID: -4386423679416282188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyGroundDino_7
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 147
+        width: 191
+        height: 219
+      alignment: 9
+      pivot: {x: 0.882112, y: 0.8332577}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a3bd28d31d59a4c0800000000000000
+      internalID: -4275784031398939743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 2fd95bedfaac3d94bbba5cce4bb57485, type: 3}
+      name: _NormalMap
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

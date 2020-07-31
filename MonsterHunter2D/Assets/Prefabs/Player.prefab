@@ -783,7 +783,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 5219001628127883645}
   m_Enabled: 0
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1546253859}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   groundCheckRadius: 0.4
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1025
   jumpForce: 25
   jumpTime: 0.35
   isCrouching: 0
@@ -1374,14 +1374,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIcons:
   - name: ArrowNormal
-    image: {fileID: -4418555559345939229, guid: a12f8325c1643d04cae6c173619561e5,
+    image: {fileID: -8340413889524006940, guid: cb187c6414742bb43934f9fff5c98b9f,
       type: 3}
   - name: SpearNormal
-    image: {fileID: -4082779710633277283, guid: a12f8325c1643d04cae6c173619561e5,
-      type: 3}
+    image: {fileID: 5749169304641835459, guid: cb187c6414742bb43934f9fff5c98b9f, type: 3}
   - name: SpearPlatform
-    image: {fileID: -4906864666938018422, guid: 882ba5df3065a8f459d8effa8b9e37db,
-      type: 3}
+    image: {fileID: 7652799950109008760, guid: cb187c6414742bb43934f9fff5c98b9f, type: 3}
   - name: BombNormal
     image: {fileID: 3298034199045299854, guid: a12f8325c1643d04cae6c173619561e5, type: 3}
   - name: BombSticky
@@ -1827,7 +1825,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 5219001628447207374}
   m_Enabled: 0
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1546253859}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
