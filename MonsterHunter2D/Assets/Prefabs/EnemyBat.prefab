@@ -561,19 +561,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5099224575039562351}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &202509310
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -615,25 +615,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 5099224575039562351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8cea795a010a0848aa9f431781847a9, type: 3}
+  m_Script: {fileID: 11500000, guid: b069e2eae7b672c49923f48dd2564044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  waypoints: []
+  randomNextWaypoint: 0
   targetWaypointIndex: 0
-  movementSpeed: 4
-  attackSpeed: 20
-  waitAtWaypointTime: 2
+  alertedSpeed: 0.3
+  attackSpeed: 0.7
+  waitAtWaypointTime: 0.5
   waitAfterHitTime: 0.5
   activeState: 0
   nextPos: {x: 0, y: 0, z: 0}
-  attackPos: {x: 0, y: 0, z: 0}
-  minMaxPlayerOffsetX: {x: -6, y: 6}
-  minMaxPlayerOffsetY: {x: 4, y: 12}
-  attackOffsetX: 3
+  minMaxPlayerOffsetX: {x: 8, y: 16}
+  minMaxPlayerOffsetY: {x: 8, y: 16}
+  attackOffsetX: 0
   moveBetweenCheckpoints: 0
+  moveInRandomCurve: 1
+  curvePoint: {x: 0, y: 0, z: 0}
+  minMaxCurvePointOffsetX: {x: 0, y: 0}
+  minMaxCurvePointOffsetY: {x: 0, y: 0}
+  currentTime: 0
+  particles: {fileID: 0}
 --- !u!114 &202509312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,5 +649,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f45354c1bbc1c44a7d55b421ce01a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 0
+  health: 10
+  maxHealth: 10
+  stamina: 0
+  maxStamina: 0
+  staminaRecoveryRate: 0
+  staminaRecoverDelay: 0

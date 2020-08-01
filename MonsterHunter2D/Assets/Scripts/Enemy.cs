@@ -2,108 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//[RequireComponent(typeof(CapsuleCollider2D), typeof(CircleCollider2D), typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] protected Transform[] waypoints;
-    [SerializeField] private int targetWaypointIndex = 0;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float attackSpeed;
+    [SerializeField] private bool randomNextWaypoint = false;
+    [SerializeField] protected int targetWaypointIndex = 0;
+    [SerializeField] protected float standardSpeed;
+    [SerializeField] protected float attackSpeed;
     [SerializeField] private float waitAtWaypointTime;
     [SerializeField] private float waitAfterHitTime;
-    private float currentWaitTime = 0f;
-    private enum State { Unalerted, Alerted, Attacking, Hit, Dead }
-    [SerializeField] private State activeState;
+    protected float currentWaitTime = 0f;
+    protected enum State { Unalerted, Alerted, Attacking, Hit, Dead }
+    [SerializeField] protected State activeState;
     private State lastState;
-    private Animator anim;
-    private PlayerController target;
-    [SerializeField] private Vector3 nextPosAroundPlayer;
-    [SerializeField] private Vector3 attackPos;
+    protected Animator anim;
+    protected PlayerController target;
+    [SerializeField] protected Vector3 nextPos;
     private Vector3 startPos;
     [SerializeField] private Vector2 minMaxPlayerOffsetX;
     [SerializeField] private Vector2 minMaxPlayerOffsetY;
     [SerializeField] private float attackOffsetX;
-    private bool alertedOnce = false;
+    protected bool alertedOnce = false;
     [Tooltip("Should this enemy move between fixed checkpoints or should it move based on the player position?")]
     [SerializeField] private bool moveBetweenCheckpoints = false;
     [SerializeField] private bool moveInRandomCurve = false;
-    [SerializeField] private float arcHeight;
-    [SerializeField] private Vector3 curvePoint;
+
+    [SerializeField] protected Vector3 curvePoint;
     [SerializeField] private Vector2 minMaxCurvePointOffsetX;
     [SerializeField] private Vector2 minMaxCurvePointOffsetY;
-    [SerializeField] private float currentTime;
-    [SerializeField] private Vector3 knockBack;
+    [SerializeField] [Range(0, 1)] private float currentTime;
 
-    private Vector2 direction;
+    [SerializeField] private ParticleSystem particles;
 
-    private float currentSpeed;
+    private bool canHit = true;
+    public bool CanHit { get => canHit; set => canHit = value; }
 
+    private Vector2 forceDirection;
+    protected float currentSpeed;
     private CharacterResources resources;
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
-    private void Awake() 
+    private void Awake()
     {
         activeState = State.Unalerted;
         anim = GetComponent<Animator>();
         resources = GetComponent<CharacterResources>();
         rb = GetComponent<Rigidbody2D>();
-        startPos = transform.position;      
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        startPos = transform.position;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (activeState == State.Alerted)
-        {
-            MoveToPosition();
-        }
-        else if (activeState == State.Attacking)
-        {
-            Attack();
-        }
+        if (activeState == State.Unalerted || activeState == State.Dead)
+            return;
         else if (activeState == State.Hit)
-        {
             WaitAfterHit();
-        }
+        else
+            Move();
+
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" && !alertedOnce)
         {
             alertedOnce = true;
             target = other.GetComponent<PlayerController>();
 
+            activeState = State.Alerted;
+
             if (!moveBetweenCheckpoints)
-                SetNextPositionAroundPlayer();
+                SetupNextMovement();
 
             anim.SetBool("isWakingUp", true);
-            activeState = State.Alerted;
-            currentSpeed = movementSpeed;
-
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionEnter2D(Collision2D other)
     {
-       if (other.gameObject.GetComponent<Projectile>() != null)
-       {
+        if (other.gameObject.GetComponent<Projectile>() != null)
+        {
+            if (activeState == State.Dead)
+                return;
+
             if (!alertedOnce)
                 alertedOnce = true;
+
+            if (target == null)
+                target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
             if (activeState == State.Unalerted)
             {
                 lastState = State.Attacking;
-                currentSpeed = attackSpeed;
-                startPos = transform.position;
-
-                SetAttackPosition();
-                CalculateThirdCurvePoint();
+                SetupNextMovement();
+                CalculateCurvePoint();
             }
             else if (activeState != State.Hit)
                 lastState = activeState;
@@ -117,7 +111,12 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("isWakingUp", true);
             }
 
-            direction = other.GetContact(0).point - (Vector2)transform.position; 
+            Vector2 contactPoint = other.GetContact(0).point;
+
+            // particles.Play();
+            // particles.transform.position = contactPoint;
+
+            forceDirection = contactPoint - (Vector2)transform.position;
 
             anim.SetTrigger("gotDamaged");
 
@@ -126,69 +125,101 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets a next random waypoint from the waypoints-array.
+    /// Sets a random or a next waypoint from the waypoints-array.
     /// </summary>
-    private void SetNextWaypoint()
+    protected virtual void SetNextWaypoint()
     {
-        targetWaypointIndex = UnityEngine.Random.Range(0, waypoints.Length);
+        if (randomNextWaypoint)
+            targetWaypointIndex = UnityEngine.Random.Range(0, waypoints.Length);
+        else if (!randomNextWaypoint && targetWaypointIndex < waypoints.Length - 1)
+            targetWaypointIndex++;
+        else if (!randomNextWaypoint && targetWaypointIndex >= waypoints.Length - 1)
+            targetWaypointIndex = 0;
+
+        nextPos = waypoints[targetWaypointIndex].position;
+
     }
 
-    /// <summary>
-    /// Sets a position around the player based on the minimum and maximum offset values for the X- and Y-axis.
-    /// </summary>
-    private void SetNextPositionAroundPlayer()
-    {
-        float offsetX = UnityEngine.Random.Range(minMaxPlayerOffsetX.x, minMaxPlayerOffsetX.y);
-        float offsetY = UnityEngine.Random.Range(minMaxPlayerOffsetY.x, minMaxPlayerOffsetY.y);
-        nextPosAroundPlayer = new Vector3(target.transform.position.x + offsetX, target.transform.position.y + offsetY, 0);
-    }
 
     /// <summary>
     /// Sets a new attack-position with an offset around the player.
     /// </summary>
-    private void SetAttackPosition()
+    protected virtual void SetupNextMovement()
     {
-        if (target == null)
-            target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        startPos = transform.position;
 
-        attackPos = new Vector3(target.transform.position.x + UnityEngine.Random.Range(-attackOffsetX, attackOffsetX), target.transform.position.y, 0);
+        int movement = Random.Range(0, 2);
+
+        if (movement == 1)
+            moveInRandomCurve = true;
+        else
+            moveInRandomCurve = false;
+
+        if (activeState == State.Attacking)
+        {
+            currentSpeed = attackSpeed;
+
+            nextPos = new Vector3(target.transform.position.x + UnityEngine.Random.Range(-attackOffsetX, attackOffsetX), target.transform.position.y, 0);
+
+            anim.SetBool("isAttacking", true);
+
+            canHit = true;
+        }
+        else if (activeState == State.Alerted)
+        {
+            currentSpeed = standardSpeed;
+
+            float offsetX = UnityEngine.Random.Range(minMaxPlayerOffsetX.x, minMaxPlayerOffsetX.y);
+            float offsetY = UnityEngine.Random.Range(minMaxPlayerOffsetY.x, minMaxPlayerOffsetY.y);
+            nextPos = new Vector3(target.transform.position.x + offsetX, target.transform.position.y + offsetY, 0);
+
+            anim.SetBool("isAttacking", false);
+        }
+
     }
 
     /// <summary>
     /// Moves the enemy to a position based on his current state. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
     /// </summary>
-    protected virtual void MoveToPosition()
+    protected virtual void Move()
     {
-        if (transform.position == nextPosAroundPlayer || transform.position == waypoints[targetWaypointIndex].position)
+        if (transform.position == nextPos || currentTime >= 1f)
         {
+            print("reached nextPos");
 
-            print("reached posAroundPlayer");
+            if (activeState == State.Alerted)
+            {
+                currentWaitTime += Time.deltaTime;
 
-            startPos = transform.position;
-            currentWaitTime += Time.deltaTime;
+                if (currentWaitTime < waitAtWaypointTime)
+                    return;
 
-            if (currentWaitTime < waitAtWaypointTime)
-                return;
+                currentWaitTime = 0f;
 
-            currentWaitTime = 0f;
+                activeState = State.Attacking;
 
-            activeState = State.Attacking;
-            currentSpeed = attackSpeed;
-            SetAttackPosition();
-            CalculateThirdCurvePoint();
+                SetupNextMovement();
+                CalculateCurvePoint();
+                Flip();
+            }
+            else if (activeState == State.Attacking)
+            {
+                activeState = State.Alerted;
 
-            Flip();
+                SetupNextMovement();
+                CalculateCurvePoint();
+                Flip();
+            }
 
-            anim.SetBool("isAttacking", true);
+            currentTime = 0f;
         }
         else
         {
+            rb.velocity = Vector2.zero;
+
             if (!moveInRandomCurve)
             {
-                if (moveBetweenCheckpoints)
-                    transform.position = Vector2.MoveTowards(transform.position, waypoints[targetWaypointIndex].position, movementSpeed * Time.deltaTime);
-                else
-                    transform.position = Vector2.MoveTowards(transform.position, nextPosAroundPlayer, movementSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
             }
             else
             {
@@ -198,81 +229,37 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the enemy towards the attack-position. If the enemy reaches the attack-position, a new position is calculated and the state is changed.
+    /// Calculates a third curve point that the enemy lerps towards to create a curved movement.
     /// </summary>
-    protected virtual void Attack()
-    {
-        if (transform.position == attackPos)
-        {
-
-            print("reached attackPos");
-            startPos = transform.position;
-            anim.SetBool("isAttacking", false);
-            activeState = State.Alerted;
-
-            currentSpeed = movementSpeed;
-
-
-            if (moveBetweenCheckpoints)
-                SetNextWaypoint();
-            else
-                SetNextPositionAroundPlayer();
-
-            CalculateThirdCurvePoint();
-        }
-        else
-        {
-            if (!moveInRandomCurve)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, attackPos, attackSpeed * Time.deltaTime);
-            }
-            else
-            {
-                MoveInCurve();
-            }
-        }
-    }
-
-    private void CalculateThirdCurvePoint()
+    private void CalculateCurvePoint()
     {
         float xOffset = UnityEngine.Random.Range(minMaxCurvePointOffsetX.x, minMaxCurvePointOffsetX.y);
 
-        if (CalculateDirectionToPlayerPos() >= 0)
+        if (CalculateDirectionToPos(target.transform.position) >= 0)
         {
-            curvePoint = new Vector3(target.transform.position.x + xOffset, nextPosAroundPlayer.y, 0);
+            curvePoint = new Vector3(target.transform.position.x + xOffset, nextPos.y, 0);
         }
         else
         {
-            curvePoint = new Vector3(target.transform.position.x - xOffset, nextPosAroundPlayer.y, 0);
+            curvePoint = new Vector3(target.transform.position.x - xOffset, nextPos.y, 0);
         }
     }
 
+    /// <summary>
+    /// Lerps towards the curve-point and then towards the end-point to create a curved movement.
+    /// </summary>
     private void MoveInCurve()
     {
-        if (currentTime < 1.0f)
+        if (currentTime < 1f)
         {
             currentTime += Time.deltaTime * currentSpeed;
 
-            Vector3 lerpToCurvePoint = new Vector3();
-            Vector3 lerptoEndPoint = new Vector3();
-
             if (activeState == State.Attacking)
-            {
-                lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentTime);
-                lerptoEndPoint = Vector3.Lerp(curvePoint, attackPos, currentTime);
+                nextPos = target.transform.position;
 
-                transform.position = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentTime);
-            }
-            else if (activeState == State.Alerted)
-            {
-                if (!moveBetweenCheckpoints)
-                {
-                    lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentTime);
-                    lerptoEndPoint = Vector3.Lerp(curvePoint, nextPosAroundPlayer, currentTime);
-
-                    transform.position = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentTime);
-                }
-            }
+            Vector3 lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentTime);
+            Vector3 lerptoEndPoint = Vector3.Lerp(curvePoint, nextPos, currentTime);
+            transform.position = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentTime);
         }
         else
             currentTime = 0f;
@@ -281,32 +268,37 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Waits a specified duration after being hit and sets the last saved state before being hit as the active state.
     /// </summary>
-    private void WaitAfterHit()
+    protected virtual void WaitAfterHit()
     {
-        currentWaitTime += Time.deltaTime;
+        rb.AddForce(forceDirection.normalized * Time.deltaTime);
 
-        rb.AddForce(direction.normalized * Time.deltaTime);
+        currentWaitTime += Time.deltaTime;
 
         if (currentWaitTime >= waitAfterHitTime)
         {
-
-            rb.velocity = Vector2.zero; 
             activeState = lastState;
+            rb.velocity = Vector2.zero;
             currentWaitTime = 0f;
-            startPos = transform.position;
+            currentTime = 0f;
 
-            if (activeState == State.Attacking)
+            if (resources.GetCurrentHealth() <= 0)
             {
-                anim.SetBool("isAttacking", true);
+                rb.gravityScale = 1f;
+                rb.constraints = RigidbodyConstraints2D.None;
+                anim.SetBool("isAttacking", false);
+                anim.SetBool("isWakingUp", false);
+                activeState = State.Dead;
             }
+            else
+                SetupNextMovement();
         }
     }
 
-    private float CalculateDirectionToPlayerPos()
+    protected virtual float CalculateDirectionToPos(Vector3 pos)
     {
         float direction;
 
-        if (transform.position.x > target.transform.position.x)
+        if (transform.position.x > pos.x)
             direction = 1;
         else
             direction = -1;
@@ -314,12 +306,12 @@ public class Enemy : MonoBehaviour
         return direction;
     }
 
-    private void Flip()
-    {           
-        transform.localScale = new Vector3(CalculateDirectionToPlayerPos(), transform.localScale.y, transform.localScale.z);
+    protected virtual void Flip()
+    {
+        transform.localScale = new Vector3(CalculateDirectionToPos(target.transform.position), transform.localScale.y, transform.localScale.z);
     }
 
-    private void OnDrawGizmosSelected() 
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
 
@@ -334,8 +326,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Gizmos.DrawSphere(nextPosAroundPlayer, 1f);
-            Gizmos.DrawLine(transform.position, nextPosAroundPlayer);
+            Gizmos.DrawSphere(nextPos, 1f);
+            Gizmos.DrawLine(transform.position, nextPos);
         }
 
         Gizmos.color = Color.green;
