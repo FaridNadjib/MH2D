@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: ParalaxBG
+    uniqueID: 2108186001
+    locked: 0
+  - name: CaveBackgrounds
+    uniqueID: 1952001921
+    locked: 0
+  - name: Background
+    uniqueID: 3294004395
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -47,9 +56,12 @@ TagManager:
   - name: Player
     uniqueID: 4285238555
     locked: 0
+  - name: Enemy
+    uniqueID: 2788818891
+    locked: 0
   - name: Water
     uniqueID: 3863803991
     locked: 0
-  - name: Enemy
-    uniqueID: 2788818891
+  - name: Foreground
+    uniqueID: 620379783
     locked: 0

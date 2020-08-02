@@ -28,6 +28,5 @@ public class RagdollController : MonoBehaviour
             if (bodyParts[i].GetComponent<HingeJoint2D>() != null)
                 bodyParts[i].GetComponent<HingeJoint2D>().enabled = false;
         }
-        SaveJoint.ReassignJoints();
     }
 }
