@@ -6,89 +6,174 @@ public class EnemyFish : Enemy
 {
     [SerializeField] private float frequency;
     [SerializeField] private float magnitude;
-    [SerializeField] private float waitAfterAttackTime;
+    [SerializeField] private bool patrolling;
+    private bool jump = false;
+    [SerializeField] private Vector2 jumpForce;
+    [SerializeField] private float jumpTime;
+    private float currentJumpTime;
+    [SerializeField] private float waitAfterJumpTime;
+    private float currentWaitAfterJumpTime;
 
-    private void Start() 
+    private void Awake() 
     {
-        nextPos = waypoints[targetWaypointIndex].position;
-        currentSpeed = standardSpeed;
+        anim = GetComponent<Animator>();
+        startPos = transform.position;
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    protected override void Update()
+    protected override void Update() 
     {
-        if (activeState == State.Dead)
-            return;
-        else if (activeState == State.Hit)
-            WaitAfterHit();
-        else if (activeState == State.Unalerted)
-            Move();
-        else if (activeState == State.Attacking)
+        if (patrolling && rb.gravityScale == 0f)
+            Jump();
+        else if (transform.position.y <= startPos.y)
         {
-            WaitAfterAttack();
-        }
-
-    }
-
-    protected override void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player" && !alertedOnce)
-        {
-            alertedOnce = true;
-            target = other.GetComponent<PlayerController>();
-
-            anim.SetBool("attacking", true);
-            //rb.AddForce((target.transform.position + new Vector3(0, 4, 0) - transform.position), ForceMode2D.Impulse);
-
-            if (CalculateDirectionToPos(target.transform.position) >= 0)
-                curvePoint = new Vector3(target.transform.position.x + 3, target.transform.position.y + 4 );
-            else
-                curvePoint = new Vector3(target.transform.position.x - 3, target.transform.position.y + 4);
-
-            activeState = State.Attacking;
-
-        }
-    }
-
-    protected override void Move()
-    {
-        if (Vector2.Distance(transform.position, nextPos) < 0.1f)
-        {
-            print(this + "reached checkpoint");
-            if (activeState == State.Unalerted)
-            {
-                SetNextWaypoint();
-                Flip();
-            }
-        }
-        else
-        {
-            Vector3 pos = Vector2.MoveTowards(transform.position, nextPos, standardSpeed * Time.deltaTime * 20);
-            transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude; 
-        }
-    }
-
-    private void WaitAfterAttack()
-    {
-        currentWaitTime += Time.deltaTime;
-
-        if (currentWaitTime >= waitAfterAttackTime)
-        {
-            rb.gravityScale = 1f;
+            transform.rotation = new Quaternion(0,0,0,0);
             rb.velocity = Vector2.zero;
-            activeState = State.Alerted;
-            currentWaitTime = 0f;
+            rb.gravityScale = 0f;
+            currentWaitAfterJumpTime = 0f;
+            currentJumpTime = 0f;
         }
-        Rotate();
+
+        if (rb.velocity != Vector2.zero)
+            RotateTowards();
     }
 
-    private void Rotate()
+    private void Jump()
+    {
+        currentWaitAfterJumpTime += Time.deltaTime;
+
+        if (currentWaitAfterJumpTime < waitAfterJumpTime)
+            return;
+
+        currentJumpTime += Time.deltaTime;
+
+        jump = true;
+
+        ApplyForce();
+
+        if (currentJumpTime < jumpTime)
+            return;
+
+        jump = false;
+        rb.gravityScale = 1f;
+    }
+
+    private void ApplyForce()
+    {
+        if (jump)
+        {
+            rb.AddForce(jumpForce, ForceMode2D.Impulse);
+            jump = false;
+        }
+    }
+
+    // private void Start() 
+    // {
+    //     nextPos = waypoints[targetWaypointIndex].position;
+    //     currentSpeed = standardSpeed;
+    // }
+
+    // protected override void Update()
+    // {
+    //     if (activeState == State.Dead)
+    //         return;
+    //     else if (activeState == State.Hit)
+    //         WaitAfterHit();
+    //     else
+    //         Move();
+    // }
+
+    // protected override void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.tag == "Player" && !alertedOnce)
+    //     {
+    //         alertedOnce = true;
+    //         target = other.GetComponent<PlayerController>();
+
+    //         nextPos = CalculateAttackStartPoint(target.transform.position);
+    //         Flip();
+
+    //         currentSpeed = attackSpeed;
+
+    //         activeState = State.Alerted;
+    //     }
+    // }
+
+    // private Vector2 CalculateAttackStartPoint(Vector2 targetPos)
+    // {
+    //     Vector2 pos;
+    //     float offsetX = UnityEngine.Random.Range(minMaxPlayerOffsetX.x, minMaxPlayerOffsetX.y);
+
+    //     if (CalculateDirectionToPos(targetPos) >= 0)
+    //         pos = new Vector2(targetPos.x + offsetX, targetPos.y - 3);
+    //     else
+    //         pos = new Vector2(targetPos.x - offsetX, targetPos.y - 3);
+
+    //     return pos;
+    // }
+
+    // private void OnCollisionEnter2D(Collision2D other) 
+    // {
+        
+    // }
+
+    // protected override void Move()
+    // {
+    //     if (Vector2.Distance(transform.position, nextPos) < 0.1f)
+    //     {
+    //         if (activeState == State.Unalerted)
+    //         {
+    //             SetNextWaypoint();
+    //             Flip();
+    //         }
+    //         else if (activeState == State.Alerted)
+    //         {
+    //             CalculateCurvePoint();
+    //             if (transform.position.x < target.transform.position.x)
+    //                 nextPos = new Vector2(target.transform.position.x + (Vector2.Distance(target.transform.position, transform.position)), transform.position.y);
+    //             else
+    //                 nextPos = new Vector2(target.transform.position.x - (Vector2.Distance(target.transform.position, transform.position)), transform.position.y);
+
+    //             startPos = transform.position;
+
+    //             currentSpeed = attackSpeed;
+
+    //             activeState = State.Attacking;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (activeState == State.Unalerted)
+    //             MoveInSinus();
+    //         else if (activeState == State.Alerted)
+    //             MoveStraight();
+    //         else if (activeState == State.Attacking)
+    //             MoveInCurve();
+    //     }
+
+    //     //RotateTowards();
+
+    // }
+
+    // private void MoveInSinus()
+    // {
+    //     Vector3 pos = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
+    //     transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude;
+    // }
+
+    // private void MoveStraight()
+    // {
+    //     transform.position = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime);
+    // }
+
+    private void RotateTowards()
     {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
     }
 
-    protected override void Flip()
-    {
-        transform.localScale = new Vector3(CalculateDirectionToPos(nextPos) * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
+    // protected override void Flip()
+    // {
+    //     transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * CalculateDirectionToPos(nextPos), transform.localScale.y);
+    // }
 }

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1114529459820691788}
+  - component: {fileID: 1111138921}
+  - component: {fileID: 1111138920}
   m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
@@ -32,6 +34,36 @@ Transform:
   m_Father: {fileID: 1114529461831914074}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1111138921
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114529459820691789}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.8865166, y: -0.5007801}
+  m_Size: {x: 1.0549164, y: 1.2850037}
+  m_Direction: 0
+--- !u!114 &1111138920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114529459820691789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  enemy: {fileID: 222459547}
 --- !u!1 &1114529460067520645
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +215,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
   m_SortingLayer: 4
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: -961198989794464733, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -265,7 +297,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
   m_SortingLayer: 4
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7085819820172417384, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -390,7 +422,7 @@ Transform:
   m_GameObject: {fileID: 1114529461831914075}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -35.53501, y: -6.420939, z: -1.4189453}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1114529459820691788}
   - {fileID: 1114529461745552759}
@@ -449,7 +481,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.2986517, y: -0.3318348}
   serializedVersion: 2
-  m_Radius: 7.30262
+  m_Radius: 15
 --- !u!114 &222459547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,24 +499,28 @@ MonoBehaviour:
   - {fileID: 0}
   randomNextWaypoint: 0
   targetWaypointIndex: 0
-  alertedSpeed: 0.3
-  attackSpeed: 0.7
+  standardSpeed: 0.3
+  attackSpeed: 5
   waitAtWaypointTime: 0
   waitAfterHitTime: 0
   activeState: 0
   nextPos: {x: 0, y: 0, z: 0}
-  minMaxPlayerOffsetX: {x: 0, y: 0}
-  minMaxPlayerOffsetY: {x: 0, y: 0}
+  minMaxPlayerOffsetX: {x: 2, y: 5}
+  minMaxPlayerOffsetY: {x: 5, y: 20}
   attackOffsetX: 0
   moveBetweenCheckpoints: 1
   moveInRandomCurve: 0
-  curvePoint: {x: 0, y: 0, z: 0}
+  curvePoint: {x: 0, y: 0}
   minMaxCurvePointOffsetX: {x: 0, y: 0}
-  minMaxCurvePointOffsetY: {x: 0, y: 0}
+  minMaxCurvePointOffsetY: {x: 5, y: 10}
   currentTime: 0
   particles: {fileID: 0}
   frequency: 10
   magnitude: 0.02
+  patrolling: 1
+  jumpForce: {x: 0, y: 0.2}
+  jumpTime: 0.5
+  waitAfterJumpTime: 4
 --- !u!50 &3492366745586160726
 Rigidbody2D:
   serializedVersion: 4
@@ -505,7 +541,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!1 &1114529461892624329
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,29 +8,25 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Transform[] waypoints;
     [SerializeField] private bool randomNextWaypoint = false;
     [SerializeField] protected int targetWaypointIndex = 0;
-    [SerializeField] protected float standardSpeed;
-    [SerializeField] protected float attackSpeed;
-    [SerializeField] private float waitAtWaypointTime;
-    [SerializeField] private float waitAfterHitTime;
+    [SerializeField] protected float standardSpeed, attackSpeed;
+    [SerializeField] private float waitAtWaypointTime, waitAfterHitTime;
     protected float currentWaitTime = 0f;
-    protected enum State { Unalerted, Alerted, Attacking, Hit, Dead }
+    public enum State { Unalerted, Alerted, Attacking, Hit, Dead }
     [SerializeField] protected State activeState;
     private State lastState;
     protected Animator anim;
     protected PlayerController target;
     [SerializeField] protected Vector3 nextPos;
-    private Vector3 startPos;
-    [SerializeField] private Vector2 minMaxPlayerOffsetX;
-    [SerializeField] private Vector2 minMaxPlayerOffsetY;
+    protected Vector3 startPos;
+    [SerializeField] protected Vector2 minMaxPlayerOffsetX, minMaxPlayerOffsetY;
     [SerializeField] private float attackOffsetX;
     protected bool alertedOnce = false;
     [Tooltip("Should this enemy move between fixed checkpoints or should it move based on the player position?")]
     [SerializeField] private bool moveBetweenCheckpoints = false;
     [SerializeField] private bool moveInRandomCurve = false;
 
-    [SerializeField] protected Vector3 curvePoint;
-    [SerializeField] private Vector2 minMaxCurvePointOffsetX;
-    [SerializeField] private Vector2 minMaxCurvePointOffsetY;
+    [SerializeField] protected Vector2 curvePoint;
+    [SerializeField] private Vector2 minMaxCurvePointOffsetX, minMaxCurvePointOffsetY;
     [SerializeField] [Range(0, 1)] private float currentTime;
 
     [SerializeField] private ParticleSystem particles;
@@ -61,7 +57,6 @@ public class Enemy : MonoBehaviour
             WaitAfterHit();
         else
             Move();
-
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -82,50 +77,51 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<Projectile>() != null)
+        if (other.gameObject.GetComponent<Projectile>() != null && activeState != State.Dead)
         {
-            if (activeState == State.Dead)
-                return;
-
-            if (!alertedOnce)
-                alertedOnce = true;
-
-            if (target == null)
-                target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
-            if (activeState == State.Unalerted)
-            {
-                lastState = State.Attacking;
-                SetupNextMovement();
-                CalculateCurvePoint();
-            }
-            else if (activeState != State.Hit)
-                lastState = activeState;
-
-            //int damage = other.gameObject.GetComponent<Projectile>().damageValue;
-            float damage = 5f;
-            resources.ReduceHealth(damage);
-
-            if (anim.GetBool("isWakingUp") == false)
-            {
-                anim.SetBool("isWakingUp", true);
-            }
-
-            Vector2 contactPoint = other.GetContact(0).point;
-
-            // particles.Play();
-            // particles.transform.position = contactPoint;
-
-            forceDirection = contactPoint - (Vector2)transform.position;
-
-            anim.SetTrigger("gotDamaged");
-
-            activeState = State.Hit;
+            Hit(other);
         }
     }
 
+    private void Hit(Collision2D other)
+    {
+        alertedOnce = true;
+
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        if (activeState == State.Unalerted)
+        {
+            lastState = State.Attacking;
+            SetupNextMovement();
+            CalculateCurvePoint();
+        }
+        else if (activeState != State.Hit)
+            lastState = activeState;
+
+        //int damage = other.gameObject.GetComponent<Projectile>().damageValue;
+        float damage = 5f;
+        resources.ReduceHealth(damage);
+
+        if (anim.GetBool("isWakingUp") == false)
+        {
+            anim.SetBool("isWakingUp", true);
+        }
+
+        Vector2 contactPoint = other.GetContact(0).point;
+
+        // particles.Play();
+        // particles.transform.position = contactPoint;
+
+        forceDirection = contactPoint - (Vector2)transform.position;
+
+        anim.SetTrigger("gotDamaged");
+
+        activeState = State.Hit;
+    }
+
     /// <summary>
-    /// Sets a random or a next waypoint from the waypoints-array.
+    /// Sets a random or next waypoint from the waypoints-array.
     /// </summary>
     protected virtual void SetNextWaypoint()
     {
@@ -137,14 +133,13 @@ public class Enemy : MonoBehaviour
             targetWaypointIndex = 0;
 
         nextPos = waypoints[targetWaypointIndex].position;
-
     }
 
 
     /// <summary>
-    /// Sets a new attack-position with an offset around the player.
+    /// Sets a new position based on the active state.
     /// </summary>
-    protected virtual void SetupNextMovement()
+    public virtual void SetupNextMovement()
     {
         startPos = transform.position;
 
@@ -179,14 +174,12 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the enemy to a position based on his current state. If the enemy reaches the position, it waits for a specified duration and starts to attack the player from there.
+    /// Moves the enemy to a position based on his current state. If the enemy reaches the next position the state will be changed.
     /// </summary>
     protected virtual void Move()
     {
         if (transform.position == nextPos || currentTime >= 1f)
         {
-            print("reached nextPos");
-
             if (activeState == State.Alerted)
             {
                 currentWaitTime += Time.deltaTime;
@@ -215,11 +208,14 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            // if (currentTime <= 0.8f && activeState == State.Attacking)
+            //     nextPos = target.transform.position;
+
             rb.velocity = Vector2.zero;
 
             if (!moveInRandomCurve)
             {
-                transform.position = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
+                transform.position = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 30);
             }
             else
             {
@@ -231,24 +227,26 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Calculates a third curve point that the enemy lerps towards to create a curved movement.
     /// </summary>
-    private void CalculateCurvePoint()
+    protected void CalculateCurvePoint()
     {
         float xOffset = UnityEngine.Random.Range(minMaxCurvePointOffsetX.x, minMaxCurvePointOffsetX.y);
+        float yOffset = UnityEngine.Random.Range(minMaxCurvePointOffsetY.x, minMaxCurvePointOffsetY.y);
+
 
         if (CalculateDirectionToPos(target.transform.position) >= 0)
         {
-            curvePoint = new Vector3(target.transform.position.x + xOffset, nextPos.y, 0);
+            curvePoint = new Vector3(target.transform.position.x + xOffset, nextPos.y + yOffset, 0);
         }
         else
         {
-            curvePoint = new Vector3(target.transform.position.x - xOffset, nextPos.y, 0);
+            curvePoint = new Vector3(target.transform.position.x - xOffset, nextPos.y + yOffset, 0);
         }
     }
 
     /// <summary>
     /// Lerps towards the curve-point and then towards the end-point to create a curved movement.
     /// </summary>
-    private void MoveInCurve()
+    protected void MoveInCurve()
     {
         if (currentTime < 1f)
         {
