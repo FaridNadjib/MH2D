@@ -1,179 +1,185 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyFish : Enemy
 {
-    [SerializeField] private float frequency;
-    [SerializeField] private float magnitude;
-    [SerializeField] private bool patrolling;
-    private bool jump = false;
-    [SerializeField] private Vector2 jumpForce;
-    [SerializeField] private float jumpTime;
-    private float currentJumpTime;
-    [SerializeField] private float waitAfterJumpTime;
+    private float currentJumpIntervalTime;
+    private const float fixedWaitAfterJumpTime = 0.5f;
     private float currentWaitAfterJumpTime;
+    private bool jump = true;
+    private Quaternion startRotation;
+    private Vector3 startLocalScale;
 
-    private void Awake() 
+    private void Awake()
     {
         anim = GetComponent<Animator>();
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        resources = GetComponent<CharacterResources>();
+
+        startRotation = transform.rotation;
+        startLocalScale = transform.localScale;
+
+        if (moveBetweenWaypoints || currentState == State.Alerted)
+        {
+            nextPos = waypoints[targetWaypointIndex].position;
+            currentSpeed = standardSpeed;
+            FlipTowardsPos(nextPos);
+        }
     }
 
-    protected override void Update() 
+    protected override void UnalertedBehaviour()
     {
-        if (patrolling && rb.gravityScale == 0f)
-            Jump();
-        else if (transform.position.y <= startPos.y)
+        if (!moveBetweenWaypoints)
         {
-            transform.rotation = new Quaternion(0,0,0,0);
-            rb.velocity = Vector2.zero;
-            rb.gravityScale = 0f;
-            currentWaitAfterJumpTime = 0f;
-            currentJumpTime = 0f;
-        }
+            if (rb.gravityScale == 0f)
+                Jump();
+            else if (transform.position.y <= startPos.y)
+            {
+                transform.rotation = startRotation;
+                transform.localScale = startLocalScale;
+                rb.velocity = Vector2.zero;
+                rb.gravityScale = 0f;
+                currentJumpIntervalTime = 0f;
+                jump = true;
+                currentWaitAfterJumpTime = 0f;
+            }
 
-        if (rb.velocity != Vector2.zero)
-            RotateTowards();
+            if (rb.velocity != Vector2.zero)
+            {
+                RotateAndFlip(true);
+            }
+        }
+        else if (moveBetweenWaypoints)
+        {
+            Patrol();
+        }
+    }
+
+    protected override void AlertedBehaviour()
+    {
+        PatrolAndJump();
+    }
+
+    private void PatrolAndJump()
+    {
+        // if the enemy has reached the next position
+        if (Vector2.Distance(transform.position, nextPos) < 0.05f)
+        {
+            transform.rotation = startRotation;
+            currentWaitTime += Time.deltaTime;
+            currentCurvePos = 0f;
+
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * 1, Mathf.Abs(transform.localScale.x) * 1);
+
+            if (CalculateDirectionToPos(nextPos) == -1)
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, Mathf.Abs(transform.localScale.x) * 1);
+
+            if (currentWaitTime > waitAtWaypointTime)
+            {
+                targetWaypointIndex = GetNextWaypointIndex();
+                nextPos = waypoints[targetWaypointIndex].position;
+                currentWaitTime = 0f;
+                startPos = transform.position;
+
+                if (UnityEngine.Random.Range(0, 9) <= 6)
+                {
+                    currentMovementType = MovementType.Curve;
+                    curvePoint = CalculateCurvePoint();
+                    currentSpeed = attackSpeed;
+                }
+                else
+                    currentMovementType = MovementType.Straight;
+            }
+        }
+        // if the enemy hasnt reached the next position yet
+        else
+        {
+            FlipTowardsPos(nextPos);
+            Move();
+        }
+    }
+
+    protected override void MoveInCurve()
+    {
+        if (currentCurvePos < 1f)
+        {
+            currentCurvePos += Time.deltaTime * currentSpeed;
+
+            Vector3 lerpToCurvePoint = Vector3.Lerp(startPos, curvePoint, currentCurvePos);
+            Vector3 lerptoEndPoint = Vector3.Lerp(curvePoint, nextPos, currentCurvePos);
+
+            Vector3 combinedLerp = Vector3.Lerp(lerpToCurvePoint, lerptoEndPoint, currentCurvePos);
+
+            Vector3 direction = combinedLerp - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            if (CalculateDirectionToPos(nextPos) == 1)
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, Mathf.Abs(transform.localScale.y) * -1);
+            else
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, Mathf.Abs(transform.localScale.y) * 1);
+
+            transform.position = combinedLerp;
+        }
+        else
+            currentCurvePos = 0f;
     }
 
     private void Jump()
     {
+        currentJumpIntervalTime += Time.deltaTime;
+
+        if (currentJumpIntervalTime < waitAfterJumpTime)
+            return;
+
+        if (jump)
+        {
+            jump = false;
+            rb.AddForce(jumpForce, ForceMode2D.Impulse);
+        }
+
         currentWaitAfterJumpTime += Time.deltaTime;
 
-        if (currentWaitAfterJumpTime < waitAfterJumpTime)
+        if (currentWaitAfterJumpTime < fixedWaitAfterJumpTime)
             return;
 
-        currentJumpTime += Time.deltaTime;
-
-        jump = true;
-
-        ApplyForce();
-
-        if (currentJumpTime < jumpTime)
-            return;
-
-        jump = false;
         rb.gravityScale = 1f;
     }
 
-    private void ApplyForce()
+    private void Patrol()
     {
-        if (jump)
+        // if the enemy has reached the next position
+        if (Vector2.Distance(transform.position, nextPos) < 0.05f)
         {
-            rb.AddForce(jumpForce, ForceMode2D.Impulse);
-            jump = false;
+            currentWaitTime += Time.deltaTime;
+
+            if (currentWaitTime > waitAtWaypointTime)
+            {
+                targetWaypointIndex = GetNextWaypointIndex();
+                nextPos = waypoints[targetWaypointIndex].position;
+                currentWaitTime = 0f;
+                FlipTowardsPos(nextPos);
+
+                if (possibleMovements.Length > 1)
+                    currentMovementType = GetNextMovementType();
+            }
+        }
+        // if the enemy hasnt reached the next position yet
+        else
+        {
+            Move();
         }
     }
 
-    // private void Start() 
-    // {
-    //     nextPos = waypoints[targetWaypointIndex].position;
-    //     currentSpeed = standardSpeed;
-    // }
-
-    // protected override void Update()
-    // {
-    //     if (activeState == State.Dead)
-    //         return;
-    //     else if (activeState == State.Hit)
-    //         WaitAfterHit();
-    //     else
-    //         Move();
-    // }
-
-    // protected override void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.tag == "Player" && !alertedOnce)
-    //     {
-    //         alertedOnce = true;
-    //         target = other.GetComponent<PlayerController>();
-
-    //         nextPos = CalculateAttackStartPoint(target.transform.position);
-    //         Flip();
-
-    //         currentSpeed = attackSpeed;
-
-    //         activeState = State.Alerted;
-    //     }
-    // }
-
-    // private Vector2 CalculateAttackStartPoint(Vector2 targetPos)
-    // {
-    //     Vector2 pos;
-    //     float offsetX = UnityEngine.Random.Range(minMaxPlayerOffsetX.x, minMaxPlayerOffsetX.y);
-
-    //     if (CalculateDirectionToPos(targetPos) >= 0)
-    //         pos = new Vector2(targetPos.x + offsetX, targetPos.y - 3);
-    //     else
-    //         pos = new Vector2(targetPos.x - offsetX, targetPos.y - 3);
-
-    //     return pos;
-    // }
-
-    // private void OnCollisionEnter2D(Collision2D other) 
-    // {
-        
-    // }
-
-    // protected override void Move()
-    // {
-    //     if (Vector2.Distance(transform.position, nextPos) < 0.1f)
-    //     {
-    //         if (activeState == State.Unalerted)
-    //         {
-    //             SetNextWaypoint();
-    //             Flip();
-    //         }
-    //         else if (activeState == State.Alerted)
-    //         {
-    //             CalculateCurvePoint();
-    //             if (transform.position.x < target.transform.position.x)
-    //                 nextPos = new Vector2(target.transform.position.x + (Vector2.Distance(target.transform.position, transform.position)), transform.position.y);
-    //             else
-    //                 nextPos = new Vector2(target.transform.position.x - (Vector2.Distance(target.transform.position, transform.position)), transform.position.y);
-
-    //             startPos = transform.position;
-
-    //             currentSpeed = attackSpeed;
-
-    //             activeState = State.Attacking;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         if (activeState == State.Unalerted)
-    //             MoveInSinus();
-    //         else if (activeState == State.Alerted)
-    //             MoveStraight();
-    //         else if (activeState == State.Attacking)
-    //             MoveInCurve();
-    //     }
-
-    //     //RotateTowards();
-
-    // }
-
-    // private void MoveInSinus()
-    // {
-    //     Vector3 pos = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
-    //     transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude;
-    // }
-
-    // private void MoveStraight()
-    // {
-    //     transform.position = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime);
-    // }
-
-    private void RotateTowards()
+    /// <summary>
+    /// Calculates a third curve point for the enemy to lerp towards to create a curved movement (Bézier-curve).
+    /// </summary>
+    protected override Vector3 CalculateCurvePoint()
     {
-        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
+        Vector3 pos = pos = new Vector3((transform.position.x + nextPos.x) * 0.5f, nextPos.y + 10, 0);
+        return pos;
     }
-
-    // protected override void Flip()
-    // {
-    //     transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * CalculateDirectionToPos(nextPos), transform.localScale.y);
-    // }
 }

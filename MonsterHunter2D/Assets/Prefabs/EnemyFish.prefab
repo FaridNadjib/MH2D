@@ -132,7 +132,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7774936094519681728, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
@@ -214,7 +214,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -2
   m_Sprite: {fileID: -961198989794464733, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
@@ -296,7 +296,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -7085819820172417384, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
@@ -378,7 +378,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Sprite: {fileID: 7086683996343281059, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}
@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 222459549}
   - component: {fileID: 222459547}
   - component: {fileID: 3492366745586160726}
+  - component: {fileID: 270611848}
   m_Layer: 12
   m_Name: EnemyFish
   m_TagString: Untagged
@@ -542,6 +543,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &270611848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114529461831914075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f45354c1bbc1c44a7d55b421ce01a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  maxHealth: 5
+  stamina: 0
+  maxStamina: 0
+  staminaRecoveryRate: 0
+  staminaRecoverDelay: 0
 --- !u!1 &1114529461892624329
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +629,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Sprite: {fileID: -5920489174486925735, guid: 979d5fa34e1e18e428bfb384dfccc416,
     type: 3}

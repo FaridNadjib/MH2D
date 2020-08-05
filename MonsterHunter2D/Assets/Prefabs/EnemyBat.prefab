@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Sprite: {fileID: -3839169862173034940, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -150,7 +150,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: -6323814604665400865, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -237,7 +237,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -137420489879054570, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -321,7 +321,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -6323814604665400865, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  enemy: {fileID: 202509309}
+  enemy: {fileID: 1938329072}
 --- !u!61 &1354616712
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -443,7 +443,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -491984804498230294, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -525,7 +525,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: -2
   m_Sprite: {fileID: -8774391645129950137, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -552,15 +552,15 @@ GameObject:
   - component: {fileID: 202509313}
   - component: {fileID: 202509310}
   - component: {fileID: 202509311}
-  - component: {fileID: 202509309}
   - component: {fileID: 202509312}
+  - component: {fileID: 1938329072}
   m_Layer: 12
   m_Name: EnemyBat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5099224575039562349
 Transform:
   m_ObjectHideFlags: 0
@@ -648,37 +648,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 7
---- !u!114 &202509309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5099224575039562351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b069e2eae7b672c49923f48dd2564044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints: []
-  randomNextWaypoint: 0
-  targetWaypointIndex: 0
-  standardSpeed: 0.3
-  attackSpeed: 0.7
-  waitAtWaypointTime: 0.5
-  waitAfterHitTime: 0.5
-  activeState: 0
-  nextPos: {x: 0, y: 0, z: 0}
-  minMaxPlayerOffsetX: {x: 8, y: 16}
-  minMaxPlayerOffsetY: {x: 8, y: 16}
-  attackOffsetX: 0
-  moveBetweenCheckpoints: 0
-  moveInRandomCurve: 1
-  curvePoint: {x: 0, y: 0}
-  minMaxCurvePointOffsetX: {x: -10, y: 10}
-  minMaxCurvePointOffsetY: {x: 10, y: 20}
-  currentTime: 0
-  particles: {fileID: 0}
 --- !u!114 &202509312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,9 +660,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f45354c1bbc1c44a7d55b421ce01a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  maxHealth: 10
+  health: 30
+  maxHealth: 30
   stamina: 0
   maxStamina: 0
   staminaRecoveryRate: 0
   staminaRecoverDelay: 0
+--- !u!114 &1938329072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099224575039562351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f0d14288eb65d4fbaac9af6c6dc363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveBetweenWaypoints: 0
+  waypoints: []
+  randomNextWaypoint: 0
+  waitAtWaypointTime: 1
+  possibleMovements: 0000000001000000
+  currentMovementType: 0
+  standardSpeed: 0.3
+  attackSpeed: 0.7
+  minMaxPlayerOffsetX: {x: -16, y: 16}
+  minMaxPlayerOffsetY: {x: 8, y: 12}
+  minDistanceToAlwaysHitPlayer: 16
+  minMaxCurvePointOffsetX: {x: -8, y: -8}
+  minMaxCurvePointOffsetY: {x: -12, y: 12}
+  waitAfterHitTime: 0.5
+  frequency: 0
+  magnitude: 0
+  jumpForce: {x: 0, y: 0}
+  waitAfterJumpTime: 0
+  currentState: 0
+  particles: {fileID: 0}
