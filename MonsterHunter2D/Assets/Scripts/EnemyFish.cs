@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class EnemyFish : Enemy
 {
+    [Header("Fish")]
+    [SerializeField] protected Vector2 jumpForce;
+    [SerializeField] protected float waitAfterJumpTime;
+
+    [Header("Sine")]
+    [SerializeField] protected float frequency;
+    [SerializeField] protected float magnitude;
+
     private float currentJumpIntervalTime;
     private const float fixedWaitAfterJumpTime = 0.5f;
-    private float currentWaitAfterJumpTime;
     private bool jump = true;
     private Quaternion startRotation;
     private Vector3 startLocalScale;
@@ -44,7 +51,7 @@ public class EnemyFish : Enemy
                 rb.gravityScale = 0f;
                 currentJumpIntervalTime = 0f;
                 jump = true;
-                currentWaitAfterJumpTime = 0f;
+                currentWaitTime = 0f;
             }
 
             if (rb.velocity != Vector2.zero)
@@ -63,13 +70,18 @@ public class EnemyFish : Enemy
         PatrolAndJump();
     }
 
+    protected override void AttackingBehaviour()
+    {
+        return;
+    }
+
     private void PatrolAndJump()
     {
         // if the enemy has reached the next position
         if (Vector2.Distance(transform.position, nextPos) < 0.05f)
         {
             transform.rotation = startRotation;
-            currentWaitTime += Time.deltaTime;
+            base.currentWaitTime += Time.deltaTime;
             currentCurvePos = 0f;
 
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * 1, Mathf.Abs(transform.localScale.x) * 1);
@@ -77,11 +89,11 @@ public class EnemyFish : Enemy
             if (CalculateDirectionToPos(nextPos) == -1)
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, Mathf.Abs(transform.localScale.x) * 1);
 
-            if (currentWaitTime > waitAtWaypointTime)
+            if (base.currentWaitTime > waitAtWaypointTime)
             {
                 targetWaypointIndex = GetNextWaypointIndex();
                 nextPos = waypoints[targetWaypointIndex].position;
-                currentWaitTime = 0f;
+                base.currentWaitTime = 0f;
                 startPos = transform.position;
 
                 if (UnityEngine.Random.Range(0, 9) <= 6)
@@ -99,6 +111,22 @@ public class EnemyFish : Enemy
         {
             FlipTowardsPos(nextPos);
             Move();
+        }
+    }
+
+    protected override void Move()
+    {
+        switch (currentMovementType)
+        {
+            case MovementType.Straight:
+                MoveStraight();
+                break;
+            case MovementType.Curve:
+                MoveInCurve();
+                break;
+            case MovementType.Sine:
+                MoveInSineOnY();
+                break;
         }
     }
 
@@ -141,9 +169,9 @@ public class EnemyFish : Enemy
             rb.AddForce(jumpForce, ForceMode2D.Impulse);
         }
 
-        currentWaitAfterJumpTime += Time.deltaTime;
+        currentWaitTime += Time.deltaTime;
 
-        if (currentWaitAfterJumpTime < fixedWaitAfterJumpTime)
+        if (currentWaitTime < fixedWaitAfterJumpTime)
             return;
 
         rb.gravityScale = 1f;
@@ -154,13 +182,13 @@ public class EnemyFish : Enemy
         // if the enemy has reached the next position
         if (Vector2.Distance(transform.position, nextPos) < 0.05f)
         {
-            currentWaitTime += Time.deltaTime;
+            base.currentWaitTime += Time.deltaTime;
 
-            if (currentWaitTime > waitAtWaypointTime)
+            if (base.currentWaitTime > waitAtWaypointTime)
             {
                 targetWaypointIndex = GetNextWaypointIndex();
                 nextPos = waypoints[targetWaypointIndex].position;
-                currentWaitTime = 0f;
+                base.currentWaitTime = 0f;
                 FlipTowardsPos(nextPos);
 
                 if (possibleMovements.Length > 1)
@@ -173,6 +201,24 @@ public class EnemyFish : Enemy
             Move();
         }
     }
+
+    private void MoveInSineOnY()
+    {
+        Vector3 pos = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
+        transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude;
+    }
+
+    public override void HasHitPlayer(Collider2D other)
+    {
+        currentState = State.Attacking;
+        transform.SetParent(other.transform);
+        transform.right = other.transform.position - transform.position;
+        rb.isKinematic = true;
+        rb.simulated = false;
+        rb.velocity = Vector2.zero;
+        Destroy(gameObject, 5f);
+    }
+
 
     /// <summary>
     /// Calculates a third curve point for the enemy to lerp towards to create a curved movement (Bézier-curve).

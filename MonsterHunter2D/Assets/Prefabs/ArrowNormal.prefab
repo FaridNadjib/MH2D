@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   projectileSpeed: 20
+  damage: 5
   projectileLifeTime: 5
   disappearTime: 2
 --- !u!233 &2575149064492439727

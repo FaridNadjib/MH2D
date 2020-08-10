@@ -4,11 +4,6 @@ public class EnemyBat : Enemy
 {
     protected override void Alerted(Collider2D other)
     {
-        alertedOnce = true;
-
-        if (target == null)
-            target = other.GetComponent<PlayerController>();
-
         if (playerCol == null)
         {
             playerCol = target.GetComponent<Collider2D>();
@@ -40,10 +35,6 @@ public class EnemyBat : Enemy
         }
         else if (currentState != State.Hit)
             lastState = currentState;
-
-        //int damage = other.gameObject.GetComponent<Projectile>().damageValue;
-        float damage = 5f;
-        resources.ReduceHealth(damage);
 
         Vector2 contactPoint = other.GetContact(0).point;
 

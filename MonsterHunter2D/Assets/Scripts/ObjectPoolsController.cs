@@ -25,6 +25,9 @@ public class ObjectPoolsController : MonoBehaviour
     [SerializeField] GameObject bombStickyPrefab;
     [SerializeField] GameObject bombMegaPrefab;
 
+    // Enemy projectiles
+    [SerializeField] GameObject snakeVenomPrefab;
+
     // Enviorment related prefabs.
     [Header("Enviorment related prefabs:")]
     [SerializeField] GameObject smallRockPrefab;
@@ -38,6 +41,10 @@ public class ObjectPoolsController : MonoBehaviour
     Queue<GameObject> bombNormalPool = new Queue<GameObject>();
     Queue<GameObject> bombStickyPool = new Queue<GameObject>();
     Queue<GameObject> bombMegaPool = new Queue<GameObject>();
+
+    // Enviorment related pools.
+    Queue<GameObject> snakeVenomPool = new Queue<GameObject>();
+
 
     // Enviorment related pools.
     Queue<GameObject> smallRocksPool = new Queue<GameObject>();
@@ -73,6 +80,11 @@ public class ObjectPoolsController : MonoBehaviour
         prefabDictionary.Add(ActiveWeaponType.BombSticky.ToString(), bombStickyPrefab);
         poolDictionary.Add(ActiveWeaponType.BombMega.ToString(), bombMegaPool);
         prefabDictionary.Add(ActiveWeaponType.BombMega.ToString(), bombMegaPrefab);
+
+        // Enemy related pools
+        poolDictionary.Add("snakeVenomPool", snakeVenomPool);
+        prefabDictionary.Add("snakeVenomPool", snakeVenomPrefab);
+
 
         // Add all other pools to the dictionary.
         poolDictionary.Add("smallRocksPool", smallRocksPool);

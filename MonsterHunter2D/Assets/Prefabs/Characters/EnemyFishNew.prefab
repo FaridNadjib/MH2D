@@ -260,6 +260,8 @@ GameObject:
   m_Component:
   - component: {fileID: 786955415467116029}
   - component: {fileID: 786955415467116026}
+  - component: {fileID: 76165096}
+  - component: {fileID: 76165098}
   m_Layer: 0
   m_Name: Jaw
   m_TagString: Untagged
@@ -332,6 +334,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &76165096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786955415467116028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  enemy: {fileID: 1238553668}
+--- !u!70 &76165098
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786955415467116028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.32596216, y: 0.20586176}
+  m_Size: {x: 0.47850576, y: 0.47850585}
+  m_Direction: 0
 --- !u!1 &786955415562192654
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +460,7 @@ GameObject:
   - component: {fileID: 1238553667}
   - component: {fileID: 1238553668}
   - component: {fileID: 1216417824}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyFishNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,13 +548,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBetweenWaypoints: 0
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
   randomNextWaypoint: 0
-  waitAtWaypointTime: 0.5
-  possibleMovements: 0000000002000000
+  waitAtWaypointTime: 1
+  possibleMovements: 00000000
   currentMovementType: 0
-  standardSpeed: 0
-  attackSpeed: 0
+  standardSpeed: 0.3
+  attackSpeed: 0.7
   minMaxPlayerOffsetX: {x: 0, y: 0}
   minMaxPlayerOffsetY: {x: 0, y: 0}
   minDistanceToAlwaysHitPlayer: 0
@@ -533,7 +567,7 @@ MonoBehaviour:
   magnitude: 0
   jumpForce: {x: 0, y: 12}
   waitAfterJumpTime: 0.5
-  currentState: 0
+  currentState: 1
   particles: {fileID: 0}
 --- !u!50 &1216417824
 Rigidbody2D:

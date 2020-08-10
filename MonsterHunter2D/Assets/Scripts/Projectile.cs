@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class Projectile : MonoBehaviour
     [Header("The projectiles type and its speed:")]
     [SerializeField] ActiveWeaponType type;
     [SerializeField] public float projectileSpeed;
+    [SerializeField] protected float damage;
 
     [Header("The lifetime of the projectile:")]
     [SerializeField] float projectileLifeTime;
@@ -17,13 +19,13 @@ public class Projectile : MonoBehaviour
     float lifeTimeCounter;
     float disappearTimeCounter;
 
-    Rigidbody2D rb;
+    protected Rigidbody2D rb;
     HingeJoint2D joint;
 
     // Change angle of projectile while it hasnt hit anything.
     bool hasHit;
     // Ensure that the projectile creates a joint connection only once on collision.
-    bool onlyOnce = false;
+    protected bool onlyOnce = false;
 
     // In some cases we may want to change color or alpha of our projectiles.
     SpriteRenderer image;
@@ -80,20 +82,25 @@ public class Projectile : MonoBehaviour
         onlyOnce = false;
 
         hasHit = false;
-        gameObject.layer = 9;
+        SetProjectileLayer();
 
         rb.isKinematic = false;
 
         if (type == ActiveWeaponType.SpearPlatform)
         {
             platformEffector.enabled = false;
-            platformEffectorBoxCol.enabled = false ;
+            platformEffectorBoxCol.enabled = false;
         }
 
         if (gameObject.GetComponent<Collider2D>() != null)
         {
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
+    }
+
+    protected virtual void SetProjectileLayer()
+    {
+        gameObject.layer = 9;
     }
 
     // Update is called once per frame
@@ -116,7 +123,12 @@ public class Projectile : MonoBehaviour
             lifeTimeCounter += Time.deltaTime;
         }
         else
-            ObjectPoolsController.instance.AddToPool(gameObject, type.ToString());
+            AddToPool();
+    }
+
+    protected virtual void AddToPool()
+    {
+        ObjectPoolsController.instance.AddToPool(gameObject, type.ToString());
     }
 
     /// <summary>
@@ -127,24 +139,12 @@ public class Projectile : MonoBehaviour
     {
         hasHit = true;
 
-        // On collision with an enemy the rigidbody and collider will be disabled and the projectile will become child of the enemy.
-        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null)
-        {
-            transform.SetParent(collision.gameObject.transform);
-            rb.isKinematic = true;
-            rb.velocity = Vector2.zero;
-            onlyOnce = true;
-
-            if (gameObject.GetComponent<Collider2D>() != null)
-            {
-                gameObject.GetComponent<Collider2D>().enabled = false;
-            }
-        }
+        SetAsChildOfCharacter(collision);
 
         // The stickybomb sticks to the object it collided with.
-        if(!onlyOnce && type == ActiveWeaponType.BombSticky)
+        if (!onlyOnce && type == ActiveWeaponType.BombSticky)
         {
-            if(collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
+            if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
             {
 
             }
@@ -157,13 +157,20 @@ public class Projectile : MonoBehaviour
                 //transform.SetParent(collision.gameObject.transform);
                 onlyOnce = true;
             }
-            
+
         }
-    
+
+        ConnectToCollisionObject(collision);
+
+        SetGroundLayer();
+    }
+
+    protected virtual void ConnectToCollisionObject(Collision2D collision)
+    {
         // For spear and arrow types, make them connect via joint with the collision object.
         if (!onlyOnce && joint != null)
         {
-            if(collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
+            if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
             {
                 // Gameobjects with that empty script attached to them wont allow projectiles to create joints with them.
                 //rb.isKinematic = true;
@@ -178,7 +185,7 @@ public class Projectile : MonoBehaviour
                 //transform.SetParent(collision.gameObject.transform);
                 joint.enabled = true;
 
-                if(type == ActiveWeaponType.SpearPlatform)
+                if (type == ActiveWeaponType.SpearPlatform)
                 {
                     rb.isKinematic = true;
                     rb.velocity = Vector2.zero;
@@ -186,14 +193,37 @@ public class Projectile : MonoBehaviour
                     gameObject.GetComponent<BoxCollider2D>().enabled = true;
                 }
             }
-            
+
             rb.freezeRotation = false;
             onlyOnce = true;
         }
+    }
 
-        // Set the layer to default so the playercan collide with the projectiles again.
+    // Set the layer to default so the playercan collide with the projectiles again.
+    protected virtual void SetGroundLayer()
+    {
         gameObject.layer = 10;
+    }
 
+    /// <summary>
+    /// On collision with an enemy the rigidbody and collider will be disabled and the projectile will become child of the enemy.
+    /// </summary>
+    /// <param name="collision"></param>
+    protected virtual void SetAsChildOfCharacter(Collision2D collision)
+    {
+        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null)
+        {
+            transform.SetParent(collision.gameObject.transform);
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            onlyOnce = true;
+            collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+
+            if (gameObject.GetComponent<Collider2D>() != null)
+            {
+                gameObject.GetComponent<Collider2D>().enabled = false;
+            }
+        }
     }
 
     /// <summary>

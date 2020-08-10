@@ -691,10 +691,6 @@ MonoBehaviour:
   minDistanceToAlwaysHitPlayer: 16
   minMaxCurvePointOffsetX: {x: -8, y: -8}
   minMaxCurvePointOffsetY: {x: -12, y: 12}
-  waitAfterHitTime: 0.5
-  frequency: 0
-  magnitude: 0
-  jumpForce: {x: 0, y: 0}
-  waitAfterJumpTime: 0
+  waitAfterHitTime: 1
   currentState: 0
   particles: {fileID: 0}

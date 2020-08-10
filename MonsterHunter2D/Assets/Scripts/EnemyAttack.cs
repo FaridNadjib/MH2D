@@ -15,6 +15,7 @@ public class EnemyAttack : MonoBehaviour
             {
                 enemy.CanHit = false;
                 other.GetComponent<CharacterResources>().ReduceHealth(damage);
+                enemy.HasHitPlayer(other);
             }
         }
     }

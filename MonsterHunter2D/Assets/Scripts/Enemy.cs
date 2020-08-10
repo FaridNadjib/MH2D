@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-//[RequireComponent(typeof(CapsuleCollider2D), typeof(CircleCollider2D), typeof(Rigidbody2D))]
+[RequireComponent(typeof(CharacterResources), typeof(Animator))]
 public class Enemy : MonoBehaviour
 {
     [Header("Waypoints")]
@@ -37,14 +36,6 @@ public class Enemy : MonoBehaviour
     protected float currentWaitTime = 0f;
     [Space(3)]
 
-    [Header("Sine")]
-    [SerializeField] protected float frequency;
-    [SerializeField] protected float magnitude;
-
-    [Header("Jump")]
-    [SerializeField] protected Vector2 jumpForce;
-    [SerializeField] protected float waitAfterJumpTime;
-
     [Header("States")]
     [SerializeField] protected State currentState;
     public enum State { Unalerted, Alerted, Attacking, Hit, Dead }
@@ -69,6 +60,7 @@ public class Enemy : MonoBehaviour
     protected Vector2 forceDirection;
     protected CharacterResources resources;
     protected Rigidbody2D rb;
+    protected RagdollController ragdoll;
 
     private void Awake()
     {
@@ -76,36 +68,36 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         resources = GetComponent<CharacterResources>();
         rb = GetComponent<Rigidbody2D>();
+        ragdoll = GetComponent<RagdollController>();
         startPos = transform.position;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         SubscribeToEvents();
     }
 
-    private void SubscribeToEvents()
+    protected void SubscribeToEvents()
     {
         resources.OnUnitDied += () =>
         {
             // Activate the ragdoll and disable movement.
             //blockInput = true;
             currentState = State.Dead;
-            //anim.enabled = false;
-            //gameObject.GetComponent<Collider2D>().enabled = false;
-            //rb.velocity = Vector2.zero;
-            //rb.isKinematic = true;
-            //ragdoll.EnableRagdoll();
+            anim.enabled = false;
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+            ragdoll.EnableRagdoll();
+            currentState = State.Dead;
+            canHit = false;
             //IsAlive = false;
             // ToDo: show message on screen to press l to reload last save or esc to open menu.
         };
     }
 
     private void Update()
-    {
-        if (currentState == State.Hit)
-            return;
-        
+    {        
         switch (currentState)
         {
             case State.Unalerted:
@@ -134,16 +126,27 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" && !alertedOnce)
+        if (other.tag == "Player" && !alertedOnce && currentState != State.Dead)
+        {
+            alertedOnce = true;
+
+            if (target == null)
+                target = other.GetComponent<PlayerController>();
+
             Alerted(other);
+        }
     }
 
     protected virtual void Alerted(Collider2D other){}
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<Projectile>() != null && currentState != State.Dead)
+        if ((other.gameObject.GetComponent<Projectile>() != null 
+            && other.gameObject.GetComponent<EnemyProjectile>() == null) 
+            && currentState != State.Dead)
+        {
             Hit(other);
+        }
     }
 
     protected virtual void UnalertedBehaviour(){}
@@ -178,13 +181,15 @@ public class Enemy : MonoBehaviour
                 currentState = State.Dead;
             }
             else
-                SetupNextMovement();
+                SetupNextBehaviour();
         }
     }
 
     protected virtual void DeadBehaviour(){}
 
     protected virtual void Hit(Collision2D other){}
+
+    public virtual void HasHitPlayer(Collider2D other){}
 
     /// <summary>
     /// Returns a random or next waypoint-index from the waypoints-array
@@ -216,12 +221,11 @@ public class Enemy : MonoBehaviour
                 if (currentWaitTime < waitAtWaypointTime)
                     return;
 
-                SetupNextMovement();
+                SetupNextBehaviour();
                 currentWaitTime = 0f;
             }
             else
-                SetupNextMovement();
-            
+                SetupNextBehaviour(); 
         }
         else
         {
@@ -231,9 +235,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void SetupNextMovement()
+    protected virtual void SetupNextBehaviour()
     {
-        currentMovementType = GetNextMovementType();
+        if (possibleMovements.Length >= 1)
+            currentMovementType = GetNextMovementType();
 
         if (currentMovementType == MovementType.Curve)
             curvePoint = CalculateCurvePoint();
@@ -266,7 +271,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void Move()
+    protected virtual void Move()
     {
         if (willHitTarget)
             nextPos = target.transform.position;
@@ -278,9 +283,6 @@ public class Enemy : MonoBehaviour
                 break;
             case MovementType.Curve:
                 MoveInCurve();
-                break;
-            case MovementType.Sine:
-                MoveInSineOnY();
                 break;
         }
     }
@@ -325,12 +327,6 @@ public class Enemy : MonoBehaviour
         }
         else
             currentCurvePos = 0f;
-    }
-
-    protected void MoveInSineOnY()
-    {
-        Vector3 pos = Vector2.MoveTowards(transform.position, nextPos, currentSpeed * Time.deltaTime * 20);
-        transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude;
     }
 
     protected void MoveStraight()
@@ -386,7 +382,7 @@ public class Enemy : MonoBehaviour
 #endregion
 
 #region Gizmo-Display
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
 
