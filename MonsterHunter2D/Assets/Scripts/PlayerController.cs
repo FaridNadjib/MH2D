@@ -60,6 +60,15 @@ public class PlayerController : MonoBehaviour
     GameObject tempProj;
     ActiveWeaponType activeWeapon;
 
+    // All the munition counter properties.
+    public int CurrentArrows { get; private set; }
+    public int CurrentSpears { get; private set; }
+    public int CurrentPlatformSpears { get; private set; }
+    public int CurrentStickyBombs { get; private set; }
+    public int CurrentMegaBombs { get; private set; }
+
+    public Dictionary<ActiveWeaponType, int> currentMunition = new Dictionary<ActiveWeaponType, int>();
+
     [Header("Projectile trajectory related variables:")]
     [SerializeField] bool enableLine = true;
     [SerializeField] LineRenderer line;
@@ -70,8 +79,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SpriteRenderer rightHandWeapon;
     [SerializeField] SpriteRenderer leftHandWeapon;
 
+    [Header("Invisibility related:")]
+    float invisibleCounter;
+
+    [Header("The Player stats will save all progress:")]
+    [SerializeField] PlayerStats playerStats;
     Rigidbody2D rb;
     Animator anim;
+
+    [Header("The player physics material:")]
+    [SerializeField] PhysicsMaterial2D physicsmat;
 
     //Connections to other scripts:
     CharacterResources characterResources;
@@ -92,6 +109,14 @@ public class PlayerController : MonoBehaviour
         characterResources = GetComponent<CharacterResources>();
         ragdoll = GetComponent<RagdollController>();
 
+        // Restock the palyers ammo.
+        currentMunition.Add(ActiveWeaponType.ArrowNormal, playerStats.MaxArrows);
+        currentMunition.Add(ActiveWeaponType.SpearNormal, playerStats.MaxSpears);
+        currentMunition.Add(ActiveWeaponType.SpearPlatform, playerStats.MaxPlatformspears);
+        currentMunition.Add(ActiveWeaponType.BombNormal, playerStats.MaxBombNormal);
+        currentMunition.Add(ActiveWeaponType.BombSticky, playerStats.MaxStickyBomb);
+        currentMunition.Add(ActiveWeaponType.BombMega, playerStats.MaxMegaBomb);
+
         // Subscribe to event which gets triggered when equipped weapon is changed.
         PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => { this.activeWeapon = activeWeapon;
             this.activeHand = activeHand;
@@ -101,7 +126,20 @@ public class PlayerController : MonoBehaviour
                 leftHandWeapon.sprite = tempProjectile.GetComponent<SpriteRenderer>().sprite;
             else
                 rightHandWeapon.sprite = tempProjectile.GetComponent<SpriteRenderer>().sprite;
+            if(currentMunition.ContainsKey(activeWeapon))
+                UIManager.instance.AmmoChanged(currentMunition[activeWeapon].ToString(), activeHand);
             ObjectPoolsController.instance.AddToPool(tempProjectile, activeWeapon.ToString());
+        };
+
+        playerStats.OnStatsChanged += () => {
+            if (currentMunition.ContainsKey(playerStats.WeaponType))
+            {
+                currentMunition[playerStats.WeaponType] += playerStats.Amount;
+                if(activeWeapon == playerStats.WeaponType)
+                {
+                    UIManager.instance.AmmoChanged(currentMunition[playerStats.WeaponType].ToString(), activeHand);
+                }
+            }
         };
 
         // Subscribe to event which get triggered when health of this units reaches 0.
@@ -209,6 +247,12 @@ public class PlayerController : MonoBehaviour
         if(!blockInput)
             ShootingCheck();
 
+        // Change the friction of the physicsmaterial of the player based on if he is grounded.
+        if (isGrounded)
+            physicsmat.friction = 1f;
+        else
+            physicsmat.friction = 0f;
+
 
         if (Input.GetKeyUp(KeyCode.K))
         {
@@ -224,6 +268,10 @@ public class PlayerController : MonoBehaviour
         else if(!isGrounded)
             rb.velocity = new Vector2(moveInput * speed * airSpeed, rb.velocity.y);
     }
+
+
+    
+
 
     /// <summary>
     /// Filps the playercharacter by rotate his y by 180 degrees.
@@ -294,7 +342,7 @@ public class PlayerController : MonoBehaviour
     private void ShootingCheck()
     {
         // Only start shooting if hes on the ground and not moving and time passed after his last shot. Set the animation according to active weapon hand.
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded && moveInput == 0 && canShootAgain && characterResources.HasStamina)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded && moveInput == 0 && canShootAgain && characterResources.HasStamina &&  currentMunition[activeWeapon] > 0)
         {
             isShooting = true;
             canShootAgain = false;
@@ -390,6 +438,10 @@ public class PlayerController : MonoBehaviour
                     anim.SetTrigger("releaseRightHandShot");
                 isShooting = false;
                 line.enabled = false;
+
+                // Decrease the munition amount and tell the ui to update;
+                currentMunition[activeWeapon]--;
+                UIManager.instance.AmmoChanged(currentMunition[activeWeapon].ToString(), activeHand);
             }
         }           
     }
@@ -443,5 +495,16 @@ public class PlayerController : MonoBehaviour
 
         // Set the position of the player.
         transform.position = position;
+    }
+
+    public void BlockInput(bool block)
+    {
+        blockInput = block;
+        moveInput = 0;
+        rb.velocity = Vector3.zero;
+        anim.SetBool("isWalking", false);
+        anim.SetBool("isJumping", false);
+        anim.SetBool("isSliding", false);
+        anim.SetBool("isSprinting", false);
     }
 }
