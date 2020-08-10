@@ -1,0 +1,934 @@
+fileFormatVersion: 2
+guid: 922955978bb1dd84d8f660ca11cba1fb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6733892027682676171
+    second: Stalagnites_0
+  - first:
+      213: -254842519472659383
+    second: Stalagnites_1
+  - first:
+      213: -9190703820901942655
+    second: Stalagnites_2
+  - first:
+      213: -5567937785101284394
+    second: Stalagnites_3
+  - first:
+      213: -6992909399705339630
+    second: Stalagnites_4
+  - first:
+      213: 4342479135365243589
+    second: Stalagnites_5
+  - first:
+      213: -5402251017030731351
+    second: Stalagnites_6
+  - first:
+      213: 3394869096731784269
+    second: Stalagnites_7
+  - first:
+      213: 4680908703505020330
+    second: Stalagnites_8
+  - first:
+      213: 5090992472605704944
+    second: Stalagnites_9
+  - first:
+      213: 3527475889414572998
+    second: Stalagnites_10
+  - first:
+      213: 1730871180687132101
+    second: Stalagnites_11
+  - first:
+      213: -5465102343611255410
+    second: Stalagnites_12
+  - first:
+      213: -4911958303382144290
+    second: Stalagnites_13
+  - first:
+      213: 7540095487450784282
+    second: Stalagnites_14
+  - first:
+      213: -4821061084615490819
+    second: Stalagnites_15
+  - first:
+      213: 6682749145987544622
+    second: Stalagnites_16
+  - first:
+      213: 4881845324681276667
+    second: Stalagnites_17
+  - first:
+      213: -1312626256829125203
+    second: Stalagnites_18
+  - first:
+      213: -8027816252226758944
+    second: Stalagnites_19
+  - first:
+      213: 728169089326034303
+    second: Stalagnites_20
+  - first:
+      213: -759283439340198937
+    second: Stalagnites_21
+  - first:
+      213: 1960589588426756939
+    second: Stalagnites_22
+  - first:
+      213: -5894007046375054987
+    second: Stalagnites_23
+  - first:
+      213: -5130051242263894918
+    second: Stalagnites_24
+  - first:
+      213: 5002912013046535815
+    second: Stalagnites_25
+  - first:
+      213: -5628041847429548612
+    second: Stalagnites_26
+  - first:
+      213: 7077227396393436542
+    second: Stalagnites_27
+  - first:
+      213: -5069767683539252297
+    second: Stalagnites_28
+  - first:
+      213: -2521888524628998393
+    second: Stalagnites_29
+  - first:
+      213: 3420551793311248508
+    second: Stalagnites_30
+  - first:
+      213: 6915059358853829576
+    second: Stalagnites_31
+  - first:
+      213: 1091182683072745183
+    second: Stalagnites_32
+  - first:
+      213: 5339628978020361957
+    second: Stalagnites_33
+  - first:
+      213: 5343520199917715302
+    second: Stalagnites_34
+  - first:
+      213: 596848551850256364
+    second: Stalagnites_35
+  - first:
+      213: -1178979057077823184
+    second: Stalagnites_36
+  - first:
+      213: 7726917703319484342
+    second: Stalagnites_37
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Stalagnites_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 834
+        width: 194
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 532a326e0e86c82a0800000000000000
+      internalID: -6733892027682676171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_1
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 720
+        width: 62
+        height: 289
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 944aa29241e967cf0800000000000000
+      internalID: -254842519472659383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_2
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 896
+        width: 34
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18a705fb19f047080800000000000000
+      internalID: -9190703820901942655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_3
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 826
+        width: 51
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6db009ba516bab2b0800000000000000
+      internalID: -5567937785101284394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_4
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 816
+        width: 30
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 219b21473f134fe90800000000000000
+      internalID: -6992909399705339630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_5
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 903
+        width: 35
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c2adf324c5934c30800000000000000
+      internalID: 4342479135365243589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_6
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 811
+        width: 41
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a9f36682595705b0800000000000000
+      internalID: -5402251017030731351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_7
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 509
+        width: 83
+        height: 462
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4436a9e47ffc1f20800000000000000
+      internalID: 3394869096731784269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_8
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 755
+        width: 52
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa573725aade5f040800000000000000
+      internalID: 4680908703505020330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_9
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 727
+        width: 35
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f2c9db3ea6d6a640800000000000000
+      internalID: 5090992472605704944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 665
+        width: 60
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cb8f4ec1ac14f030800000000000000
+      internalID: 3527475889414572998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_11
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 724
+        width: 52
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c541d41b2a450810800000000000000
+      internalID: 1730871180687132101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_12
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 681
+        width: 68
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8575e3bf5e0824b0800000000000000
+      internalID: -5465102343611255410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_13
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 777
+        width: 52
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eda706f92f735dbb0800000000000000
+      internalID: -4911958303382144290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_14
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 654
+        width: 60
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a12a70e85ecc3a860800000000000000
+      internalID: 7540095487450784282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_15
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 509
+        width: 83
+        height: 343
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df2c8039c76281db0800000000000000
+      internalID: -4821061084615490819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_16
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 514
+        width: 83
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e26f1a901f4edbc50800000000000000
+      internalID: 6682749145987544622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_17
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 516
+        width: 82
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc670a257ccfb340800000000000000
+      internalID: 4881845324681276667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_18
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 564
+        width: 41
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad69debf5d98cde0800000000000000
+      internalID: -1312626256829125203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_19
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 511
+        width: 43
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e69aebd6a7779090800000000000000
+      internalID: -8027816252226758944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_20
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 529
+        width: 57
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7da2b1cde9fa1a00800000000000000
+      internalID: 728169089326034303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_21
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 503
+        width: 83
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e36a4a1cbb7675f0800000000000000
+      internalID: -759283439340198937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_22
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 505
+        width: 83
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b439180d7d9653b10800000000000000
+      internalID: 1960589588426756939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_23
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 529
+        width: 56
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5716a21b1d7443ea0800000000000000
+      internalID: -5894007046375054987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_27
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 28
+        width: 249
+        height: 464
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7581bcf1dc573260800000000000000
+      internalID: 7077227396393436542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_28
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 27
+        width: 249
+        height: 464
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bb43e0172194a9b0800000000000000
+      internalID: -5069767683539252297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_29
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 284
+        width: 43
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 707ca569fb3700dd0800000000000000
+      internalID: -2521888524628998393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_30
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 11
+        width: 83
+        height: 343
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c707420bbbd387f20800000000000000
+      internalID: 3420551793311248508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_31
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 11
+        width: 83
+        height: 462
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c3193d69d937ff50800000000000000
+      internalID: 6915059358853829576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_32
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 257
+        width: 52
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdecb917ed8a42f00800000000000000
+      internalID: 1091182683072745183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_33
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 149
+        width: 68
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e62943d34c2a1a40800000000000000
+      internalID: 5339628978020361957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_34
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 31
+        width: 57
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66f38368f4ff72a40800000000000000
+      internalID: 5343520199917715302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_35
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 12
+        width: 57
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce7adbd789e684800800000000000000
+      internalID: 596848551850256364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stalagnites_36
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 22
+        width: 34
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03950494bcc63afe0800000000000000
+      internalID: -1178979057077823184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: ecfbf0064e355d246867ebcdf55b60b9, type: 3}
+      name: _NormalMap
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2591528139830582396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2591528139830582386}
+  - component: {fileID: 2591528139830582397}
+  m_Layer: 0
+  m_Name: StoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2591528139830582386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591528139830582396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2591528139830582397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591528139830582396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aaf59212581efe49913c94f6c0c4ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterIcons:
+  - {fileID: -2047378811257792681, guid: b52a5216992a746469ec492cd0880a7b, type: 3}
+  - {fileID: 4760348687154945532, guid: 45bb78627d1a73447b0d628df14c9378, type: 3}
+  - {fileID: -804214315936432084, guid: ec06c476c08d82547959e2fce7d6ccfa, type: 3}
+  - {fileID: -7675585262089743603, guid: 92f1a89ffb75f014ca5d986edf50b8fc, type: 3}
+  - {fileID: -491984804498230294, guid: 086becb2bce060a48b446bd07163d235, type: 3}
+  dialogs:
+  - dialogs:
+    - speaker: 0
+      text: Hi im speaking with your heart.
+    - speaker: 1
+      text: I know, i have strong connection to you and nature.
+    - speaker: 0
+      text: Be careful out there.
+  - dialogs:
+    - speaker: 1
+      text: Who is lurking there?
+    - speaker: 3
+      text: Hihihihi, you went the wrong way.
+    - speaker: 1
+      text: Listen, im busy, mind your own stuff.
+    - speaker: 3
+      text: My stuff is to eat you. Raargh.
+  player: {fileID: 0}
