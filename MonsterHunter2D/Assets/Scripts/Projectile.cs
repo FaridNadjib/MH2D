@@ -21,6 +21,10 @@ public class Projectile : MonoBehaviour
 
     protected Rigidbody2D rb;
     HingeJoint2D joint;
+    TrailRenderer trail;
+
+    [Header("Bomb related:")]
+    [SerializeField] GameObject bombExplosion;
 
     // Change angle of projectile while it hasnt hit anything.
     bool hasHit;
@@ -63,6 +67,8 @@ public class Projectile : MonoBehaviour
         //platformEffector = GetComponent<PlatformEffector2D>();
         //if (platformEffector != null)
         //    platformEffectorBoxCol = GetComponent<BoxCollider2D>();
+
+        trail = GetComponent<TrailRenderer>();
     }
 
     /// <summary>
@@ -73,6 +79,7 @@ public class Projectile : MonoBehaviour
         lifeTimeCounter = 0f;
         disappearTimeCounter = 0f;
         image.color = startColor;
+        image.enabled = true;
 
         if (joint != null)
         {
@@ -96,6 +103,15 @@ public class Projectile : MonoBehaviour
         {
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
+
+        if(type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
+        {
+            if(bombExplosion != null)
+                bombExplosion.SetActive(false);
+        }
+
+        if (trail != null)
+            trail.emitting = true;
     }
 
     protected virtual void SetProjectileLayer()
@@ -121,6 +137,15 @@ public class Projectile : MonoBehaviour
             disappearTimeCounter += Time.deltaTime;
             image.color = Color.Lerp(startColor, endColor, disappearTimeCounter / disappearTime);
             lifeTimeCounter += Time.deltaTime;
+
+            if(type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
+            {
+                if(bombExplosion != null)
+                {
+                    bombExplosion.SetActive(true);
+                    image.enabled = false;
+                }
+            }
         }
         else
             AddToPool();
@@ -142,23 +167,24 @@ public class Projectile : MonoBehaviour
         SetAsChildOfCharacter(collision);
 
         // The stickybomb sticks to the object it collided with.
-        if (!onlyOnce && type == ActiveWeaponType.BombSticky)
-        {
-            if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
-            {
+        //if (!onlyOnce && type == ActiveWeaponType.BombSticky)
+        //{
+        //    if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
+        //    {
 
-            }
-            else
-            {
-                //rb.velocity = Vector2.zero;
-                rb.isKinematic = true;
-                rb.velocity = Vector2.zero;
-                rb.freezeRotation = true;
-                //transform.SetParent(collision.gameObject.transform);
-                onlyOnce = true;
-            }
+        //    }
+        //    else
+        //    {
+        //        //rb.velocity = Vector2.zero;
+        //        rb.isKinematic = true;
+        //        rb.velocity = Vector2.zero;
+        //        rb.freezeRotation = true;
+        //        //transform.SetParent(collision.gameObject.transform);
+        //        onlyOnce = true;
+        //    }
+        //    Debug.Log("Gotcalled");
 
-        }
+        //}
 
         ConnectToCollisionObject(collision);
 
@@ -194,6 +220,8 @@ public class Projectile : MonoBehaviour
                 }
             }
 
+            
+
             rb.freezeRotation = false;
             onlyOnce = true;
         }
@@ -202,7 +230,7 @@ public class Projectile : MonoBehaviour
     // Set the layer to default so the playercan collide with the projectiles again.
     protected virtual void SetGroundLayer()
     {
-        gameObject.layer = 10;
+        gameObject.layer = 13;
     }
 
     /// <summary>
@@ -211,18 +239,28 @@ public class Projectile : MonoBehaviour
     /// <param name="collision"></param>
     protected virtual void SetAsChildOfCharacter(Collision2D collision)
     {
-        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null)
+
+        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null || !onlyOnce && type == ActiveWeaponType.BombSticky)
         {
             transform.SetParent(collision.gameObject.transform);
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
             onlyOnce = true;
-            collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+            if(collision.gameObject.GetComponent<Enemy>() != null)
+                collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
 
             if (gameObject.GetComponent<Collider2D>() != null)
             {
                 gameObject.GetComponent<Collider2D>().enabled = false;
             }
+
+            if(type == ActiveWeaponType.BombSticky)
+            {
+                //rb.freezeRotation = true;
+                rb.angularVelocity = 0f;
+            }
+            if (trail != null)
+                trail.emitting = false;
         }
     }
 

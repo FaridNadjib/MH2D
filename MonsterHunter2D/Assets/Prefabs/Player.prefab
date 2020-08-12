@@ -209,8 +209,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1123187367
-  m_SortingLayer: 0
+  m_SortingLayerID: -9728741
+  m_SortingLayer: 2
   m_SortingOrder: -5
   m_Sprite: {fileID: -5848997216658728126, guid: 45bb78627d1a73447b0d628df14c9378,
     type: 3}
@@ -556,7 +556,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 60628479}
-  m_BreakForce: Infinity
+  m_BreakForce: 1200
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.12, y: 0}
@@ -785,7 +785,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1546253859}
-  m_BreakForce: Infinity
+  m_BreakForce: 1300
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
@@ -962,7 +962,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 616614397}
-  m_BreakForce: Infinity
+  m_BreakForce: 1200
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: -0.08, y: -0.16}
@@ -1109,7 +1109,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 60628479}
-  m_BreakForce: Infinity
+  m_BreakForce: 1200
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: -0.21}
@@ -1194,7 +1194,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 5219001628212472630}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: fcbb7cde4976ffa4db90cdee017c9f0c, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1217,7 +1217,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 8
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: be4abaf00682461449f6759314b0bb94, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -1241,10 +1241,10 @@ MonoBehaviour:
   airSpeed: 1
   blockInput: 0
   groundPosition: {fileID: 5219001626812702948}
-  groundCheckRadius: 0.4
+  groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 33793
   jumpForce: 25
   jumpTime: 0.35
   isCrouching: 0
@@ -1263,6 +1263,24 @@ MonoBehaviour:
   spaceBetweenPoints: 0.02
   rightHandWeapon: {fileID: 5219001627248352925}
   leftHandWeapon: {fileID: 5219001628376455852}
+  invincibleTime: 2
+  inputBlockedTime: 0.5
+  spritesToBlink:
+  - {fileID: 5219001628750852100}
+  - {fileID: 5219001628372461167}
+  - {fileID: 5219001628127883643}
+  - {fileID: 5219001628447207372}
+  - {fileID: 5219001626903229766}
+  - {fileID: 5219001628569123320}
+  - {fileID: 5219001628194692503}
+  - {fileID: 5219001628134506200}
+  - {fileID: 5219001627807257411}
+  - {fileID: 5219001628493864758}
+  blinkIntervall: 0.2
+  dmgTakenColor1: {r: 1, g: 0.5284355, b: 0.48584908, a: 0.5372549}
+  dmgTakenColor2: {r: 0.6886792, g: 0.33459416, b: 0.33459416, a: 0.7529412}
+  playerStats: {fileID: 11400000, guid: 78a6fc50d776dd047bdec6391f5f921c, type: 2}
+  physicsmat: {fileID: 6200000, guid: be4abaf00682461449f6759314b0bb94, type: 2}
 --- !u!120 &43133395
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1425,7 +1443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 100
+  maxHealth: 35
   stamina: 0
   maxStamina: 100
   staminaRecoveryRate: 10
@@ -1563,7 +1581,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1546253859}
-  m_BreakForce: Infinity
+  m_BreakForce: 1300
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.09, y: 0.26}
@@ -1827,7 +1845,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 1546253859}
-  m_BreakForce: Infinity
+  m_BreakForce: 1300
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
@@ -2055,7 +2073,7 @@ HingeJoint2D:
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 540983435}
-  m_BreakForce: Infinity
+  m_BreakForce: 1200
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.02, y: -0.21}

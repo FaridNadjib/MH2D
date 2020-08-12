@@ -4,48 +4,61 @@ using UnityEngine;
 
 public class BombActivation : MonoBehaviour
 {
+    float explosionTime = 0.2f;
+    float timer = 0f;
     bool exploded = false;
-    float timer = 5f;
+    Collider2D col;
+
+    PointEffector2D point;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        col = GetComponent<Collider2D>();
+        point = GetComponent<PointEffector2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
+        //col.usedByEffector = true;
+        point.enabled = true;
+        timer = 0;
+        exploded = false;
+    }
+    private void Update()
+    {
+        if (timer <= explosionTime)
+            timer += Time.deltaTime;
+        else
+        {
+            exploded = true;
+        }
         if (exploded)
         {
-            if (timer > 0f)
-                timer -= Time.deltaTime;
-            else
-            {
-            Collider2D col = GetComponent<Collider2D>();
-            col.usedByEffector = false;
-
-            }
+                //col.usedByEffector = false;
+            point.enabled = false;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (!exploded)
         {
-            Debug.Log("hitted");
             if (collision.GetComponent<DestructableObject>() != null)
             {
+                Debug.Log("found destruct");
                 collision.GetComponent<DestructableObject>().ActivateDestruction();
-            //exploded = true;
+                //exploded = true;
 
             }
-            Collider2D col = GetComponent<Collider2D>();
-            col.usedByEffector = true;
-            //col.usedByEffector = false;
-            //gameObject.SetActive(false);
+            if (collision.GetComponent<PlayerController>())
+                collision.GetComponent<CharacterResources>().ReduceHealth(500f);
+            else
+                Debug.Log("no player?");
         }
+        
+
+
 
 
 

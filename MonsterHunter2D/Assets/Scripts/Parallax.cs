@@ -1,0 +1,79 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Parallax : MonoBehaviour
+{
+    [SerializeField] Vector2 parallaxEffectMultilpier;
+    private float textureUnitSizeX;
+
+
+
+    float startposX, startposY;
+    float lengthX, lengthY;
+    public GameObject cam;
+    public float parallaxEffectX;
+    public float parallaxEffectY;
+    public bool useParaX, useParaY;
+
+
+    float dist;
+    float heightDist;
+    Vector3 newPos = new Vector3();
+    //float temp;
+
+
+    Vector3 oldCamPos;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        startposX = transform.position.x;
+        startposY = transform.position.y;
+        lengthX = GetComponent<SpriteRenderer>().bounds.size.x;
+        lengthY = GetComponent<SpriteRenderer>().bounds.size.y;
+
+
+        oldCamPos = cam.transform.position;
+
+        Sprite sprite = GetComponent<SpriteRenderer>().sprite;
+        Texture2D texture = sprite.texture;
+        textureUnitSizeX = texture.width / sprite.pixelsPerUnit;
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+
+        //float temp = (cam.transform.position.x * (1 - parallaxEffectX));
+
+        //dist = (cam.transform.position.x * parallaxEffectX);
+        //heightDist = (cam.transform.position.y * parallaxEffectY);
+
+        //newPos.Set(startposX + dist, transform.position.y, transform.position.z);
+        //if (useParaX)
+        //    transform.position = newPos;
+
+        //newPos.Set(transform.position.x, startposY + heightDist, transform.position.z);
+        //if (useParaY)
+        //    transform.position = newPos;
+
+        //Debug.Log(temp);
+        //Debug.Log(lengthX);
+        //if (temp > startposX + lengthX)
+        //    startposX += lengthX;
+        //else if (temp < startposX - lengthX)
+        //    startposX -= lengthX;
+
+        Vector3 deltaMovement = cam.transform.position - oldCamPos;
+        transform.position += new Vector3(deltaMovement.x * parallaxEffectMultilpier.x, deltaMovement.y * parallaxEffectMultilpier.y, 0);
+
+        oldCamPos = cam.transform.position;
+
+        if(Mathf.Abs(cam.transform.position.x - transform.position.x) >= textureUnitSizeX)
+        {
+            float offsetPositionX = (cam.transform.position.x - transform.position.x) % textureUnitSizeX;
+            transform.position = new Vector3(cam.transform.position.x + offsetPositionX, transform.position.y);
+        }
+    }
+}

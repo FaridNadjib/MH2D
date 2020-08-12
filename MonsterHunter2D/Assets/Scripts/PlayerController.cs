@@ -82,6 +82,18 @@ public class PlayerController : MonoBehaviour
     [Header("Invisibility related:")]
     float invisibleCounter;
 
+    [Header("Damage taken related:")]
+    [SerializeField] float invincibleTime;
+    [SerializeField] float inputBlockedTime;
+    bool damageTaken = false;
+    float damageTakenTimer;
+    [SerializeField] SpriteRenderer[] spritesToBlink;
+    [SerializeField] float blinkIntervall;
+    float blinkTimer;
+    bool swapColors;
+    [SerializeField] Color dmgTakenColor1;
+    [SerializeField] Color dmgTakenColor2;
+
     [Header("The Player stats will save all progress:")]
     [SerializeField] PlayerStats playerStats;
     Rigidbody2D rb;
@@ -258,14 +270,38 @@ public class PlayerController : MonoBehaviour
         {
             characterResources.ReduceHealth(20f);
         }
+
+        // If the player was hurt, block his input for a short amount of time and make him invincible for a slightly longer period of time.
+        if (damageTaken)
+        {
+            BlinkPlayer();
+            if (damageTakenTimer < inputBlockedTime)
+            {
+                damageTakenTimer += Time.deltaTime;
+            }
+            else if (damageTakenTimer < invincibleTime)
+            {
+                damageTakenTimer += Time.deltaTime;
+                blockInput = false;
+                //Debug.Log(Mathf.Sin(Time.time));
+            }
+            else
+            {
+                damageTaken = false;
+                damageTakenTimer = 0f;
+                gameObject.layer = 8;
+                StopBlinkPlayer();
+            }
+            
+        }
     }
 
     private void FixedUpdate()
     {
         // Set the players velocity according to its horizontal input. In case aircontrol is wanted calculate that too.
-        if(isGrounded)
+        if(isGrounded && !blockInput)
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        else if(!isGrounded)
+        else if(!isGrounded && !blockInput)
             rb.velocity = new Vector2(moveInput * speed * airSpeed, rb.velocity.y);
     }
 
@@ -506,5 +542,46 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isJumping", false);
         anim.SetBool("isSliding", false);
         anim.SetBool("isSprinting", false);
+    }
+
+    public void ApplyRecoil(Vector3 direction, float strength)
+    {
+        BlockInput(true);
+        rb.AddForce(direction * strength, ForceMode2D.Impulse);
+        damageTaken = true;
+        gameObject.layer = 14;
+    }
+
+    public void BlinkPlayer()
+    {
+        if(blinkTimer < blinkIntervall)
+        {
+            blinkTimer += Time.deltaTime;
+            for (int i = 0; i < spritesToBlink.Length; i++)
+            {
+                if (swapColors)
+                {
+                    spritesToBlink[i].color = Color.Lerp(dmgTakenColor1, dmgTakenColor2, blinkTimer / blinkIntervall);
+                }
+                else
+                {
+                    spritesToBlink[i].color = Color.Lerp(dmgTakenColor2, dmgTakenColor1, blinkTimer / blinkIntervall);
+                }
+            }
+        }
+        else
+        {
+            blinkTimer = 0;
+            swapColors = !swapColors;
+        }
+        
+    }
+    void StopBlinkPlayer()
+    {
+        blinkTimer = 0;
+        for (int i = 0; i < spritesToBlink.Length; i++)
+        {
+                spritesToBlink[i].color = Color.white;
+        }
     }
 }
