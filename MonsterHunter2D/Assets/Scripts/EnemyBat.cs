@@ -43,6 +43,8 @@ public class EnemyBat : Enemy
 
         forceDirection = contactPoint - (Vector2)transform.position;
 
+        characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, true, false);
+
         anim.SetTrigger("gotDamaged");
 
         currentState = State.Hit;

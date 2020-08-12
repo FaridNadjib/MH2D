@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterResources), typeof(Animator))]
+[RequireComponent(typeof(CharacterResources), typeof(Animator), typeof(CharacterSounds))]
+[RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour
 {
     [Header("Waypoints")]
@@ -42,9 +43,6 @@ public class Enemy : MonoBehaviour
     protected State lastState;
     [Space(3)]
 
-    [Header("References")]
-    [SerializeField] private ParticleSystem particles;
-
     private bool willHitTarget = false;
     protected bool alertedOnce = false;
     private bool canHit = true;
@@ -61,6 +59,7 @@ public class Enemy : MonoBehaviour
     protected CharacterResources resources;
     protected Rigidbody2D rb;
     protected RagdollController ragdoll;
+    protected CharacterSounds characterSounds;
 
     private void Awake()
     {
@@ -70,6 +69,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ragdoll = GetComponent<RagdollController>();
         startPos = transform.position;
+        characterSounds = GetComponent<CharacterSounds>();
     }
 
     protected virtual void Start()
@@ -83,6 +83,7 @@ public class Enemy : MonoBehaviour
         {
             // Activate the ragdoll and disable movement.
             //blockInput = true;
+            characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, false, false);
             currentState = State.Dead;
             anim.enabled = false;
             gameObject.GetComponent<Collider2D>().enabled = false;
@@ -96,7 +97,7 @@ public class Enemy : MonoBehaviour
         };
     }
 
-    private void Update()
+    protected virtual void Update()
     {        
         switch (currentState)
         {
@@ -110,7 +111,6 @@ public class Enemy : MonoBehaviour
                 AttackingBehaviour();
                 break;
             case State.Hit:
-                HitBehaviour();
                 break;
             case State.Dead:
                 DeadBehaviour();
@@ -135,18 +135,26 @@ public class Enemy : MonoBehaviour
 
             Alerted(other);
         }
+        else if (other.GetComponent<BuoyancyEffector2D>() != null && currentState != State.Dead)
+            CollisionWithWater();
     }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.GetComponent<BuoyancyEffector2D>() != null && currentState != State.Dead)
+            CollisionWithWater();
+    }
+
+    protected virtual void CollisionWithWater(){}
 
     protected virtual void Alerted(Collider2D other){}
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if ((other.gameObject.GetComponent<Projectile>() != null 
-            && other.gameObject.GetComponent<EnemyProjectile>() == null) 
-            && currentState != State.Dead)
-        {
+        if (other.gameObject.GetComponent<Projectile>() != null && other.gameObject.GetComponent<EnemyProjectile>() == null && currentState != State.Dead)
             Hit(other);
-        }
+        else if (other.gameObject.GetComponent<PlayerController>() != null && currentState != State.Dead)
+            CollisionWithPlayer(other);
     }
 
     protected virtual void UnalertedBehaviour(){}
@@ -162,7 +170,7 @@ public class Enemy : MonoBehaviour
     {
         rb.AddForce(forceDirection.normalized * Time.fixedDeltaTime);
 
-        currentWaitTime += Time.deltaTime;
+        currentWaitTime += Time.fixedDeltaTime;
 
         if (currentWaitTime >= waitAfterHitTime)
         {
@@ -188,6 +196,8 @@ public class Enemy : MonoBehaviour
     protected virtual void DeadBehaviour(){}
 
     protected virtual void Hit(Collision2D other){}
+
+    protected virtual void CollisionWithPlayer(Collision2D other){}
 
     public virtual void HasHitPlayer(Collider2D other){}
 
@@ -221,11 +231,10 @@ public class Enemy : MonoBehaviour
                 if (currentWaitTime < waitAtWaypointTime)
                     return;
 
-                SetupNextBehaviour();
                 currentWaitTime = 0f;
             }
-            else
-                SetupNextBehaviour(); 
+
+            SetupNextBehaviour(); 
         }
         else
         {
@@ -240,6 +249,8 @@ public class Enemy : MonoBehaviour
         if (possibleMovements.Length >= 1)
             currentMovementType = GetNextMovementType();
 
+        print(currentMovementType);
+
         if (currentMovementType == MovementType.Curve)
             curvePoint = CalculateCurvePoint();
 
@@ -253,6 +264,7 @@ public class Enemy : MonoBehaviour
             nextPos = new Vector3(target.transform.position.x + offsetX, target.transform.position.y + offsetY, 0);
             willHitTarget = false;
             currentSpeed = standardSpeed;
+            characterSounds.PlaySound(CharacterSounds.Sound.Moving, 0, true, true);
             anim.SetBool("isAttacking", false);
             canHit = false;
             currentState = State.Alerted;
@@ -265,6 +277,7 @@ public class Enemy : MonoBehaviour
                 willHitTarget = true;
 
             currentSpeed = attackSpeed;
+            characterSounds.PlaySound(CharacterSounds.Sound.MeleeAttacking, 0, true, false);
             anim.SetBool("isAttacking", true);
             canHit = true;
             currentState = State.Attacking;
@@ -289,7 +302,7 @@ public class Enemy : MonoBehaviour
 
     protected MovementType GetNextMovementType()
     {
-        MovementType moveType = possibleMovements[Random.Range(0, possibleMovements.Length - 1)];
+        MovementType moveType = possibleMovements[Random.Range(0, possibleMovements.Length)];
         return moveType;
     }
 
@@ -402,4 +415,9 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawSphere(curvePoint, 1f);
     }
     #endregion
+
+    public void PlayTriggerSound()
+    {
+        characterSounds.PlaySound(CharacterSounds.Sound.Trigger, 0, false, false);
+    }
 }

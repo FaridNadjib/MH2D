@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : Projectile
 {
-    [SerializeField] private string pool = "snakeVenomPool"; 
-
-    private void Start()
-    {
-        //Physics2D.ign
-    }
+    [SerializeField] protected string pool; 
 
     protected override void SetProjectileLayer(){}
  
@@ -47,6 +42,8 @@ public class EnemyProjectile : Projectile
                 rb.velocity = Vector2.zero;
             }
 
+            GetComponent<Collider2D>().enabled = false;
+            rb.isKinematic = true;
             rb.freezeRotation = true;
             onlyOnce = true;
         }
@@ -56,6 +53,7 @@ public class EnemyProjectile : Projectile
 
     protected override void AddToPool()
     {
-        ObjectPoolsController.instance.AddToPool(gameObject, pool);
+        if (pool != null)
+            ObjectPoolsController.instance.AddToPool(gameObject, pool);
     }
 }

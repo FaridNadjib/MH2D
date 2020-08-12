@@ -38,11 +38,11 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: ParalaxBG
-    uniqueID: 2108186001
-    locked: 0
   - name: CaveBackgrounds
     uniqueID: 1952001921
+    locked: 0
+  - name: ParalaxBG
+    uniqueID: 2108186001
     locked: 0
   - name: Background
     uniqueID: 3294004395

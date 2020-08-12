@@ -104,19 +104,32 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        // As long as no collision appeared make the projectile rotate towards its flying direction.
+        RotateTowardsDirection();
+        FadeOut();
+    }
+
+    /// <summary>
+    /// As long as no collision appeared make the projectile rotate towards its flying direction.
+    /// </summary>
+    protected void RotateTowardsDirection()
+    {
         if (!hasHit)
         {
             float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         }
+    }
 
-        // Make the projectile  disappear after some time and finally give it back to pool once its dead.
-        if(lifeTimeCounter < projectileLifeTime - disappearTime)
+    /// <summary>
+    /// Make the projectile  disappear after some time and finally give it back to pool once its dead.
+    /// </summary>
+    protected void FadeOut()
+    {
+        if (lifeTimeCounter < projectileLifeTime - disappearTime)
             lifeTimeCounter += Time.deltaTime;
-        else if(lifeTimeCounter < projectileLifeTime)
+        else if (lifeTimeCounter < projectileLifeTime)
         {
             disappearTimeCounter += Time.deltaTime;
             image.color = Color.Lerp(startColor, endColor, disappearTimeCounter / disappearTime);

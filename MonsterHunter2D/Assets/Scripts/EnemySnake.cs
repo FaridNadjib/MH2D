@@ -10,11 +10,15 @@ public class EnemySnake : Enemy
     [SerializeField] private float rangedAttackRange;
     [SerializeField] private float rangedAttackInterval;
     [SerializeField] private GameObject projectilePos;
+    private enum AttackType { Melee, SingleRanged, MultipleRanged }
+    private AttackType nextAttackType;
+    [SerializeField] private int multiAttackProjectileCount;
+    private string projectilePool = "snakeVenomPool";
 
     protected override void Alerted(Collider2D other)
     {
         anim.SetBool("isWakingUp", true);
-        // play sound
+        characterSounds.PlaySound(CharacterSounds.Sound.Alerted, 0, false, false);
         target = other.GetComponent<PlayerController>();
         currentState = State.Attacking;
         currentWaitTime = Mathf.Infinity;
@@ -36,13 +40,17 @@ public class EnemySnake : Enemy
         if (currentState == State.Unalerted)
         {
             anim.SetBool("isWakingUp", true);
+            characterSounds.PlaySound(CharacterSounds.Sound.Alerted, 0, false, false);
             lastState = State.Alerted;
         }
         else if (currentState != State.Hit)
             lastState = currentState;
 
-        // particles.Play();
+        if (currentState != State.Unalerted)
+            characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, false, false);
+
         // particles.transform.position = contactPoint;
+        // particles.Play();
 
         anim.SetTrigger("gotDamaged");
 
@@ -66,17 +74,20 @@ public class EnemySnake : Enemy
         {
             CanHit = true;
             currentWaitTime = 0f;
-            anim.SetTrigger("isMeleeAttacking");
+            anim.SetTrigger("isAttacking");
+            nextAttackType = AttackType.Melee;
         }
         else if (currentWaitTime >= rangedAttackInterval && (distance > meleeAttackRange && distance < rangedAttackRange))
         {
             currentWaitTime = 0f;
-            anim.SetTrigger("isRangedAttacking");
+            anim.SetTrigger("isAttacking");
+            nextAttackType = AttackType.SingleRanged;
         }
         else if (distance > rangedAttackRange)
         {
             currentState = State.Unalerted;
             anim.SetBool("isWakingUp", false);
+            alertedOnce = false;
         }
     }
 
@@ -86,7 +97,9 @@ public class EnemySnake : Enemy
 
         if (currentWaitTime >= waitAfterHitTime)
         {
-            //shoot venom wave?
+            nextAttackType = AttackType.MultipleRanged;
+
+            anim.SetTrigger("isAttacking");
 
             float distance = Vector2.Distance(transform.position, target.transform.position);
 
@@ -94,6 +107,7 @@ public class EnemySnake : Enemy
             {
                 currentState = State.Unalerted;
                 anim.SetBool("isWakingUp", false);
+                alertedOnce = false;
             }
             else if (distance < rangedAttackRange)
                 currentState = State.Attacking;
@@ -102,11 +116,32 @@ public class EnemySnake : Enemy
 
     public void ShootVenom()
     {
-        GameObject tempVenom = ObjectPoolsController.instance.GetFromPool("snakeVenomPool");
-        tempVenom.transform.position = projectilePos.transform.position;
-        Vector2 direction = target.transform.position - transform.position;
-        tempVenom.SetActive(true);
-        tempVenom.GetComponent<Projectile>().ShootProjectile(direction.normalized);
+        float distance = Vector2.Distance(transform.position, target.transform.position);
+
+        switch (nextAttackType)
+        {
+            case AttackType.Melee:
+                break;
+
+            case AttackType.SingleRanged:
+                GameObject tempVenom = ObjectPoolsController.instance.GetFromPool(projectilePool);
+                tempVenom.transform.position = projectilePos.transform.position;
+                Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y);
+                tempVenom.SetActive(true);
+                tempVenom.GetComponent<Projectile>().ShootProjectile(direction.normalized);
+            break;
+
+            case AttackType.MultipleRanged:
+                for (int i = 0; i < multiAttackProjectileCount; i++)
+                {
+                    GameObject tempVenom1 = ObjectPoolsController.instance.GetFromPool(projectilePool);
+                    tempVenom1.transform.position = projectilePos.transform.position;
+                    Vector2 dir = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y + i + 0.5f);
+                    tempVenom1.SetActive(true);
+                    tempVenom1.GetComponent<Projectile>().ShootProjectile(dir.normalized);
+                }
+            break;
+        }
     }
 
     protected override void OnDrawGizmosSelected()

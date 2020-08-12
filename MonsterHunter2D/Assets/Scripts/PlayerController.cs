@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     RagdollController ragdoll;
 
     // Use this to check if the player is currently alive or not.
-    public bool IsAlive { get; private set; }
+    public bool IsAlive { get; private set; } = true;
 
     // Start is called before the first frame update
     void Start()

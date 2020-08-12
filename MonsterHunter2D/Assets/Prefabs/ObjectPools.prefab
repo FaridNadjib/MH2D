@@ -58,4 +58,12 @@ MonoBehaviour:
     type: 3}
   bombMegaPrefab: {fileID: 2144450666491501526, guid: 9ab0262994114da49855a17e8efc6538,
     type: 3}
+  snakeVenomPrefab: {fileID: 5748555533209926686, guid: 92529c04e84bfac4cb1cc418c483c3ed,
+    type: 3}
+  ankyloTailPrefab: {fileID: 6508684364601384137, guid: a5afc4cf1597c054cb0194d7f89cbeb7,
+    type: 3}
+  ankyloExplodingTailPrefab: {fileID: 6508684364601384137, guid: 98ce994bb1586dd4a9f2d6c58eb1e7df,
+    type: 3}
+  ankyloSpikePrefab: {fileID: 1043072633768497317, guid: cbd6574c6ba40f64183e604711e86d1f,
+    type: 3}
   smallRockPrefab: {fileID: 0}

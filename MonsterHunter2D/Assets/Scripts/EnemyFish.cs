@@ -6,7 +6,10 @@ using UnityEngine;
 public class EnemyFish : Enemy
 {
     [Header("Fish")]
+    [SerializeField] private FishType type;
+    public enum FishType { Passive, VerticalJump, CurveJump }
     [SerializeField] protected Vector2 jumpForce;
+    [SerializeField] private float curveJumpHeight;
     [SerializeField] protected float waitAfterJumpTime;
 
     [Header("Sine")]
@@ -19,12 +22,16 @@ public class EnemyFish : Enemy
     private Quaternion startRotation;
     private Vector3 startLocalScale;
 
+    [Header("Particle Effects")]
+    [SerializeField] private ParticleSystem bubbles;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         resources = GetComponent<CharacterResources>();
+        characterSounds = GetComponent<CharacterSounds>();
 
         startRotation = transform.rotation;
         startLocalScale = transform.localScale;
@@ -37,42 +44,44 @@ public class EnemyFish : Enemy
         }
     }
 
-    protected override void UnalertedBehaviour()
-    {
-        if (!moveBetweenWaypoints)
-        {
-            if (rb.gravityScale == 0f)
-                Jump();
-            else if (transform.position.y <= startPos.y)
-            {
-                transform.rotation = startRotation;
-                transform.localScale = startLocalScale;
-                rb.velocity = Vector2.zero;
-                rb.gravityScale = 0f;
-                currentJumpIntervalTime = 0f;
-                jump = true;
-                currentWaitTime = 0f;
-            }
+    protected override void Update() 
+    {   
+        if (currentState == State.Attacking)
+            return;
 
-            if (rb.velocity != Vector2.zero)
-            {
-                RotateAndFlip(true);
-            }
-        }
-        else if (moveBetweenWaypoints)
+        switch (type)
         {
-            Patrol();
+            case FishType.Passive:
+                Patrol();
+                break;
+            case FishType.VerticalJump:
+                JumpVertical();
+                break;
+            case FishType.CurveJump:
+                PatrolAndJump();
+                break;
         }
     }
 
-    protected override void AlertedBehaviour()
+    private void JumpVertical()
     {
-        PatrolAndJump();
-    }
+        if (rb.gravityScale == 0f)
+            Jump();
+        else if (transform.position.y <= startPos.y)
+        {
+            transform.rotation = startRotation;
+            transform.localScale = startLocalScale;
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            currentJumpIntervalTime = 0f;
+            jump = true;
+            currentWaitTime = 0f;
+        }
 
-    protected override void AttackingBehaviour()
-    {
-        return;
+        if (rb.velocity != Vector2.zero)
+        {
+            RotateAndFlip(true);
+        }
     }
 
     private void PatrolAndJump()
@@ -210,6 +219,7 @@ public class EnemyFish : Enemy
 
     public override void HasHitPlayer(Collider2D other)
     {
+        characterSounds.PlaySound(CharacterSounds.Sound.MeleeAttacking, 0, false, false);
         currentState = State.Attacking;
         transform.SetParent(other.transform);
         transform.right = other.transform.position - transform.position;
@@ -219,13 +229,21 @@ public class EnemyFish : Enemy
         Destroy(gameObject, 5f);
     }
 
+    protected override void CollisionWithWater()
+    {
+        if (type != FishType.Passive)
+        {
+            characterSounds.PlaySound(CharacterSounds.Sound.Moving, 0, true, false);
+        }
+    }
+
 
     /// <summary>
     /// Calculates a third curve point for the enemy to lerp towards to create a curved movement (Bézier-curve).
     /// </summary>
     protected override Vector3 CalculateCurvePoint()
     {
-        Vector3 pos = pos = new Vector3((transform.position.x + nextPos.x) * 0.5f, nextPos.y + 10, 0);
+        Vector3 pos = pos = new Vector3((transform.position.x + nextPos.x) * 0.5f, nextPos.y + curveJumpHeight, 0);
         return pos;
     }
 }

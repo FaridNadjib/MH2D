@@ -27,6 +27,10 @@ public class ObjectPoolsController : MonoBehaviour
 
     // Enemy projectiles
     [SerializeField] GameObject snakeVenomPrefab;
+    [SerializeField] GameObject ankyloTailPrefab;
+    [SerializeField] GameObject ankyloExplodingTailPrefab;
+    [SerializeField] GameObject ankyloSpikePrefab;
+
 
     // Enviorment related prefabs.
     [Header("Enviorment related prefabs:")]
@@ -44,6 +48,9 @@ public class ObjectPoolsController : MonoBehaviour
 
     // Enviorment related pools.
     Queue<GameObject> snakeVenomPool = new Queue<GameObject>();
+    Queue<GameObject> ankyloTailPool = new Queue<GameObject>();
+    Queue<GameObject> ankyloExplodingTailPool = new Queue<GameObject>();
+    Queue<GameObject> ankyloSpikePool = new Queue<GameObject>();
 
 
     // Enviorment related pools.
@@ -84,6 +91,15 @@ public class ObjectPoolsController : MonoBehaviour
         // Enemy related pools
         poolDictionary.Add("snakeVenomPool", snakeVenomPool);
         prefabDictionary.Add("snakeVenomPool", snakeVenomPrefab);
+
+        poolDictionary.Add("ankyloTailPool", ankyloTailPool);
+        prefabDictionary.Add("ankyloTailPool", ankyloTailPrefab);
+
+        poolDictionary.Add("ankyloExplodingTailPool", ankyloExplodingTailPool);
+        prefabDictionary.Add("ankyloExplodingTailPool", ankyloExplodingTailPrefab);
+
+        poolDictionary.Add("ankyloSpikePool", ankyloSpikePool);
+        prefabDictionary.Add("ankyloSpikePool", ankyloSpikePrefab);
 
 
         // Add all other pools to the dictionary.
