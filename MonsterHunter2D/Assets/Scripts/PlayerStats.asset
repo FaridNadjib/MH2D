@@ -16,9 +16,9 @@ MonoBehaviour:
   defHealth: 30
   defStamina: 30
   defInvisibility: 5
-  defArrow: 7
+  defArrow: 20
   defSpears: 4
   defPlatformSpears: 3
   defBombNormal: 5
-  defStickyBomb: 4
-  defMegaBomb: 3
+  defStickyBomb: 20
+  defMegaBomb: 20
