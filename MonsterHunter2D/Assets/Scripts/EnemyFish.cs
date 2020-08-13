@@ -11,14 +11,16 @@ public class EnemyFish : Enemy
     [SerializeField] protected Vector2 jumpForce;
     [SerializeField] private float curveJumpHeight;
     [SerializeField] protected float waitAfterJumpTime;
+    [SerializeField] private float bitingTime;
 
     [Header("Sine")]
     [SerializeField] protected float frequency;
     [SerializeField] protected float magnitude;
 
-    private float currentJumpIntervalTime;
+    private float currentTime;
     private const float fixedWaitAfterJumpTime = 0.5f;
     private bool jump = true;
+    private bool biting = false;
     private Quaternion startRotation;
     private Vector3 startLocalScale;
 
@@ -47,7 +49,10 @@ public class EnemyFish : Enemy
     protected override void Update() 
     {   
         if (currentState == State.Attacking)
+        {
+            Bite();
             return;
+        }
 
         switch (type)
         {
@@ -73,7 +78,7 @@ public class EnemyFish : Enemy
             transform.localScale = startLocalScale;
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0f;
-            currentJumpIntervalTime = 0f;
+            currentTime = 0f;
             jump = true;
             currentWaitTime = 0f;
         }
@@ -167,9 +172,9 @@ public class EnemyFish : Enemy
 
     private void Jump()
     {
-        currentJumpIntervalTime += Time.deltaTime;
+        currentTime += Time.deltaTime;
 
-        if (currentJumpIntervalTime < waitAfterJumpTime)
+        if (currentTime < waitAfterJumpTime)
             return;
 
         if (jump)
@@ -220,13 +225,43 @@ public class EnemyFish : Enemy
     public override void HasHitPlayer(Collider2D other)
     {
         characterSounds.PlaySound(CharacterSounds.Sound.MeleeAttacking, 0, false, false);
-        currentState = State.Attacking;
         transform.SetParent(other.transform);
-        transform.right = other.transform.position - transform.position;
+
+        // rotate towards player-center
+        Vector3 target = other.transform.position; 
+        Vector3 objectPos = transform.position;
+        target.x = target.x - objectPos.x;
+        target.y = target.y - objectPos.y;
+        float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        currentState = State.Attacking;
         rb.isKinematic = true;
         rb.simulated = false;
         rb.velocity = Vector2.zero;
-        Destroy(gameObject, 5f);
+        currentTime = 0f;
+    }
+
+    private void Bite()
+    {
+        currentTime += Time.deltaTime;
+
+        if (currentTime < bitingTime)
+            return;
+        
+        rb.isKinematic = false;
+        rb.simulated = true;
+        rb.gravityScale = 1f;
+
+        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        if (biting)
+        {
+            print("test");
+            biting = false;
+            Destroy(gameObject, 5f);
+        }
     }
 
     protected override void CollisionWithWater()

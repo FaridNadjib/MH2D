@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyProjectile : Projectile
 {
     [SerializeField] protected string pool; 
+    [SerializeField] protected float recoilStrength;
 
     protected override void SetProjectileLayer(){}
  
@@ -12,11 +13,18 @@ public class EnemyProjectile : Projectile
     {
         if (!onlyOnce && collision.gameObject.GetComponent<PlayerController>() != null)
         {
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+            if (GetComponent<AudioSource>() != null)
+                GetComponent<AudioSource>().Play();
+                
             transform.SetParent(collision.gameObject.transform);
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
             onlyOnce = true;
-            collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+            player.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+            Vector3 direction = player.transform.position - transform.position;
+            player.ApplyRecoil(direction.normalized, recoilStrength);
 
             if (gameObject.GetComponent<Collider2D>() != null)
             {

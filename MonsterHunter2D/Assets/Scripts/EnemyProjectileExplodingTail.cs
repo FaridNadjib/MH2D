@@ -8,6 +8,8 @@ public class EnemyProjectileExplodingTail : EnemyProjectile
     [SerializeField] private Vector2Int minMaxNumberOfSpikes;
     [SerializeField] private float secondsToExplosion;
 
+    private float currentTime = 0f;
+
     private bool exploded;
 
     protected new const string pool = "ankyloExplodingTailPool";
@@ -15,9 +17,13 @@ public class EnemyProjectileExplodingTail : EnemyProjectile
 
     private bool timerStarted;
 
-    private void OnEnable() 
+    protected override void OnEnable() 
     {
+        currentTime = 0f;
         timerStarted = true;
+        exploded = false;
+
+        Setup();
     }
 
     protected override void Update() 
@@ -32,9 +38,9 @@ public class EnemyProjectileExplodingTail : EnemyProjectile
         if (!timerStarted)
             return;
 
-        secondsToExplosion -= Time.deltaTime;
+        currentTime += Time.deltaTime;
 
-        if (secondsToExplosion <= 0f && !exploded)
+        if (currentTime >= secondsToExplosion && !exploded)
             Explode();  
     }
 

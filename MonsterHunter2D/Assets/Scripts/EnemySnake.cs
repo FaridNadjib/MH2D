@@ -129,7 +129,8 @@ public class EnemySnake : Enemy
                 Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y);
                 tempVenom.SetActive(true);
                 tempVenom.GetComponent<Projectile>().ShootProjectile(direction.normalized);
-            break;
+                characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
+                break;
 
             case AttackType.MultipleRanged:
                 for (int i = 0; i < multiAttackProjectileCount; i++)
@@ -139,6 +140,7 @@ public class EnemySnake : Enemy
                     Vector2 dir = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y + i + 0.5f);
                     tempVenom1.SetActive(true);
                     tempVenom1.GetComponent<Projectile>().ShootProjectile(dir.normalized);
+                    characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
                 }
             break;
         }

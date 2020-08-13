@@ -807,16 +807,16 @@ MonoBehaviour:
   - sound: 0
     audioClips:
     - {fileID: 0}
-  - sound: 6
+  - sound: 9
     audioClips:
     - {fileID: 8300000, guid: f65972c2851f2484f971f6c3412b3e58, type: 3}
     - {fileID: 8300000, guid: 55d4a38204f54f84fb84ca0c481f51c4, type: 3}
-  - sound: 4
+  - sound: 6
     audioClips:
     - {fileID: 8300000, guid: dce0c273be63bcd499e38725bf8b1b9d, type: 3}
   - sound: 3
     audioClips:
-    - {fileID: 8300000, guid: 402ab0d1f5fb55040bb36f758cc3687c, type: 3}
-  - sound: 7
+    - {fileID: 8300000, guid: 38038d3434931344ea30860250193dd7, type: 3}
+  - sound: 10
     audioClips:
     - {fileID: 8300000, guid: 375841672eae0f54394cb3f481c601fa, type: 3}

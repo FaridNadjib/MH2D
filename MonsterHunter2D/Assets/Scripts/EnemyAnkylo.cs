@@ -9,6 +9,7 @@ public class EnemyAnkylo : Enemy
     [SerializeField] private Vector2 meleeAttackRange;
     [SerializeField] private float meleeAttackPositionOffset;
     [SerializeField] private float rangedAttackRange;
+    [SerializeField][Range(0, 100)] private int chanceToShootExplodingTail;
     [SerializeField] private float waitAfterAttackTime;
     [SerializeField] private GameObject projectilePos;
     [SerializeField] private ParticleSystem dustParticles;
@@ -197,23 +198,25 @@ public class EnemyAnkylo : Enemy
 
     public void ShootTail()
     {
+        GameObject tail;
+        int chance = UnityEngine.Random.Range(0, 99);
+
         // shoot exploding tail
-        if (GetComponent<CharacterResources>().GetCurrentHealthPercentage() < 50f)
-        {
-            GameObject exploTail = ObjectPoolsController.instance.GetFromPool("ankyloExplodingTailPool");
-            exploTail.transform.position = projectilePos.transform.position;
-            Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y + 10);
-            exploTail.SetActive(true);
-            exploTail.GetComponent<Projectile>().ShootProjectile(direction.normalized);
-        }
+        if (chance < chanceToShootExplodingTail)
+            tail = ObjectPoolsController.instance.GetFromPool("ankyloExplodingTailPool");
         // shoot normal tail
         else
-        {
-            GameObject tempTail = ObjectPoolsController.instance.GetFromPool("ankyloTailPool");
-            tempTail.transform.position = projectilePos.transform.position;
-            Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y + 5);
-            tempTail.SetActive(true);
-            tempTail.GetComponent<Projectile>().ShootProjectile(direction.normalized);
-        }
+            tail = ObjectPoolsController.instance.GetFromPool("ankyloTailPool");
+
+        tail.transform.position = projectilePos.transform.position;
+        int offsetX = UnityEngine.Random.Range(0, 8);
+
+        if (transform.position.x > target.transform.position.x)
+            offsetX *= -1;
+
+        int offsetY = UnityEngine.Random.Range(5, 15);
+        Vector2 direction = new Vector2(target.transform.position.x - transform.position.x + offsetX, target.transform.position.y - transform.position.y + offsetY);
+        tail.SetActive(true);
+        tail.GetComponent<Projectile>().ShootProjectile(direction.normalized);
     }
 }

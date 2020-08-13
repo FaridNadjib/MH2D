@@ -74,7 +74,12 @@ public class Projectile : MonoBehaviour
     /// <summary>
     /// Everytime these projectiles are enabled(since they are stored in a pool) reset some values to default ones.
     /// </summary>
-    private void OnEnable()
+    protected virtual void OnEnable()
+    {
+        Setup();
+    }
+
+    protected void Setup()
     {
         lifeTimeCounter = 0f;
         disappearTimeCounter = 0f;
@@ -104,9 +109,9 @@ public class Projectile : MonoBehaviour
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
 
-        if(type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
+        if (type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
         {
-            if(bombExplosion != null)
+            if (bombExplosion != null)
                 bombExplosion.SetActive(false);
         }
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5748555533209926682}
   - component: {fileID: 375466951194701136}
   - component: {fileID: 8921392878410394893}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: EnemySnakeVenom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,4 +236,6 @@ MonoBehaviour:
   damage: 20
   projectileLifeTime: 5
   disappearTime: 3
+  bombExplosion: {fileID: 0}
   pool: snakeVenomPool
+  recoilStrength: 0

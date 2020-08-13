@@ -5128,6 +5128,7 @@ MonoBehaviour:
   jumpForce: {x: 0, y: 12}
   curveJumpHeight: 0
   waitAfterJumpTime: 0.5
+  bitingTime: 0
   frequency: 5
   magnitude: 0.03
   bubbles: {fileID: 0}

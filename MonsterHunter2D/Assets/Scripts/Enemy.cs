@@ -414,7 +414,7 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(curvePoint, 1f);
     }
-    #endregion
+#endregion
 
     public void PlayTriggerSound()
     {

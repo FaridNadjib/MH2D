@@ -48,8 +48,6 @@ public class EnemyBat : Enemy
         anim.SetTrigger("gotDamaged");
 
         currentState = State.Hit;
-
-        print("hit");
     }
 
     protected override void AlertedBehaviour()

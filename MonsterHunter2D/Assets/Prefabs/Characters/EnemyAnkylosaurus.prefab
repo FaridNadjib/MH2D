@@ -5028,6 +5028,7 @@ MonoBehaviour:
   meleeAttackRange: {x: 20, y: 3}
   meleeAttackPositionOffset: 10
   rangedAttackRange: 40
+  chanceToShootExplodingTail: 50
   waitAfterAttackTime: 2
   projectilePos: {fileID: 991989072829864651}
   dustParticles: {fileID: 538254522}
@@ -5071,16 +5072,16 @@ MonoBehaviour:
   - sound: 0
     audioClips:
     - {fileID: 8300000, guid: 9515b85f0715bc54a9b35619f99de934, type: 3}
-  - sound: 6
+  - sound: 9
     audioClips:
     - {fileID: 8300000, guid: 7d9da41567c5a6d45b7b59175711d749, type: 3}
   - sound: 3
     audioClips:
     - {fileID: 0}
-  - sound: 4
+  - sound: 6
     audioClips:
     - {fileID: 8300000, guid: 498a581b605a4594faaf25efea0e6b1a, type: 3}
-  - sound: 7
+  - sound: 10
     audioClips:
     - {fileID: 8300000, guid: a3b82d80f69eb9f41a7d7e487972f881, type: 3}
 --- !u!1 &991989071686653086

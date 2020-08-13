@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1043072633768497321}
   - component: {fileID: 1043072633768497320}
   - component: {fileID: 9039571425380906846}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: EnemyAnkyloSpike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,9 @@ MonoBehaviour:
   damage: 5
   projectileLifeTime: 4
   disappearTime: 2
+  bombExplosion: {fileID: 0}
   pool: ankyloSpikePool
+  recoilStrength: 10
 --- !u!50 &1043072633768497321
 Rigidbody2D:
   serializedVersion: 4

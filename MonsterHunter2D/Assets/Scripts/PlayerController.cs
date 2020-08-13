@@ -104,7 +104,11 @@ public class PlayerController : MonoBehaviour
 
     //Connections to other scripts:
     CharacterResources characterResources;
+    CharacterSounds characterSounds;
     RagdollController ragdoll;
+
+    private bool soundPlaying = false;
+
 
     // Use this to check if the player is currently alive or not.
     public bool IsAlive { get; private set; } = true;
@@ -119,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
         // Get the other scripts related to the player, all are on the same gameobject.
         characterResources = GetComponent<CharacterResources>();
+        characterSounds = GetComponent<CharacterSounds>();
         ragdoll = GetComponent<RagdollController>();
 
         // Restock the palyers ammo.
@@ -157,6 +162,7 @@ public class PlayerController : MonoBehaviour
         // Subscribe to event which get triggered when health of this units reaches 0.
         characterResources.OnUnitDied += () => {
             // Activate the ragdoll and disable movement.
+            characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, true, false);
             blockInput = true;
             anim.enabled = false;
             gameObject.GetComponent<Collider2D>().enabled = false;
@@ -182,6 +188,14 @@ public class PlayerController : MonoBehaviour
                 Flip(false);
             isGrounded = Physics2D.OverlapCircle(groundPosition.position, groundCheckRadius, whatIsGround);
 
+            if (!isGrounded)
+            {
+                characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                characterSounds.Stop(CharacterSounds.Sound.Walking);
+                characterSounds.Stop(CharacterSounds.Sound.Running);
+
+            }
+
             // Jump calculations.
             JumpCheck();
 
@@ -190,8 +204,13 @@ public class PlayerController : MonoBehaviour
             {
                 if (moveInput == 0)
                 {
+                    characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                    characterSounds.Stop(CharacterSounds.Sound.Walking);
+                    characterSounds.Stop(CharacterSounds.Sound.Running);
+
                     anim.SetBool("isWalking", false);
                     anim.SetBool("isSprinting", false);
+
                     if (isSliding)
                     {
                         canStandUp = Physics2D.OverlapCircle(ceilingCheck.position, ceilingCheckRadius, whatIsGround);
@@ -201,28 +220,44 @@ public class PlayerController : MonoBehaviour
                             anim.SetBool("isCrouching", true);
                             speed = crouchSpeed;
                             isSliding = false;
+                            characterSounds.Stop(CharacterSounds.Sound.Sliding);
                         }
                         else if (!canStandUp)
                         {
                             anim.SetBool("isSliding", false);
                             isSliding = false;
+                            characterSounds.Stop(CharacterSounds.Sound.Sliding);
                         }
                     }
                 }
                 else
                 {
+                    if (!characterSounds.IsPlaying(CharacterSounds.Sound.Walking) 
+                        && !characterSounds.IsPlaying(CharacterSounds.Sound.Running) 
+                        && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
+                        characterSounds.PlaySound(CharacterSounds.Sound.Walking, 0, false, true);
+
                     anim.SetBool("isWalking", true);
+
                     if (Input.GetKey(KeyCode.LeftShift) && !isCrouching && characterResources.HasStamina)
                     {
                         characterResources.ReduceStamina(sprintStaminaConsumption * Time.deltaTime);
                         anim.SetBool("isSprinting", true);
                         isSprinting = true;
                         speed = sprintSpeed;
+
+                        if (!characterSounds.IsPlaying(CharacterSounds.Sound.Running) && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
+                            characterSounds.PlaySound(CharacterSounds.Sound.Running, 0, false, true);
+                        
+
                         if (Input.GetKeyDown(KeyCode.S) && isSprinting && characterResources.HasStamina)
                         {
                             anim.SetTrigger("slideDown");
                             anim.SetBool("isSliding", true);
                             isSliding = true;
+
+                            if (!characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
+                                characterSounds.PlaySound(CharacterSounds.Sound.Sliding, 0, false, true);
                         }
                     }
                     else if (isCrouching)
@@ -232,6 +267,11 @@ public class PlayerController : MonoBehaviour
                         anim.SetBool("isSprinting", false);                       
                         isSprinting = false;                        
                         speed = walkSpeed;
+
+                        characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                        characterSounds.Stop(CharacterSounds.Sound.Running);
+
+
                         if(isSliding && !isSprinting)
                         {
                             canStandUp = Physics2D.OverlapCircle(ceilingCheck.position, ceilingCheckRadius, whatIsGround);
@@ -241,11 +281,13 @@ public class PlayerController : MonoBehaviour
                                 anim.SetBool("isCrouching", true);
                                 speed = crouchSpeed;
                                 isSliding = false;
+                                characterSounds.Stop(CharacterSounds.Sound.Sliding);
                             }
                             else if (!canStandUp)
                             {
                                 anim.SetBool("isSliding", false);
                                 isSliding = false;
+                                characterSounds.Stop(CharacterSounds.Sound.Sliding);
                             }
                         }
                     }
@@ -330,10 +372,19 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
+            // characterSounds.Stop(CharacterSounds.Sound.Sliding);
+            // characterSounds.Stop(CharacterSounds.Sound.Walking);
+            // characterSounds.Stop(CharacterSounds.Sound.Running);
+
+            // characterSounds.SetNull();
+
             anim.SetTrigger("takeOff");
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpForce;
+
+            characterSounds.PlaySound(CharacterSounds.Sound.Jump, 0, true, false);
+
         }
         if (Input.GetKey(KeyCode.Space) && isJumping)
         {
@@ -383,7 +434,10 @@ public class PlayerController : MonoBehaviour
             isShooting = true;
             canShootAgain = false;
             if (activeHand == ActiveWeaponHand.Left)
+            {
+                characterSounds.PlaySound(CharacterSounds.Sound.RangedAttacking, 0, false, true);
                 anim.SetTrigger("tenseBow");
+            }
             else
                 anim.SetTrigger("tenseRightHandShot");
             shootTimeCounter = 0.0f;
@@ -469,7 +523,10 @@ public class PlayerController : MonoBehaviour
 
 
                 if (activeHand == ActiveWeaponHand.Left)
+                {
+                    characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
                     anim.SetTrigger("releaseBow");
+                }
                 else
                     anim.SetTrigger("releaseRightHandShot");
                 isShooting = false;
@@ -546,6 +603,7 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyRecoil(Vector3 direction, float strength)
     {
+        characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, true, false);
         BlockInput(true);
         rb.AddForce(direction * strength, ForceMode2D.Impulse);
         damageTaken = true;

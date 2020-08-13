@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  maxHealth: 20
+  maxHealth: 10
   stamina: 0
   maxStamina: 0
   staminaRecoveryRate: 0
@@ -593,13 +593,13 @@ MonoBehaviour:
   - sound: 2
     audioClips:
     - {fileID: 8300000, guid: 8340858bb2e1e7446b4257a4574d951b, type: 3}
-  - sound: 4
+  - sound: 8
     audioClips:
     - {fileID: 8300000, guid: dd063d71049ec2342b1eabd2adf0bde2, type: 3}
-  - sound: 6
+  - sound: 9
     audioClips:
     - {fileID: 8300000, guid: 2ad4cadf6c3bed44c9a98bb3ae49f1f4, type: 3}
-  - sound: 7
+  - sound: 10
     audioClips:
     - {fileID: 8300000, guid: 9c8d3096e3ad3674492700bc0a7fbd82, type: 3}
 --- !u!1 &5078270590749316580

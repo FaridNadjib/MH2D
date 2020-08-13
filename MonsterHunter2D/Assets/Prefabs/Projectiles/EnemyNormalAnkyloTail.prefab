@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6665034303751864943}
   - component: {fileID: -6086988818519060744}
   - component: {fileID: -3932012507996867521}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: EnemyNormalAnkyloTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,4 +139,6 @@ MonoBehaviour:
   damage: 20
   projectileLifeTime: 5
   disappearTime: 2
+  bombExplosion: {fileID: 0}
   pool: ankyloTailPool
+  recoilStrength: 30

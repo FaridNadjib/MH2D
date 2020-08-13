@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6086988818519060744}
   - component: {fileID: 5467071623673961484}
   - component: {fileID: -5343008020499590094}
-  m_Layer: 12
+  m_Layer: 16
   m_Name: EnemyExplodingAnkyloTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,10 @@ MonoBehaviour:
   damage: 0
   projectileLifeTime: 1.2
   disappearTime: 0.5
+  bombExplosion: {fileID: 2144450666491501526, guid: 1e2c49b7b679c1c408de80ed7cccc056,
+    type: 3}
   pool: ankyloExplodingTailPool
+  recoilStrength: 10
   minMaxNumberOfSpikes: {x: 6, y: 12}
   secondsToExplosion: 1
 --- !u!82 &-5343008020499590094

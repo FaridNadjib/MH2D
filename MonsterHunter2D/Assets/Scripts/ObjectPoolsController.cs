@@ -151,6 +151,7 @@ public class ObjectPoolsController : MonoBehaviour
     /// <param name="poolToAddTo">The pool to add the gameobject to.</param>
     public void AddToPool(GameObject instance, string poolToAddTo)
     {
+        print("set inactive");
         instance.SetActive(false);
         instance.transform.SetParent(transform);
         poolDictionary[poolToAddTo].Enqueue(instance);
