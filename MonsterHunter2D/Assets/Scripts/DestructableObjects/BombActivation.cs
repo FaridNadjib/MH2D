@@ -46,7 +46,7 @@ public class BombActivation : MonoBehaviour
         {
             if (collision.GetComponent<DestructableObject>() != null)
             {
-                Debug.Log("found destruct");
+                //Debug.Log("found destruct");
                 collision.GetComponent<DestructableObject>().ActivateDestruction();
                 //exploded = true;
 

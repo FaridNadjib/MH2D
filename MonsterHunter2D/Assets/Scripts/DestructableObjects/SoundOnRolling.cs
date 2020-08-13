@@ -31,7 +31,7 @@ public class SoundOnRolling : MonoBehaviour
         {
             trap.TrapActive = false;
         }
-        Debug.Log(Mathf.Abs(rb.velocity.x));
+        //Debug.Log(Mathf.Abs(rb.velocity.x));
     }
 
 

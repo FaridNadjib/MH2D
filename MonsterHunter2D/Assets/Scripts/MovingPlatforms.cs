@@ -4,35 +4,48 @@ using UnityEngine;
 
 public class MovingPlatforms : MonoBehaviour
 {
-    [Header("Moveable Platform Variables")]
-    public bool bShouldMove;
-    public Transform[] positions;
-    public float fSpeed;
-    // LoopingPrder: true, loop the positions[]. False: go back and forward through positions[].
-    public bool bLoopingOrder;
+    [Header("Moveable Platform Variables:")]
+    [Tooltip("Should the platform move?")]
+    [SerializeField] bool shouldMove;
+    [Tooltip("Put all the waypoints from waypoint object of this platform in here.")]
+    [SerializeField] Transform[] positions;
+    [Tooltip("How many units per second?")]
+    [SerializeField] float speed;
+    [Tooltip("LoopingOrder: true, loop the positions[]. False: go back and forward through positions[].")]
+    [SerializeField] bool loopingOrder;
 
     private int posIndex;
     private Vector3 nextPos;
-    // currentPos is just for gizmodraw.
+    // CurrentPos is just for gizmodraw.
     private Vector3 currentPos;
 
-    [Header("Roatating Platform Variables. Only Circular Shaped Ones.")]
-    public bool bShouldRotate;
-    public float fRotationSpeed;
+    [Header("Rotating Platform Variables:")]
+    [Tooltip("Should the platform rotate?")]
+    [SerializeField] bool shouldRotate;
+    [Tooltip("How many degrees per second? pos and negative possible.")]
+    [SerializeField] float rotationSpeed;
 
-    [Header("Flipping Platform Variables.")]
-    public bool bShouldFilp;
-    public float fFlipOccurance;
-    public float fFlipDuration;
-    public float fPushback;
-    private float fFlipTimer;
-    private bool bFlipped;
+    [Header("Flipping Platform Variables:")]
+    [Tooltip("Should the platform flip?")]
+    [SerializeField] bool shouldFilp;
+    [Tooltip("After how many seconds should it filp first?")]
+    [SerializeField] float flipOccurance;
+    [Tooltip("How long should that filp last?")]
+    [SerializeField] float flipDuration;
+    [Tooltip("Add pushback to the player, outdated though leave it at 0.")]
+    [SerializeField] float pushback;
+    private float flipTimer;
+    private bool flipped;
+    [Tooltip("The PS to be emmitted as warning for that palyer that the platform is about to flip.")]
+    [SerializeField] ParticleSystem flipWarning;
+    [Tooltip("Duration in seconds before the platform flips and the ps should be emmiting.")]
+    [SerializeField] float warningTime;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (bShouldMove)
+        if (shouldMove)
         {
             // First position to travel to will be the nearest poistion next to the platform.
             nextPos = positions[0].position;
@@ -46,19 +59,19 @@ public class MovingPlatforms : MonoBehaviour
             }
         }
 
-        fFlipTimer = fFlipOccurance;
+        flipTimer = flipOccurance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (bShouldMove)
+        if (shouldMove)
         {
             // Check for the next platformposition and then move the platform.
             if (transform.position == nextPos)
             {
                 // Loop positions[], at the end start from ppositions[0] again.
-                if (bLoopingOrder)
+                if (loopingOrder)
                 {
                     if (posIndex < positions.Length - 1)
                     {
@@ -74,7 +87,7 @@ public class MovingPlatforms : MonoBehaviour
                     }
                 }
                 // Loop back the array, dont start from position 0.
-                else if (!bLoopingOrder)
+                else if (!loopingOrder)
                 {
                     if (posIndex < positions.Length - 1)
                     {
@@ -91,14 +104,14 @@ public class MovingPlatforms : MonoBehaviour
                     }
                 }
             }
-            transform.position = Vector3.MoveTowards(transform.position, nextPos, fSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, nextPos, speed * Time.deltaTime);
         }
 
         // Glitch: When standing on a rect shape rotating platform, the player will behave weired. Only circular shaped work fine.
         // Check if the platform should rotate and then rotate the platform.
-        if (bShouldRotate)
+        if (shouldRotate)
         {
-            transform.Rotate(Vector3.forward * fRotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
 
             if (transform.Find("Player"))
             {
@@ -107,45 +120,51 @@ public class MovingPlatforms : MonoBehaviour
         }
 
         // Filp the platform if enabled. It will flip after fFlipOccurance seconds for fFilpDuration seconds.
-        if (bShouldFilp)
+        if (shouldFilp)
         {
-            if (!bFlipped)
+            if (!flipped)
             {
-                if (fFlipTimer > 0)
+                if (flipTimer > warningTime)
                 {
-                    fFlipTimer -= Time.deltaTime;
+                    flipTimer -= Time.deltaTime;
+                }
+                else if(flipTimer > 0)
+                {
+                    flipTimer -= Time.deltaTime;
+                    if (flipWarning != null && !flipWarning.isEmitting)
+                        flipWarning.Play();
                 }
                 else
                 {
                     // If the player is standing on the platform, push him back and break up parent, so he wont be affected by the scale operation.
                     if (transform.Find("Player"))
                     {
-                        transform.Find("Player").GetComponent<Rigidbody2D>().AddForce(Vector2.up * fPushback, ForceMode2D.Impulse);
+                        transform.Find("Player").GetComponent<Rigidbody2D>().AddForce(Vector2.up * pushback, ForceMode2D.Impulse);
                         transform.Find("Player").transform.parent = null;
                     }
                     Vector3 scale = transform.localScale;
                     scale.y *= -1;
                     transform.localScale = scale;
-                    bFlipped = true;
-                    fFlipTimer = 0;
+                    flipped = true;
+                    flipTimer = 0;
                 }
             }
             else
             {
-                if (fFlipTimer < fFlipDuration)
-                    fFlipTimer += Time.deltaTime;
+                if (flipTimer < flipDuration)
+                    flipTimer += Time.deltaTime;
                 else
                 {
                     if (transform.Find("Player"))
                     {
-                        transform.Find("Player").GetComponent<Rigidbody2D>().AddForce(Vector2.up * fPushback, ForceMode2D.Impulse);
+                        transform.Find("Player").GetComponent<Rigidbody2D>().AddForce(Vector2.up * pushback, ForceMode2D.Impulse);
                         transform.Find("Player").transform.parent = null;
                     }
                     Vector3 scale = transform.localScale;
                     scale.y *= -1;
                     transform.localScale = scale;
-                    bFlipped = false;
-                    fFlipTimer = fFlipOccurance;
+                    flipped = false;
+                    flipTimer = flipOccurance;
                 }
             }
         }
