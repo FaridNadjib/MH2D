@@ -1237,18 +1237,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maincam: {fileID: 0}
-  walkSpeed: 15
-  sprintSpeed: 25
+  walkSpeed: 12
+  sprintSpeed: 17
   sprintStaminaConsumption: 35
-  airSpeed: 1
+  airSpeed: 0.95
   blockInput: 0
   groundPosition: {fileID: 5219001626812702948}
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 33793
-  jumpForce: 25
-  jumpTime: 0.35
+    m_Bits: 46081
+  jumpForce: 20
+  jumpTime: 0.3
   isCrouching: 0
   crouchSpeed: 8
   ceilingCheck: {fileID: 131589086}
