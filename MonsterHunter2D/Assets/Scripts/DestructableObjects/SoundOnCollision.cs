@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundOnCollision : MonoBehaviour
 {
     AudioSource source;
+    CharacterSounds characterSounds;
     //bool canPlay = true;
     //[SerializeField] float soundPlayIntervall;
     //float timer;
@@ -13,6 +14,7 @@ public class SoundOnCollision : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
+        characterSounds = GetComponent<CharacterSounds>();
         //timer = soundPlayIntervall;
     }
 
@@ -32,6 +34,7 @@ public class SoundOnCollision : MonoBehaviour
     {
         if (source != null && !source.isPlaying)
         {
+            characterSounds.PlaySound(CharacterSounds.Sound.Collision, 0, true, false);
             source.Play();
             //canPlay = false;
         }

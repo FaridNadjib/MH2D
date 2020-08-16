@@ -92,7 +92,7 @@ public class EnemyFish : Enemy
     private void PatrolAndJump()
     {
         // if the enemy has reached the next position
-        if (Vector2.Distance(transform.position, nextPos) < 0.05f)
+        if (Mathf.Approximately(Vector3.Distance(transform.position, nextPos), 0))
         {
             transform.rotation = startRotation;
             base.currentWaitTime += Time.deltaTime;

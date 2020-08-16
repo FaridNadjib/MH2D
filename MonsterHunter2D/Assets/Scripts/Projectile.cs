@@ -11,7 +11,9 @@ public class Projectile : MonoBehaviour
     [Header("The projectiles type and its speed:")]
     [SerializeField] ActiveWeaponType type;
     [SerializeField] public float projectileSpeed;
-    [SerializeField] protected float damage;
+    float currentDamage;
+    [SerializeField] protected float normalDamage;
+    [SerializeField] float stealthDamage;
 
     [Header("The lifetime of the projectile:")]
     [SerializeField] float projectileLifeTime;
@@ -25,6 +27,10 @@ public class Projectile : MonoBehaviour
 
     [Header("Bomb related:")]
     [SerializeField] GameObject bombExplosion;
+
+    [Header("Sounds")]
+    AudioClip flyingSound;
+    AudioClip collisionSound;
 
     // Change angle of projectile while it hasnt hit anything.
     bool hasHit;
@@ -265,7 +271,7 @@ public class Projectile : MonoBehaviour
             rb.velocity = Vector2.zero;
             onlyOnce = true;
             if(collision.gameObject.GetComponent<Enemy>() != null)
-                collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+                collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(currentDamage);
 
             if (gameObject.GetComponent<Collider2D>() != null)
             {
@@ -286,8 +292,13 @@ public class Projectile : MonoBehaviour
     /// Adds a force the the projectile.
     /// </summary>
     /// <param name="direction">The direction of the force that should be applied.</param>
-    public void ShootProjectile(Vector2 direction)
+    public void ShootProjectile(Vector2 direction, bool stealth)
     {
+        if (stealth)
+            currentDamage = stealthDamage;
+        else
+            currentDamage = normalDamage;
+
         rb.AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
     }
 }

@@ -689,11 +689,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3583292591297716405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
+  m_Script: {fileID: 11500000, guid: a83f2779f59f8374e9b7b384cdecbf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
   enemy: {fileID: 4274402476380713229}
+  recoilStrength: 0
 --- !u!70 &4274402475091430051
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

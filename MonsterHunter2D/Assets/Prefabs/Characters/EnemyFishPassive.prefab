@@ -5341,8 +5341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9186696242992824321}
   - component: {fileID: 9186696242992824326}
-  - component: {fileID: 8473065614040508948}
-  - component: {fileID: 8473065614040508950}
   m_Layer: 0
   m_Name: Jaw
   m_TagString: Untagged
@@ -5415,33 +5413,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8473065614040508948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9186696242992824320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 5
-  enemy: {fileID: 8473065615294124472}
---- !u!70 &8473065614040508950
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9186696242992824320}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.32596216, y: 0.20586176}
-  m_Size: {x: 0.47850576, y: 0.47850585}
-  m_Direction: 0

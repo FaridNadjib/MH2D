@@ -83,6 +83,10 @@ public class Enemy : MonoBehaviour
         {
             // Activate the ragdoll and disable movement.
             //blockInput = true;
+            if (target == null)
+                target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+            target.CanHide = true;
             characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, false, false);
             currentState = State.Dead;
             anim.enabled = false;
@@ -126,17 +130,70 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" && !alertedOnce && currentState != State.Dead)
+        // if (other.GetComponent<PlayerController>() != null && !alertedOnce && currentState != State.Dead)
+        // {
+        //     if (other.GetComponent<PlayerController>().Invisible)
+        //         return;
+
+        //     alertedOnce = true;
+
+        //     if (target == null)
+        //         target = other.GetComponent<PlayerController>();
+
+        //     Alerted(other);
+        // }
+        // else 
+        if (other.GetComponent<BuoyancyEffector2D>() != null && currentState != State.Dead)
+            CollisionWithWater();
+    }
+
+    private void OnTriggerStay2D(Collider2D other) 
+    {
+        if (other.GetComponent<PlayerController>() != null && currentState != State.Dead)
+        {
+            PlayerController player = other.GetComponent<PlayerController>();
+            if (player.Invisible && currentState == State.Unalerted && this is EnemyAnkylo || this is EnemySnake)
+            {
+                Physics2D.IgnoreCollision(other, GetComponent<CapsuleCollider2D>(), true);
+                return;
+            }
+            else if (this is EnemyAnkylo || this is EnemySnake)
+            {
+                player.CanHide = false;
+                Physics2D.IgnoreCollision(other, GetComponent<CapsuleCollider2D>(), false);
+            }
+
+            //alertedOnce = true;
+
+            if (target == null)
+                target = player;
+
+            //Alerted(other);
+        }
+        
+    }
+
+    public void PlayerInRange(Collider2D other)
+    {
+        if (!alertedOnce && currentState != State.Dead)
         {
             alertedOnce = true;
 
+            PlayerController player = other.GetComponent<PlayerController>();
+            if (player.Invisible)
+            {
+                Physics2D.IgnoreCollision(other, GetComponent<CapsuleCollider2D>(), true);
+                return;
+            }
+
+            alertedOnce = true;
+
             if (target == null)
-                target = other.GetComponent<PlayerController>();
+                target = player;
 
             Alerted(other);
         }
-        else if (other.GetComponent<BuoyancyEffector2D>() != null && currentState != State.Dead)
-            CollisionWithWater();
+
     }
 
     private void OnTriggerExit2D(Collider2D other) 
@@ -153,7 +210,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Projectile>() != null && other.gameObject.GetComponent<EnemyProjectile>() == null && currentState != State.Dead)
             Hit(other);
-        else if (other.gameObject.GetComponent<PlayerController>() != null && currentState != State.Dead)
+        else if (other.gameObject.GetComponent<PlayerController>() != null && currentState != State.Dead)   
             CollisionWithPlayer(other);
     }
 
@@ -168,7 +225,10 @@ public class Enemy : MonoBehaviour
     /// </summary>
     protected virtual void HitBehaviour()
     {
+
         rb.AddForce(forceDirection.normalized * Time.fixedDeltaTime);
+
+        print("Time: " + currentWaitTime + "\n velocity: " + rb.velocity);
 
         currentWaitTime += Time.fixedDeltaTime;
 
@@ -187,6 +247,7 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("isAttacking", false);
                 anim.SetBool("isWakingUp", false);
                 currentState = State.Dead;
+                target.CanHide = true;
             }
             else
                 SetupNextBehaviour();
@@ -197,7 +258,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Hit(Collision2D other){}
 
-    protected virtual void CollisionWithPlayer(Collision2D other){}
+    protected virtual void CollisionWithPlayer(Collision2D collision){}
 
     public virtual void HasHitPlayer(Collider2D other){}
 
@@ -220,7 +281,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void CheckDistanceToNextPos()
     {
-        if (Vector3.Distance(transform.position, nextPos) < 0.5f)
+        if (Mathf.Approximately(Vector3.Distance(transform.position, nextPos), 0))
         {
             print("reached nextPos");
 

@@ -17,6 +17,7 @@ public class EnemySnake : Enemy
 
     protected override void Alerted(Collider2D other)
     {
+        target.CanHide = false;
         anim.SetBool("isWakingUp", true);
         characterSounds.PlaySound(CharacterSounds.Sound.Alerted, 0, false, false);
         target = other.GetComponent<PlayerController>();
@@ -88,6 +89,7 @@ public class EnemySnake : Enemy
             currentState = State.Unalerted;
             anim.SetBool("isWakingUp", false);
             alertedOnce = false;
+            target.CanHide = true;
         }
     }
 
@@ -126,9 +128,10 @@ public class EnemySnake : Enemy
             case AttackType.SingleRanged:
                 GameObject tempVenom = ObjectPoolsController.instance.GetFromPool(projectilePool);
                 tempVenom.transform.position = projectilePos.transform.position;
-                Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y);
+                float offset = Vector2.Distance(transform.position, target.transform.position);
+                Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, (target.transform.position.y - transform.position.y) * distance * 0.05f);
                 tempVenom.SetActive(true);
-                tempVenom.GetComponent<Projectile>().ShootProjectile(direction.normalized);
+                tempVenom.GetComponent<Projectile>().ShootProjectile(direction.normalized, false);
                 characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
                 break;
 
@@ -139,7 +142,7 @@ public class EnemySnake : Enemy
                     tempVenom1.transform.position = projectilePos.transform.position;
                     Vector2 dir = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y + i + 0.5f);
                     tempVenom1.SetActive(true);
-                    tempVenom1.GetComponent<Projectile>().ShootProjectile(dir.normalized);
+                    tempVenom1.GetComponent<Projectile>().ShootProjectile(dir.normalized, false);
                     characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
                 }
             break;

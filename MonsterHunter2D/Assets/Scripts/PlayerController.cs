@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintStaminaConsumption;
     [Range(0f,1f)]
     [SerializeField] float airSpeed;
-    float moveInput;
+    private float moveInput;
+    public float MoveInput { get => moveInput; }
     float speed;
     bool facingRight = true;
     bool isSprinting;
@@ -80,7 +81,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SpriteRenderer leftHandWeapon;
 
     [Header("Invisibility related:")]
-    float invisibleCounter;
+    [SerializeField] bool invisible = false;
+    public bool Invisible { get => invisible; } 
+    private bool canHide = true;
+    public bool CanHide { set => canHide = value; }
+    [SerializeField] float invisibileTime;
+    [SerializeField] float invisibleCounter;
+    [SerializeField] bool insideBush = false;
+    public bool InsideBush { get => insideBush; set => insideBush = value; }
+    private bool stealthSoundHasPlayed = false;
+
 
     [Header("Damage taken related:")]
     [SerializeField] float invincibleTime;
@@ -93,6 +103,8 @@ public class PlayerController : MonoBehaviour
     bool swapColors;
     [SerializeField] Color dmgTakenColor1;
     [SerializeField] Color dmgTakenColor2;
+    [SerializeField] ParticleSystem blood1;
+    [SerializeField] ParticleSystem blood2;
 
     [Header("The Player stats will save all progress:")]
     [SerializeField] PlayerStats playerStats;
@@ -106,9 +118,6 @@ public class PlayerController : MonoBehaviour
     CharacterResources characterResources;
     CharacterSounds characterSounds;
     RagdollController ragdoll;
-
-    private bool soundPlaying = false;
-
 
     // Use this to check if the player is currently alive or not.
     public bool IsAlive { get; private set; } = true;
@@ -162,7 +171,6 @@ public class PlayerController : MonoBehaviour
         // Subscribe to event which get triggered when health of this units reaches 0.
         characterResources.OnUnitDied += () => {
             // Activate the ragdoll and disable movement.
-            characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, true, false);
             blockInput = true;
             anim.enabled = false;
             gameObject.GetComponent<Collider2D>().enabled = false;
@@ -170,6 +178,7 @@ public class PlayerController : MonoBehaviour
             rb.isKinematic = true;
             ragdoll.EnableRagdoll();
             IsAlive = false;
+            characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, true, false);
             // ToDo: show message on screen to press l to reload last save or esc to open menu.
         };
     }
@@ -190,10 +199,9 @@ public class PlayerController : MonoBehaviour
 
             if (!isGrounded)
             {
-                characterSounds.Stop(CharacterSounds.Sound.Sliding);
-                characterSounds.Stop(CharacterSounds.Sound.Walking);
-                characterSounds.Stop(CharacterSounds.Sound.Running);
-
+                characterSounds.StopSound(CharacterSounds.Sound.Sliding);
+                characterSounds.StopSound(CharacterSounds.Sound.Walking);
+                characterSounds.StopSound(CharacterSounds.Sound.Sprinting);
             }
 
             // Jump calculations.
@@ -204,9 +212,9 @@ public class PlayerController : MonoBehaviour
             {
                 if (moveInput == 0)
                 {
-                    characterSounds.Stop(CharacterSounds.Sound.Sliding);
-                    characterSounds.Stop(CharacterSounds.Sound.Walking);
-                    characterSounds.Stop(CharacterSounds.Sound.Running);
+                    characterSounds.StopSound(CharacterSounds.Sound.Sliding);
+                    characterSounds.StopSound(CharacterSounds.Sound.Walking);
+                    characterSounds.StopSound(CharacterSounds.Sound.Sprinting);
 
                     anim.SetBool("isWalking", false);
                     anim.SetBool("isSprinting", false);
@@ -220,21 +228,19 @@ public class PlayerController : MonoBehaviour
                             anim.SetBool("isCrouching", true);
                             speed = crouchSpeed;
                             isSliding = false;
-                            characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                            characterSounds.StopSound(CharacterSounds.Sound.Sliding);
                         }
                         else if (!canStandUp)
                         {
                             anim.SetBool("isSliding", false);
                             isSliding = false;
-                            characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                            characterSounds.StopSound(CharacterSounds.Sound.Sliding);
                         }
                     }
                 }
                 else
                 {
-                    if (!characterSounds.IsPlaying(CharacterSounds.Sound.Walking) 
-                        && !characterSounds.IsPlaying(CharacterSounds.Sound.Running) 
-                        && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
+                    if (!characterSounds.IsPlaying(CharacterSounds.Sound.Walking) && !characterSounds.IsPlaying(CharacterSounds.Sound.Sprinting) && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding) && !characterSounds.IsPlaying(CharacterSounds.Sound.Stealth))
                         characterSounds.PlaySound(CharacterSounds.Sound.Walking, 0, false, true);
 
                     anim.SetBool("isWalking", true);
@@ -246,8 +252,8 @@ public class PlayerController : MonoBehaviour
                         isSprinting = true;
                         speed = sprintSpeed;
 
-                        if (!characterSounds.IsPlaying(CharacterSounds.Sound.Running) && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
-                            characterSounds.PlaySound(CharacterSounds.Sound.Running, 0, false, true);
+                        if (!characterSounds.IsPlaying(CharacterSounds.Sound.Sprinting) && !characterSounds.IsPlaying(CharacterSounds.Sound.Sliding) && !characterSounds.IsPlaying(CharacterSounds.Sound.Stealth))
+                            characterSounds.PlaySound(CharacterSounds.Sound.Sprinting, 0, false, true);
                         
 
                         if (Input.GetKeyDown(KeyCode.S) && isSprinting && characterResources.HasStamina)
@@ -256,7 +262,7 @@ public class PlayerController : MonoBehaviour
                             anim.SetBool("isSliding", true);
                             isSliding = true;
 
-                            if (!characterSounds.IsPlaying(CharacterSounds.Sound.Sliding))
+                            if (!characterSounds.IsPlaying(CharacterSounds.Sound.Sliding) && !characterSounds.IsPlaying(CharacterSounds.Sound.Stealth))
                                 characterSounds.PlaySound(CharacterSounds.Sound.Sliding, 0, false, true);
                         }
                     }
@@ -268,8 +274,8 @@ public class PlayerController : MonoBehaviour
                         isSprinting = false;                        
                         speed = walkSpeed;
 
-                        characterSounds.Stop(CharacterSounds.Sound.Sliding);
-                        characterSounds.Stop(CharacterSounds.Sound.Running);
+                        characterSounds.StopSound(CharacterSounds.Sound.Sliding);
+                        characterSounds.StopSound(CharacterSounds.Sound.Sprinting);
 
 
                         if(isSliding && !isSprinting)
@@ -281,13 +287,13 @@ public class PlayerController : MonoBehaviour
                                 anim.SetBool("isCrouching", true);
                                 speed = crouchSpeed;
                                 isSliding = false;
-                                characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                                characterSounds.StopSound(CharacterSounds.Sound.Sliding);
                             }
                             else if (!canStandUp)
                             {
                                 anim.SetBool("isSliding", false);
                                 isSliding = false;
-                                characterSounds.Stop(CharacterSounds.Sound.Sliding);
+                                characterSounds.StopSound(CharacterSounds.Sound.Sliding);
                             }
                         }
                     }
@@ -296,6 +302,8 @@ public class PlayerController : MonoBehaviour
                 CrouchCheck();
             }                      
         }
+
+        StealthCheck();
 
         // Shooting calculations.
         if(!blockInput)
@@ -314,7 +322,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // If the player was hurt, block his input for a short amount of time and make him invincible for a slightly longer period of time.
-        if (damageTaken)
+        if (damageTaken && IsAlive)
         {
             BlinkPlayer();
             if (damageTakenTimer < inputBlockedTime)
@@ -334,7 +342,44 @@ public class PlayerController : MonoBehaviour
                 gameObject.layer = 8;
                 StopBlinkPlayer();
             }
-            
+        }
+    }
+
+    private void StealthCheck()
+    {
+        if (invisible && !insideBush)
+        {
+            invisibleCounter += Time.deltaTime;
+
+            if (invisibleCounter < invisibileTime)
+                return;
+
+            invisible = false;
+            invisibleCounter = 0f;
+            ChangeAlpha(invisible);
+            stealthSoundHasPlayed = false;
+        }
+    }
+
+    private void MakeVisible()
+    {
+        if (invisible)
+        {
+            invisible = false;
+            ChangeAlpha(invisible);
+            invisibleCounter = 0f;
+            stealthSoundHasPlayed = false;
+        }
+    }
+
+    private void ChangeAlpha(bool stealth)
+    {
+        for (int i = 0; i < spritesToBlink.Length; i++)
+        {
+            if (stealth)
+                spritesToBlink[i].color = new Color(spritesToBlink[i].color.r, spritesToBlink[i].color.g, spritesToBlink[i].color.b, 0.5f);
+            else
+                spritesToBlink[i].color = new Color(spritesToBlink[i].color.r, spritesToBlink[i].color.g, spritesToBlink[i].color.b, 1f);
         }
     }
 
@@ -372,19 +417,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            // characterSounds.Stop(CharacterSounds.Sound.Sliding);
-            // characterSounds.Stop(CharacterSounds.Sound.Walking);
-            // characterSounds.Stop(CharacterSounds.Sound.Running);
-
-            // characterSounds.SetNull();
-
             anim.SetTrigger("takeOff");
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpForce;
-
             characterSounds.PlaySound(CharacterSounds.Sound.Jump, 0, true, false);
-
+            MakeVisible();
         }
         if (Input.GetKey(KeyCode.Space) && isJumping)
         {
@@ -392,6 +430,8 @@ public class PlayerController : MonoBehaviour
             {
                 rb.velocity = Vector2.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
+
+                characterSounds.PlaySound(CharacterSounds.Sound.Jump, 0, true, false);
             }
             else
                 isJumping = false;
@@ -414,13 +454,27 @@ public class PlayerController : MonoBehaviour
         // crouching
         canStandUp = Physics2D.OverlapCircle(ceilingCheck.position, ceilingCheckRadius, whatIsGround);
         
-        if (Input.GetKeyDown(KeyCode.S) && !isSprinting)
+        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.S)) && !isSprinting)
         {
+            if (insideBush && canHide)
+            {
+                invisible = true;
+                invisibleCounter = 0f;
+                ChangeAlpha(invisible);
+
+                if (!characterSounds.IsPlaying(CharacterSounds.Sound.Stealth) && !stealthSoundHasPlayed)
+                {
+                    characterSounds.PlaySound(CharacterSounds.Sound.Stealth, 0, false, false);
+                    stealthSoundHasPlayed = true;
+                }
+            }
+
             isCrouching = true;
             anim.SetBool("isCrouching", true);
         }
         else if (!Input.GetKey(KeyCode.S) && !canStandUp)
         {
+            MakeVisible(); 
             isCrouching = false;
             anim.SetBool("isCrouching", false);
         }
@@ -435,11 +489,12 @@ public class PlayerController : MonoBehaviour
             canShootAgain = false;
             if (activeHand == ActiveWeaponHand.Left)
             {
-                characterSounds.PlaySound(CharacterSounds.Sound.RangedAttacking, 0, false, true);
+                characterSounds.PlaySound(CharacterSounds.Sound.RangedAttacking, 0, false, false);
                 anim.SetTrigger("tenseBow");
             }
             else
                 anim.SetTrigger("tenseRightHandShot");
+
             shootTimeCounter = 0.0f;
             projectileSpeedMult = 0.9f;
         }
@@ -519,8 +574,10 @@ public class PlayerController : MonoBehaviour
                     tempProjectile.transform.localScale = scale;
                 }
                 tempProjectile.SetActive(true);
-                tempProjectile.GetComponent<Projectile>().ShootProjectile(direction.normalized * projectileSpeedMult);
+                tempProjectile.GetComponent<Projectile>().ShootProjectile(direction.normalized * projectileSpeedMult, Invisible);
 
+                MakeVisible();
+                
 
                 if (activeHand == ActiveWeaponHand.Left)
                 {
@@ -601,13 +658,27 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isSprinting", false);
     }
 
-    public void ApplyRecoil(Vector3 direction, float strength)
+    public void ApplyRecoil(Vector3 direction, float strength, Vector2 ? pos, bool block)
     {
-        characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, true, false);
-        BlockInput(true);
+        BlockInput(block);
         rb.AddForce(direction * strength, ForceMode2D.Impulse);
         damageTaken = true;
         gameObject.layer = 14;
+        characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, true, false);
+
+        if (pos == null)
+            pos = transform.position;
+
+        if (blood1 != null)
+        {
+            blood1.transform.position = (Vector2)pos;
+            blood1.Play();
+        }
+        if (blood2 != null)
+        {
+            blood2.transform.position = (Vector2)pos;
+            blood2.Play();
+        }
     }
 
     public void BlinkPlayer()
@@ -632,8 +703,8 @@ public class PlayerController : MonoBehaviour
             blinkTimer = 0;
             swapColors = !swapColors;
         }
-        
     }
+
     void StopBlinkPlayer()
     {
         blinkTimer = 0;

@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &966553520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 966553521}
+  - component: {fileID: 966553522}
+  - component: {fileID: 966553523}
+  m_Layer: 4
+  m_Name: RangeCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &966553521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966553520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5099224575039562349}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &966553522
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966553520}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 8
+--- !u!114 &966553523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966553520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2ff9b1475ef3b449d21c9f659eac8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5099224573701984909
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,11 +574,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5099224574664921904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
+  m_Script: {fileID: 11500000, guid: a83f2779f59f8374e9b7b384cdecbf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 5
   enemy: {fileID: 1938329072}
+  recoilStrength: 5
 --- !u!61 &1354616712
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -910,7 +971,6 @@ GameObject:
   - component: {fileID: 5099224575039562348}
   - component: {fileID: 202509313}
   - component: {fileID: 202509310}
-  - component: {fileID: 202509311}
   - component: {fileID: 202509312}
   - component: {fileID: 1938329072}
   - component: {fileID: 2131440004}
@@ -935,6 +995,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5099224574429787992}
+  - {fileID: 966553521}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -969,7 +1030,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 75
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -994,22 +1055,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.03827119, y: 0.4244616}
   m_Size: {x: 1.2167134, y: 2.2246757}
   m_Direction: 0
---- !u!58 &202509311
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5099224575039562351}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 7
 --- !u!114 &202509312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,8 +1067,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f45354c1bbc1c44a7d55b421ce01a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 30
-  maxHealth: 30
+  health: 20
+  maxHealth: 20
   stamina: 0
   maxStamina: 0
   staminaRecoveryRate: 0
@@ -1176,7 +1221,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: dce0c273be63bcd499e38725bf8b1b9d, type: 3}
   - sound: 3
     audioClips:
-    - {fileID: 8300000, guid: 38038d3434931344ea30860250193dd7, type: 3}
+    - {fileID: 8300000, guid: c175263d007e67642bc795ee6df1b3a6, type: 3}
   - sound: 10
     audioClips:
     - {fileID: 8300000, guid: 375841672eae0f54394cb3f481c601fa, type: 3}

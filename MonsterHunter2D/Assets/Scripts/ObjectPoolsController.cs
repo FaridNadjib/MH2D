@@ -30,6 +30,8 @@ public class ObjectPoolsController : MonoBehaviour
     [SerializeField] GameObject ankyloTailPrefab;
     [SerializeField] GameObject ankyloExplodingTailPrefab;
     [SerializeField] GameObject ankyloSpikePrefab;
+    [SerializeField] GameObject shootingSpikePrefab;
+
 
 
     // Enviorment related prefabs.
@@ -51,6 +53,8 @@ public class ObjectPoolsController : MonoBehaviour
     Queue<GameObject> ankyloTailPool = new Queue<GameObject>();
     Queue<GameObject> ankyloExplodingTailPool = new Queue<GameObject>();
     Queue<GameObject> ankyloSpikePool = new Queue<GameObject>();
+    Queue<GameObject> shootingSpikePool = new Queue<GameObject>();
+
 
 
     // Enviorment related pools.
@@ -100,6 +104,10 @@ public class ObjectPoolsController : MonoBehaviour
 
         poolDictionary.Add("ankyloSpikePool", ankyloSpikePool);
         prefabDictionary.Add("ankyloSpikePool", ankyloSpikePrefab);
+
+        // Trap related pools
+        poolDictionary.Add("shootingSpikePool", shootingSpikePool);
+        prefabDictionary.Add("shootingSpikePool", shootingSpikePrefab);
 
 
         // Add all other pools to the dictionary.
@@ -151,7 +159,6 @@ public class ObjectPoolsController : MonoBehaviour
     /// <param name="poolToAddTo">The pool to add the gameobject to.</param>
     public void AddToPool(GameObject instance, string poolToAddTo)
     {
-        print("set inactive");
         instance.SetActive(false);
         instance.transform.SetParent(transform);
         poolDictionary[poolToAddTo].Enqueue(instance);

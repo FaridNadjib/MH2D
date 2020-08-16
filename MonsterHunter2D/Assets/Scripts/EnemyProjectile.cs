@@ -16,15 +16,16 @@ public class EnemyProjectile : Projectile
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
             if (GetComponent<AudioSource>() != null)
-                GetComponent<AudioSource>().Play();
+                GetComponent<AudioSource>().Stop();
                 
             transform.SetParent(collision.gameObject.transform);
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
             onlyOnce = true;
-            player.gameObject.GetComponent<CharacterResources>().ReduceHealth(damage);
+            player.gameObject.GetComponent<CharacterResources>().ReduceHealth(normalDamage);
             Vector3 direction = player.transform.position - transform.position;
-            player.ApplyRecoil(direction.normalized, recoilStrength);
+            Vector2 pos = collision.GetContact(0).point;
+            player.ApplyRecoil(direction.normalized, recoilStrength, pos, true);
 
             if (gameObject.GetComponent<Collider2D>() != null)
             {
@@ -49,6 +50,9 @@ public class EnemyProjectile : Projectile
             {
                 rb.velocity = Vector2.zero;
             }
+
+            if (GetComponent<AudioSource>() != null)
+                GetComponent<AudioSource>().Stop();
 
             GetComponent<Collider2D>().enabled = false;
             rb.isKinematic = true;

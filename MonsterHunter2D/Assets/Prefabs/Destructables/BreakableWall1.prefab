@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4131069888058108965}
   - component: {fileID: 4131069888058108961}
   - component: {fileID: 4131069888058108960}
+  - component: {fileID: 1566405593273908205}
   m_Layer: 0
   m_Name: BreakableWall2_7
   m_TagString: Untagged
@@ -5108,7 +5109,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1fef8577bd011429dc7ede2ba254ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPlayIntervall: 0.35
+--- !u!114 &1566405593273908205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131069888058108968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00cb79d649f5ed4b8a11f1873d4aee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAudioClips:
+  - sound: 15
+    audioClips:
+    - {fileID: 8300000, guid: 0e86d27dbe29f11438d08e32c6da105f, type: 3}
+    - {fileID: 8300000, guid: 480c7f3a55f69c24d9087c71e017d788, type: 3}
+    - {fileID: 8300000, guid: 7ddd9b702edf17d4a8f0401e7a3a7b07, type: 3}
 --- !u!1 &4131069888553552824
 GameObject:
   m_ObjectHideFlags: 0
@@ -5278,6 +5296,7 @@ GameObject:
   - component: {fileID: 4131069888617640499}
   - component: {fileID: 4131069888617640463}
   - component: {fileID: 4131069888617640462}
+  - component: {fileID: 4307267689940194737}
   m_Layer: 0
   m_Name: BreakableWall2_6
   m_TagString: Untagged
@@ -10364,7 +10383,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1fef8577bd011429dc7ede2ba254ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPlayIntervall: 0.6
+--- !u!114 &4307267689940194737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131069888617640502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00cb79d649f5ed4b8a11f1873d4aee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAudioClips:
+  - sound: 15
+    audioClips:
+    - {fileID: 8300000, guid: 0e86d27dbe29f11438d08e32c6da105f, type: 3}
+    - {fileID: 8300000, guid: 480c7f3a55f69c24d9087c71e017d788, type: 3}
+    - {fileID: 8300000, guid: 7ddd9b702edf17d4a8f0401e7a3a7b07, type: 3}
 --- !u!1 &4131069888620181517
 GameObject:
   m_ObjectHideFlags: 0
@@ -10382,6 +10418,7 @@ GameObject:
   - component: {fileID: 4131069888620181510}
   - component: {fileID: 4131069888620181506}
   - component: {fileID: 4131069888620181509}
+  - component: {fileID: 641694068455049846}
   m_Layer: 0
   m_Name: BreakableWall2_5
   m_TagString: Untagged
@@ -15477,7 +15514,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1fef8577bd011429dc7ede2ba254ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPlayIntervall: 0.5
+--- !u!114 &641694068455049846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131069888620181517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00cb79d649f5ed4b8a11f1873d4aee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAudioClips:
+  - sound: 15
+    audioClips:
+    - {fileID: 8300000, guid: 0e86d27dbe29f11438d08e32c6da105f, type: 3}
+    - {fileID: 8300000, guid: 480c7f3a55f69c24d9087c71e017d788, type: 3}
+    - {fileID: 8300000, guid: 7ddd9b702edf17d4a8f0401e7a3a7b07, type: 3}
 --- !u!1 &4131069888800384227
 GameObject:
   m_ObjectHideFlags: 0
@@ -15495,6 +15549,7 @@ GameObject:
   - component: {fileID: 4131069888800384250}
   - component: {fileID: 4131069888800384248}
   - component: {fileID: 4131069888800384251}
+  - component: {fileID: 133098705884061227}
   m_Layer: 0
   m_Name: BreakableWall2_4
   m_TagString: Untagged
@@ -20576,7 +20631,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1fef8577bd011429dc7ede2ba254ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPlayIntervall: 0.4
+--- !u!114 &133098705884061227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131069888800384227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00cb79d649f5ed4b8a11f1873d4aee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAudioClips:
+  - sound: 15
+    audioClips:
+    - {fileID: 8300000, guid: 0e86d27dbe29f11438d08e32c6da105f, type: 3}
+    - {fileID: 8300000, guid: 480c7f3a55f69c24d9087c71e017d788, type: 3}
+    - {fileID: 8300000, guid: 7ddd9b702edf17d4a8f0401e7a3a7b07, type: 3}
 --- !u!1 &4131069889086308165
 GameObject:
   m_ObjectHideFlags: 0

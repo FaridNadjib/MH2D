@@ -66,4 +66,6 @@ MonoBehaviour:
     type: 3}
   ankyloSpikePrefab: {fileID: 1043072633768497317, guid: cbd6574c6ba40f64183e604711e86d1f,
     type: 3}
+  shootingSpikePrefab: {fileID: 1499808751256844823, guid: c3ad6ab74d4a1254a9bc77cc56ee99ac,
+    type: 3}
   smallRockPrefab: {fileID: 0}

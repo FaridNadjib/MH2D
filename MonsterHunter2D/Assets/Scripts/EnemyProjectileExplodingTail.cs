@@ -68,7 +68,7 @@ public class EnemyProjectileExplodingTail : EnemyProjectile
             Vector2 projectileForce = (projectileVector - startPos).normalized * tempTail.GetComponent<Projectile>().projectileSpeed;
 
             tempTail.SetActive(true);
-            tempTail.GetComponent<Projectile>().ShootProjectile(projectileForce.normalized);
+            tempTail.GetComponent<Projectile>().ShootProjectile(projectileForce.normalized, false);
 
             angle += angleStep + UnityEngine.Random.Range(0, 44);
         } 

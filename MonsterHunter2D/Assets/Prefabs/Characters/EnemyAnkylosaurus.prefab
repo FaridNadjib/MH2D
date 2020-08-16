@@ -1,5 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &122175240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 122175241}
+  - component: {fileID: 122175242}
+  - component: {fileID: 122175243}
+  m_Layer: 4
+  m_Name: RangeCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &122175241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122175240}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 991989071437824328}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &122175242
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122175240}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 40, y: 4}
+  m_EdgeRadius: 0
+--- !u!114 &122175243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122175240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2ff9b1475ef3b449d21c9f659eac8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &538254520
 GameObject:
   m_ObjectHideFlags: 0
@@ -4767,12 +4837,11 @@ GameObject:
   - component: {fileID: 5145214991393982202}
   - component: {fileID: 205733574733372336}
   - component: {fileID: 1535871800}
-  - component: {fileID: 1535871801}
   - component: {fileID: 1535871803}
   - component: {fileID: 1535871798}
   - component: {fileID: 1535871799}
   - component: {fileID: 1535871802}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyAnkylosaurus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4793,6 +4862,7 @@ Transform:
   - {fileID: 991989071757008748}
   - {fileID: 991989072829864650}
   - {fileID: 538254523}
+  - {fileID: 122175241}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4874,32 +4944,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &1535871801
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 991989071437824330}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.7280321}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 40, y: 6.519018}
-  m_EdgeRadius: 0
 --- !u!82 &1535871803
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5012,6 +5056,7 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   randomNextWaypoint: 0
   waitAtWaypointTime: 4
   possibleMovements: 
@@ -5029,11 +5074,11 @@ MonoBehaviour:
   meleeAttackPositionOffset: 10
   rangedAttackRange: 40
   chanceToShootExplodingTail: 50
-  waitAfterAttackTime: 2
+  minMaxWaitAfterAttackTime: {x: 2, y: 3}
   projectilePos: {fileID: 991989072829864651}
   dustParticles: {fileID: 538254522}
   collisionDamage: 10
-  soundIntervalRange: {x: 6, y: 14}
+  collisionStrength: 5
 --- !u!114 &1535871799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5077,7 +5122,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7d9da41567c5a6d45b7b59175711d749, type: 3}
   - sound: 3
     audioClips:
-    - {fileID: 0}
+    - {fileID: 8300000, guid: d9eda6eddc98152498a98980a8644e36, type: 3}
   - sound: 6
     audioClips:
     - {fileID: 8300000, guid: 498a581b605a4594faaf25efea0e6b1a, type: 3}
@@ -5588,11 +5633,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 991989071877414557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7d8240adc02344ea1b643ab1377c7f, type: 3}
+  m_Script: {fileID: 11500000, guid: a83f2779f59f8374e9b7b384cdecbf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
   enemy: {fileID: 1535871798}
+  recoilStrength: 30
 --- !u!1 &991989072033176720
 GameObject:
   m_ObjectHideFlags: 0

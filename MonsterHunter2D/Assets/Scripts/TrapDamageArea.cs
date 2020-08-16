@@ -6,8 +6,8 @@ public class TrapDamageArea : MonoBehaviour
 {
     [SerializeField] float recoilStrength;
     [SerializeField] float trapDamage;
-    [SerializeField] ParticleSystem blood1;
-    [SerializeField] ParticleSystem blood2;
+    // [SerializeField] ParticleSystem blood1;
+    // [SerializeField] ParticleSystem blood2;
     [SerializeField] AudioClip activationSound;
     AudioSource source;
 
@@ -34,20 +34,21 @@ public class TrapDamageArea : MonoBehaviour
             //Vector3 direction = player.transform.position - (Vector3)collision.contacts[0].point;
             //Vector3 direction = (Vector3)collision.contacts[0].point - transform.position;
             Vector3 direction = player.transform.position - transform.position;
-            player.ApplyRecoil(direction.normalized, recoilStrength);
+            Vector2 pos = collision.GetContact(0).point;
+            player.ApplyRecoil(direction.normalized, recoilStrength, pos, true);
             collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(trapDamage);
             if (source != null)
                 source.PlayOneShot(activationSound);
-            if(blood1 != null)
-            {
-                blood1.transform.position = collision.contacts[0].point;
-                blood1.Play();
-            }
-            if(blood2 != null)
-            {
-                blood2.transform.position = collision.contacts[0].point;
-                blood2.Play();
-            }
+            // if(blood1 != null)
+            // {
+            //     blood1.transform.position = collision.contacts[0].point;
+            //     blood1.Play();
+            // }
+            // if(blood2 != null)
+            // {
+            //     blood2.transform.position = collision.contacts[0].point;
+            //     blood2.Play();
+            // }
         }
     }
 

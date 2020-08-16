@@ -10,6 +10,8 @@ public class EnemyBat : Enemy
             Physics2D.IgnoreCollision(this.GetComponent<CapsuleCollider2D>(), playerCol);
         }
 
+        target.CanHide = false;
+
         currentState = State.Attacking;
         anim.SetBool("isWakingUp", true);
         nextPos = transform.position;

@@ -138,7 +138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 6
   projectileSpeed: 25
-  damage: 0
+  normalDamage: 0
+  stealthDamage: 0
   projectileLifeTime: 4
   disappearTime: 1
   bombExplosion: {fileID: 2516974785441277729}
@@ -9957,7 +9958,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e939ca083fd98254ab1a02193fcd72b5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f1ebc7fa92abc1041b87b8572ef80b51, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

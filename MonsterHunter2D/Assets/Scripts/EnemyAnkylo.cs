@@ -10,18 +10,23 @@ public class EnemyAnkylo : Enemy
     [SerializeField] private float meleeAttackPositionOffset;
     [SerializeField] private float rangedAttackRange;
     [SerializeField][Range(0, 100)] private int chanceToShootExplodingTail;
-    [SerializeField] private float waitAfterAttackTime;
+    [SerializeField] private Vector2 minMaxWaitAfterAttackTime;
+    private float waitAfterAttackTime;
     [SerializeField] private GameObject projectilePos;
     [SerializeField] private ParticleSystem dustParticles;
     [SerializeField] private int collisionDamage;
-    [Header("Sounds")]
-    [SerializeField] private Vector2 soundIntervalRange;
-    private float currentInterval;
-    private float currentIntervalTime = 0f;
+    [SerializeField] private int collisionStrength;
+
+    private const string explodingTailPool = "ankyloExplodingTailPool";
+    private const string normalTailPool = "ankyloTailPool";
+
+
+    private bool playedSoundOnce = false;
 
 
     protected override void Alerted(Collider2D other)
     {
+        target.CanHide = false;
         currentState = State.Alerted;
         SetupNextBehaviour();
     }
@@ -31,21 +36,17 @@ public class EnemyAnkylo : Enemy
         SubscribeToEvents();
         SetupNextBehaviour();
 
-        currentInterval = UnityEngine.Random.Range(soundIntervalRange.x, soundIntervalRange.y);
+        waitAfterAttackTime = GetNextWaitAfterAttackTime();
+    }
+
+    private float GetNextWaitAfterAttackTime()
+    {
+        return UnityEngine.Random.Range(minMaxWaitAfterAttackTime.x, minMaxWaitAfterAttackTime.y);
     }
 
     protected override void UnalertedBehaviour()
     {
         CheckDistanceToNextPos();
-
-        currentIntervalTime += Time.deltaTime;
-
-        if (currentIntervalTime >= currentInterval)
-        {
-            currentIntervalTime = 0f;
-            currentInterval = UnityEngine.Random.Range(soundIntervalRange.x, soundIntervalRange.y);
-            characterSounds.PlaySound(CharacterSounds.Sound.Idle, 0, true, false);
-        }
     }
 
     protected override void AlertedBehaviour()
@@ -58,10 +59,19 @@ public class EnemyAnkylo : Enemy
         CheckDistanceToNextPos();
     }
 
-    protected override void CollisionWithPlayer(Collision2D other)
+    protected override void CollisionWithPlayer(Collision2D collision)
     {
-        other.gameObject.GetComponent<CharacterResources>().ReduceHealth(collisionDamage);
+        Vector3 direction = collision.transform.position - transform.position;
+        Vector2 pos = collision.GetContact(0).point;
+        collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(collisionDamage);
+        collision.gameObject.GetComponent<PlayerController>().ApplyRecoil(direction, collisionStrength, pos, true);
     }
+
+    public override void HasHitPlayer(Collider2D other) 
+    { 
+        nextPos = transform.position;
+    }
+
 
     protected override void Hit(Collision2D other)
     {
@@ -76,6 +86,7 @@ public class EnemyAnkylo : Enemy
         {
             currentState = State.Hit;
             anim.SetTrigger("gotDamaged");
+            anim.SetBool("isWalking", false);
             characterSounds.PlaySound(CharacterSounds.Sound.Hit, 0, false, false);
             currentWaitTime = 0f;
         }
@@ -97,10 +108,21 @@ public class EnemyAnkylo : Enemy
     {
         if (Mathf.Approximately(Vector3.Distance(transform.position, nextPos), 0))
         {
+            waitAfterAttackTime = GetNextWaitAfterAttackTime();
+
             anim.SetBool("isWalking", false);
 
             if (currentState == State.Unalerted)
             {
+                if (!playedSoundOnce)
+                {
+                    if (!characterSounds.IsPlaying(CharacterSounds.Sound.Idle))
+                    {
+                        characterSounds.PlaySound(CharacterSounds.Sound.Idle, 0, true, false);
+                        playedSoundOnce = true;
+                    }
+                }
+
                 currentWaitTime += Time.deltaTime;
 
                 if (currentWaitTime < waitAtWaypointTime)
@@ -122,9 +144,20 @@ public class EnemyAnkylo : Enemy
                 if (currentWaitTime < waitAfterAttackTime)
                     return;
 
-
-                currentWaitTime = 0f;
-                SetupNextBehaviour();
+                // if ankylo is at outer waypoint and the player is out of range, make him only range-attack the player 
+                if ((Vector2)transform.position == GetOuterWaypoint(false) && target.transform.position.x < GetOuterWaypoint(false).x 
+                    || (Vector2)transform.position == GetOuterWaypoint(true) && target.transform.position.x > GetOuterWaypoint(true).x )
+                {
+                    currentWaitTime = 0f;
+                    anim.SetBool("isAttackingRanged", true);
+                    chanceToShootExplodingTail = 100;
+                    return;
+                }
+                else
+                {
+                    currentWaitTime = 0f;
+                    SetupNextBehaviour();
+                }
             }
         }
         else
@@ -138,6 +171,7 @@ public class EnemyAnkylo : Enemy
     protected override void SetupNextBehaviour()
     {
         startPos = transform.position;
+        playedSoundOnce = false;
 
         if (currentState == State.Unalerted)
         {
@@ -145,6 +179,9 @@ public class EnemyAnkylo : Enemy
             nextPos = waypoints[targetWaypointIndex].position;
             anim.SetBool("isWalking", true);
             currentSpeed = standardSpeed;
+
+            if (!characterSounds.IsPlaying(CharacterSounds.Sound.Moving))
+                characterSounds.PlaySound(CharacterSounds.Sound.Moving, 0, false, true);
         }
         else if (currentState == State.Alerted)
         {
@@ -170,14 +207,27 @@ public class EnemyAnkylo : Enemy
             {
                 currentState = State.Unalerted;
                 alertedOnce = false;
+                target.CanHide = true;
             }
             // if player is in melee range charge towards player position + offset
             else if (Mathf.Abs(distance.x) < meleeAttackRange.x && Mathf.Abs(distance.y) < meleeAttackRange.y)
             {
                 if (target.transform.position.x < transform.position.x)
+                {
                     nextPos = new Vector2(target.transform.position.x - meleeAttackPositionOffset, transform.position.y);
+
+                    if (nextPos.x < GetOuterWaypoint(false).x)
+                        nextPos = GetOuterWaypoint(false);
+                }
                 else
+                {
                     nextPos = new Vector2(target.transform.position.x + meleeAttackPositionOffset, transform.position.y);
+
+                    if (nextPos.x > GetOuterWaypoint(true).x)
+                    {
+                        nextPos = GetOuterWaypoint(true);
+                    }
+                }
 
                 currentSpeed = attackSpeed;
                 anim.SetBool("isAttacking", true);
@@ -196,6 +246,32 @@ public class EnemyAnkylo : Enemy
         }
     }
 
+    private Vector2 GetOuterWaypoint(bool right)
+    {
+        Vector2 furthest = waypoints[0].position;
+
+        if (right)
+        {
+            for (int i = 1; i < waypoints.Length; i++)
+            {
+                if (waypoints[i].position.x > furthest.x)
+                    furthest = waypoints[i].position;
+            }
+        }
+        else
+        {
+            for (int i = 1; i < waypoints.Length; i++)
+            {
+                if (waypoints[i].position.x < furthest.x)
+                    furthest = waypoints[i].position;
+            }
+        }
+
+        print("outer waypoint: " + furthest);
+
+        return furthest;
+    }
+
     public void ShootTail()
     {
         GameObject tail;
@@ -203,10 +279,10 @@ public class EnemyAnkylo : Enemy
 
         // shoot exploding tail
         if (chance < chanceToShootExplodingTail)
-            tail = ObjectPoolsController.instance.GetFromPool("ankyloExplodingTailPool");
+            tail = ObjectPoolsController.instance.GetFromPool(explodingTailPool);
         // shoot normal tail
         else
-            tail = ObjectPoolsController.instance.GetFromPool("ankyloTailPool");
+            tail = ObjectPoolsController.instance.GetFromPool(normalTailPool);
 
         tail.transform.position = projectilePos.transform.position;
         int offsetX = UnityEngine.Random.Range(0, 8);
@@ -217,6 +293,23 @@ public class EnemyAnkylo : Enemy
         int offsetY = UnityEngine.Random.Range(5, 15);
         Vector2 direction = new Vector2(target.transform.position.x - transform.position.x + offsetX, target.transform.position.y - transform.position.y + offsetY);
         tail.SetActive(true);
-        tail.GetComponent<Projectile>().ShootProjectile(direction.normalized);
+        tail.GetComponent<Projectile>().ShootProjectile(direction.normalized, false);
+    }
+
+    protected override void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+        if (waypoints != null)
+        {
+            for (int i = 0; i < waypoints.Length; i++)
+            {
+                Gizmos.DrawSphere(waypoints[i].position, 1f);
+            }
+        }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(nextPos, 1f);
+        Gizmos.DrawLine(transform.position, nextPos);
     }
 }

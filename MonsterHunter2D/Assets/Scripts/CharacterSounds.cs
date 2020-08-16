@@ -7,7 +7,7 @@ public class CharacterSounds : MonoBehaviour
 {
     private AudioSource audioSource;
 
-    public enum Sound { Trigger, Idle, Alerted, Moving, Jump, Land, MeleeAttacking, RangedAttacking, Shoot, Hit, Dead, Sliding, Walking, Running }
+    public enum Sound { Trigger, Idle, Alerted, Moving, Jump, Land, MeleeAttacking, RangedAttacking, Shoot, Hit, Dead, Sliding, Walking, Sprinting, Stealth, Collision }
 
     [System.Serializable]
     public class SoundAudioClip
@@ -51,18 +51,7 @@ public class CharacterSounds : MonoBehaviour
         return null;
     }
 
-    public void StopAll()
-    {
-        if (audioSource != null)
-            audioSource.Stop();
-    }
-
-    public void SetNull()
-    {
-        audioSource.clip = null;
-    }
-
-    public void Stop(Sound sound)
+    public void StopSound(Sound sound)
     {
         if (audioSource != null && IsPlaying(sound))
             audioSource.Stop();
