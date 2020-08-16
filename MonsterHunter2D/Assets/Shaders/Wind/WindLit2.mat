@@ -38,8 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_4552DAEC: 0.3
-    - Vector1_64B91D2C: 2
-    - Vector1_D6FB527: 6
+    - Vector1_64B91D2C: 1
+    - Vector1_D6FB527: 2
     - _EnableExternalAlpha: 0
     - _WindSpeed: 1
     m_Colors:

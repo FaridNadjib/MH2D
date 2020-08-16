@@ -32,6 +32,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image characterIcon2;
     [SerializeField] TextMeshProUGUI dialogText;
 
+    [Header("Escape Menu related:")]
+    [SerializeField] GameObject retryButton;
+    [SerializeField] GameObject backButton;
+    [SerializeField] GameObject saveExitButton;
+
     float timer;
     bool showPopUpMessage = false;
 
@@ -43,6 +48,12 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -55,10 +66,13 @@ public class UIManager : MonoBehaviour
         munitionAmount2.text = playerStats.MaxSpears.ToString();
         numberOfLives.text = playerStats.CurrentNumberOfHearts.ToString();
         crystals.text = $"{playerStats.CurrentCrystals.ToString()} x";
+        
 
-
-        characterResources.OnHpChanged += (float fillAmount) => {healthBarFill.fillAmount = fillAmount;};
-        characterResources.OnStaminaChanged += (float fillAmount) => { staminaBarFill.fillAmount = fillAmount; };
+        if(characterResources != null)
+        {
+            characterResources.OnHpChanged += (float fillAmount) => { healthBarFill.fillAmount = fillAmount; };
+            characterResources.OnStaminaChanged += (float fillAmount) => { staminaBarFill.fillAmount = fillAmount; };
+        }
 
         PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => {
             if (activeHand == ActiveWeaponHand.Left)
@@ -88,6 +102,11 @@ public class UIManager : MonoBehaviour
             staminaBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxStamina * 5, staminaBarFill.rectTransform.rect.height);
 
         };
+    }
+
+    public void UpdateUI()
+    {
+
     }
 
     // Update is called once per frame
@@ -148,4 +167,15 @@ public class UIManager : MonoBehaviour
         dialogPanel.SetActive(status);
     }
 
+
+    public void ShowRetryMenu()
+    {
+        retryButton.SetActive(!retryButton.activeSelf);
+        backButton.SetActive(!backButton.activeSelf);
+    }
+
+    public void ShowHubMenu()
+    {
+        saveExitButton.SetActive(!saveExitButton.activeSelf);
+    }
 }

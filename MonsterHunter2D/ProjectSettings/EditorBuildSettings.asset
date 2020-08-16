@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Joachim/DemoCave.unity
     guid: 3b8479cb150e1654ca36d8291c300947
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: a789c41e6d8f79947a26d663932a5286
+  - enabled: 1
+    path: Assets/Scenes/HubLevel.unity
+    guid: 534a1e9e21da6c749a941a98db8cf512
+  - enabled: 1
+    path: Assets/Scenes/Farid/FaridSampleScene.unity
+    guid: 0c20edeb6bcf0c04db4f184f500a3c8c
   m_configObjects: {}
