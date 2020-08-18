@@ -8565,6 +8565,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1037213345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1037213346}
+  m_Layer: 0
+  m_Name: DinoWaypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1037213346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037213345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -191.9, y: 23.4, z: -17.010427}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 55
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1043525525
 GameObject:
   m_ObjectHideFlags: 0
@@ -14224,6 +14254,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5010670200734658776, guid: 636b517d0eeab7d44b8235288aabd6b4,
         type: 3}
+      propertyPath: waypoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5010670200734658776, guid: 636b517d0eeab7d44b8235288aabd6b4,
+        type: 3}
       propertyPath: possibleMovements.Array.data[1]
       value: 1
       objectReference: {fileID: 0}
@@ -14232,6 +14267,21 @@ PrefabInstance:
       propertyPath: waitAtWaypointTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5010670200734658776, guid: 636b517d0eeab7d44b8235288aabd6b4,
+        type: 3}
+      propertyPath: moveBetweenWaypoints
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5010670200734658776, guid: 636b517d0eeab7d44b8235288aabd6b4,
+        type: 3}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1037213346}
+    - target: {fileID: 5010670200734658776, guid: 636b517d0eeab7d44b8235288aabd6b4,
+        type: 3}
+      propertyPath: waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 2033308002}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 636b517d0eeab7d44b8235288aabd6b4, type: 3}
 --- !u!1 &1809119297
@@ -16317,6 +16367,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2033308001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033308002}
+  m_Layer: 0
+  m_Name: DinoWaypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2033308002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033308001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -158.3, y: 26.7, z: -17.010427}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 56
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2036351403
 GameObject:
   m_ObjectHideFlags: 0
@@ -17097,11 +17177,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WaterBackground
-      objectReference: {fileID: 0}
-    - target: {fileID: 7518678527021850892, guid: 24ed7a431ccf338448a68f659b940e70,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7518678527021850893, guid: 24ed7a431ccf338448a68f659b940e70,
         type: 3}

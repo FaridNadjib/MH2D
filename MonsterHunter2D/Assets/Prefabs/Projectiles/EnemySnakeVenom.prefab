@@ -144,7 +144,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -233,7 +233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   projectileSpeed: 25
-  damage: 20
+  normalDamage: 0
+  stealthDamage: 0
   projectileLifeTime: 5
   disappearTime: 3
   bombExplosion: {fileID: 0}
