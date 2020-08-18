@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image staminaBarFill;
     [SerializeField] RectTransform sBBG;
     [SerializeField] RectTransform sBHL;
+    [SerializeField] Image invisibleBar;
     [SerializeField] Image weapon1Icon;
     [SerializeField] Image weapon2Icon;
     [SerializeField] Image selectionMarkerWeapon1;
@@ -37,15 +38,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject backButton;
     [SerializeField] GameObject saveExitButton;
 
+    AudioSource source;
+
     float timer;
     bool showPopUpMessage = false;
 
     public static UIManager instance;
 
+    PlayerController player;
+
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
+            Debug.Log("Instance is null");
             instance = this;
         }
         else
@@ -64,15 +70,20 @@ public class UIManager : MonoBehaviour
         selectionMarkerWeapon1.color = Color.green;
         munitionAmount1.text = playerStats.MaxArrows.ToString();
         munitionAmount2.text = playerStats.MaxSpears.ToString();
-        numberOfLives.text = playerStats.CurrentNumberOfHearts.ToString();
+        numberOfLives.text = playerStats.NumberOfHearts.ToString();
         crystals.text = $"{playerStats.CurrentCrystals.ToString()} x";
-        
+        invisibleBar.fillAmount = 1f;
+        source = GetComponent<AudioSource>();
 
-        if(characterResources != null)
+
+        if (characterResources != null)
         {
             characterResources.OnHpChanged += (float fillAmount) => { healthBarFill.fillAmount = fillAmount; };
             characterResources.OnStaminaChanged += (float fillAmount) => { staminaBarFill.fillAmount = fillAmount; };
         }
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.OnInvisibleChanged += (float invisibleTime) => { invisibleBar.fillAmount = invisibleTime; };
 
         PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => {
             if (activeHand == ActiveWeaponHand.Left)
@@ -102,11 +113,50 @@ public class UIManager : MonoBehaviour
             staminaBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxStamina * 5, staminaBarFill.rectTransform.rect.height);
 
         };
+
+        //GetPlayer();
     }
 
     public void UpdateUI()
     {
+        selectionMarkerWeapon1.color = Color.green;
+        munitionAmount1.text = playerStats.MaxArrows.ToString();
+        munitionAmount2.text = playerStats.MaxSpears.ToString();
+        numberOfLives.text = playerStats.NumberOfHearts.ToString();
+        crystals.text = $"{playerStats.CurrentCrystals.ToString()} x";
 
+        hBBG.sizeDelta = new Vector2(playerStats.MaxHealth * 5, hBBG.rect.height);
+        hBHL.sizeDelta = new Vector2(playerStats.MaxHealth * 5, hBHL.rect.height);
+        healthBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxHealth * 5, healthBarFill.rectTransform.rect.height);
+        healthBarFill.fillAmount = 1f;
+
+        sBBG.sizeDelta = new Vector2(playerStats.MaxStamina * 5, sBBG.rect.height);
+        sBHL.sizeDelta = new Vector2(playerStats.MaxStamina * 5, sBHL.rect.height);
+        staminaBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxStamina * 5, staminaBarFill.rectTransform.rect.height);
+        staminaBarFill.fillAmount = 1f;
+
+
+
+        invisibleBar.fillAmount = 1f;
+
+        Debug.Log("all values form ui Updatet");
+
+    }
+
+    public void RetryLevel()
+    {
+        source.Play();
+        GameManager.instance.RetryLevel();
+    }
+    public void BackToHub()
+    {
+        source.Play();
+        GameManager.instance.BackToHub();
+    }
+    public void SaveAndExit()
+    {
+        source.Play();
+        GameManager.instance.SaveAndExit();
     }
 
     // Update is called once per frame
@@ -177,5 +227,54 @@ public class UIManager : MonoBehaviour
     public void ShowHubMenu()
     {
         saveExitButton.SetActive(!saveExitButton.activeSelf);
+    }
+
+    public void HideEscapeMenu()
+    {
+        retryButton.SetActive(false);
+        backButton.SetActive(false);
+        saveExitButton.SetActive(false);
+    }
+
+    public void GetPlayer()
+    {
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            characterResources = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterResources>();
+            characterResources.OnHpChanged += (float fillAmount) => { healthBarFill.fillAmount = fillAmount; };
+            characterResources.OnStaminaChanged += (float fillAmount) => { staminaBarFill.fillAmount = fillAmount; };
+
+            PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => {
+                if (activeHand == ActiveWeaponHand.Left)
+                {
+                    weapon1Icon.sprite = weaponIcon;
+                    selectionMarkerWeapon1.color = Color.green;
+                    selectionMarkerWeapon2.color = Color.yellow;
+                }
+                else
+                {
+                    weapon2Icon.sprite = weaponIcon;
+                    selectionMarkerWeapon2.color = Color.green;
+                    selectionMarkerWeapon1.color = Color.yellow;
+                }
+            };
+
+            playerStats.OnStatsChanged += () => {
+                crystals.text = $"{playerStats.CurrentCrystals.ToString()} x";
+                numberOfLives.text = playerStats.NumberOfHearts.ToString();
+
+                hBBG.sizeDelta = new Vector2(playerStats.MaxHealth * 5, hBBG.rect.height);
+                hBHL.sizeDelta = new Vector2(playerStats.MaxHealth * 5, hBHL.rect.height);
+                healthBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxHealth * 5, healthBarFill.rectTransform.rect.height);
+
+                sBBG.sizeDelta = new Vector2(playerStats.MaxStamina * 5, sBBG.rect.height);
+                sBHL.sizeDelta = new Vector2(playerStats.MaxStamina * 5, sBHL.rect.height);
+                staminaBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxStamina * 5, staminaBarFill.rectTransform.rect.height);
+
+            };
+
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            player.OnInvisibleChanged += (float invisibleTime) => { invisibleBar.fillAmount = invisibleTime;  };
+        }
     }
 }

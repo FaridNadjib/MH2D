@@ -61,6 +61,8 @@ public class PlayerWeaponChanger : MonoBehaviour
         alpha3Weapons.Enqueue(ActiveWeaponType.BombNormal);
         alpha3Weapons.Enqueue(ActiveWeaponType.BombSticky);
         alpha3Weapons.Enqueue(ActiveWeaponType.BombMega);
+
+
     }
 
 

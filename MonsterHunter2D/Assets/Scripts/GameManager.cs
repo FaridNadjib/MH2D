@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
+/// <summary>
+/// This class is our gamemanager, it handles the scene loading and the loading and saving in general.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     #region Singleton
@@ -18,6 +21,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);       
     }
     #endregion
+
+    #region Fields
     [Header("For saving our Data:")]
     [SerializeField] PlayerStats playerStats;
     [SerializeField] LevelStats levelStats;
@@ -30,20 +35,24 @@ public class GameManager : MonoBehaviour
     [Header("Leveltransitions:")]
     [SerializeField] Animator transitionAnim;
     [SerializeField] float transitionTime;
+    #endregion
+
+    #region Special PlayerPref Keys
+    // HasSaveData, int. 0 or Key not there means no save data.
+    // LevelXFinished, int 0 means not finished 1 means was finished. X is the number of our level(not the scene index)
+    #endregion
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // Try to grab the itemloader, since Gamemanager is Singleton, this will never get used i think. ToDo: delete the try catch.
+        // Try to grab the itemloader.
         try
         {
             itemLoader = GameObject.Find("LevelItemLoader").GetComponent<LevelItemHolder>();
         }
-        catch (System.Exception)
-        {
-            itemLoader = null;
-        }
+        catch (System.Exception) { itemLoader = null; }
+
 
         // Subscribe to this unity event. Everytime a scene is changed, it gets triggerd.
         SceneManager.activeSceneChanged += ChangedActiveScene;
@@ -57,25 +66,30 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.N))
+        // Delete all this.
+        if (Input.GetKeyDown(KeyCode.H))
             ResetGameStats();
+        if (Input.GetKeyDown(KeyCode.J))
+            ClearSavedData();
 
-
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.Y))
             LoadLevel(0);
-        if (Input.GetKeyDown(KeyCode.C))
-            LoadLevel(1);
         if (Input.GetKeyDown(KeyCode.X))
+            LoadLevel(1);
+        if (Input.GetKeyDown(KeyCode.C))
             LoadLevel(2);
+        if (Input.GetKeyDown(KeyCode.V))
+            LoadLevel(3);
+        if (Input.GetKeyDown(KeyCode.N))
+            LoadLevel(4);
+        if (Input.GetKeyDown(KeyCode.M))
+            LoadLevel(5);
 
-
-
+        if (Input.GetKeyDown(KeyCode.K))
+            SaveStats();
         if (Input.GetKeyDown(KeyCode.L))
             LoadStats();
-
-        if (Input.GetKeyDown(KeyCode.H))
-            SaveStats();
+        
 
         // Activate/deactivate the ingame menu.
         if (UIManager.instance != null && Input.GetKeyDown(KeyCode.Escape))
@@ -85,14 +99,21 @@ public class GameManager : MonoBehaviour
             if (SceneManager.GetActiveScene().buildIndex != 1 && SceneManager.GetActiveScene().buildIndex != 0)
                 UIManager.instance.ShowRetryMenu();
         }
-            
     }
+
+    void ClearSavedData()
+    {
+        PlayerPrefs.DeleteAll();
+        levelStats.ClearSavedData();
+    }
+
 
     /// <summary>
     /// Resets all progress and starts a new fresh game.
     /// </summary>
     public void StartNewGame()
     {
+        playerStats.DeleteSpawnPos();
         ResetGameStats();
         LoadLevel(1);
     }
@@ -102,32 +123,42 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ContinueGame()
     {
+        playerStats.DeleteSpawnPos();
         LoadStats();
         LoadLevel(1);
     }
 
+    /// <summary>
+    /// Saves the stats and reloads the current level.
+    /// </summary>
     public void RetryLevel()
     {
         if (itemLoader != null)
             itemLoader.SaveItemStatus();
-
-        LoadLevel(SceneManager.GetActiveScene().buildIndex);
-        
+        SaveStats();
+        LoadLevel(SceneManager.GetActiveScene().buildIndex);   
     }
 
+    /// <summary>
+    /// Lets the player go back from level to the hubscene.
+    /// </summary>
     public void BackToHub()
     {
         if (itemLoader != null)
             itemLoader.SaveItemStatus();
-
+        playerStats.DeleteSpawnPos();
+        SaveStats();
         LoadLevel(1);
     }
 
+    /// <summary>
+    /// Saves the stats and returns to mainmenu.
+    /// </summary>
     public void SaveAndExit()
     {
         if (itemLoader != null)
             itemLoader.SaveItemStatus();
-
+        SaveStats();
         LoadLevel(0);
     }
 
@@ -157,10 +188,25 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(levelIndex);
     }
 
-
+    /// <summary>
+    /// Saves all the relevant data to playerprefs.
+    /// </summary>
     public void SaveStats()
     {
-        PlayerPrefs.SetFloat("NumberOfHearts", playerStats.NumberOfHearts);
+        PlayerPrefs.SetInt("CurrentCrystals", playerStats.CurrentCrystals);
+        PlayerPrefs.SetInt("NumberOfHearts", playerStats.NumberOfHearts);
+        PlayerPrefs.SetInt("CurrentNumberOfHearts", playerStats.CurrentNumberOfHearts);
+        PlayerPrefs.SetFloat("MaxHealth", playerStats.MaxHealth);
+        PlayerPrefs.SetFloat("MaxStamina", playerStats.MaxStamina);
+        PlayerPrefs.SetFloat("MaxInvisibilityTime", playerStats.MaxInvisibilityTime);
+        PlayerPrefs.SetInt("MaxArrows", playerStats.MaxArrows);
+        PlayerPrefs.SetInt("MaxSpears", playerStats.MaxSpears);
+        PlayerPrefs.SetInt("MaxPlatformspears", playerStats.MaxPlatformspears);
+        PlayerPrefs.SetInt("MaxBombNormal", playerStats.MaxBombNormal);
+        PlayerPrefs.SetInt("MaxStickyBomb", playerStats.MaxStickyBomb);
+        PlayerPrefs.SetInt("MaxMegaBomb", playerStats.MaxMegaBomb);
+
+        PlayerPrefs.SetInt("HasSaveData", 1);
 
         int activeScene = SceneManager.GetActiveScene().buildIndex;
         if (itemLoader != null)
@@ -212,12 +258,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads all the relevant data from playerprefs.
+    /// </summary>
     public void LoadStats()
     {
-        if (PlayerPrefs.HasKey("NumberOfHearts"))
-        {
-            playerStats.NumberOfHearts = (int)PlayerPrefs.GetFloat("NumberOfHearts");
-        }
+        if (PlayerPrefs.HasKey("CurrentCrystals")) { playerStats.CurrentCrystals = PlayerPrefs.GetInt("CurrentCrystals"); }
+        if (PlayerPrefs.HasKey("NumberOfHearts")) { playerStats.NumberOfHearts = PlayerPrefs.GetInt("NumberOfHearts"); }
+        if (PlayerPrefs.HasKey("CurrentNumberOfHearts")) { playerStats.CurrentNumberOfHearts = PlayerPrefs.GetInt("CurrentNumberOfHearts"); }
+        if (PlayerPrefs.HasKey("MaxHealth")) { playerStats.MaxHealth = PlayerPrefs.GetFloat("MaxHealth"); }
+        if (PlayerPrefs.HasKey("MaxStamina")) { playerStats.MaxStamina = PlayerPrefs.GetFloat("MaxStamina"); }
+        if (PlayerPrefs.HasKey("MaxInvisibilityTime")) { playerStats.MaxInvisibilityTime = PlayerPrefs.GetFloat("MaxInvisibilityTime"); }
+        if (PlayerPrefs.HasKey("MaxArrows")) { playerStats.MaxArrows = PlayerPrefs.GetInt("MaxArrows"); }
+        if (PlayerPrefs.HasKey("MaxSpears")) { playerStats.MaxSpears = PlayerPrefs.GetInt("MaxSpears"); }
+        if (PlayerPrefs.HasKey("MaxPlatformspears")) { playerStats.MaxPlatformspears = PlayerPrefs.GetInt("MaxPlatformspears"); }
+        if (PlayerPrefs.HasKey("MaxBombNormal")) { playerStats.MaxBombNormal = PlayerPrefs.GetInt("MaxBombNormal"); }
+        if (PlayerPrefs.HasKey("MaxStickyBomb")) { playerStats.MaxStickyBomb = PlayerPrefs.GetInt("MaxStickyBomb"); }
+        if (PlayerPrefs.HasKey("MaxMegaBomb")) { playerStats.MaxMegaBomb = PlayerPrefs.GetInt("MaxMegaBomb"); }
 
         int activeScene = SceneManager.GetActiveScene().buildIndex;
 
@@ -277,39 +334,37 @@ public class GameManager : MonoBehaviour
         playerStats.ValuesChanged();
     }
 
+    /// <summary>
+    /// Resets the game data, first it clears all saved stuff.
+    /// </summary>
     public void ResetGameStats()
     {
         PlayerPrefs.DeleteAll();
         levelStats.ClearSavedData();
 
         playerStats.ResetPlayerStats();
-        PlayerPrefs.SetFloat("NumberOfHearts", playerStats.NumberOfHearts);
+        PlayerPrefs.SetInt("CurrentCrystals", playerStats.CurrentCrystals);
+        PlayerPrefs.SetInt("NumberOfHearts", playerStats.NumberOfHearts);
+        PlayerPrefs.SetInt("CurrentNumberOfHearts", playerStats.CurrentNumberOfHearts);
+        PlayerPrefs.SetFloat("MaxHealth", playerStats.MaxHealth);
+        PlayerPrefs.SetFloat("MaxStamina", playerStats.MaxStamina);
+        PlayerPrefs.SetFloat("MaxInvisibilityTime", playerStats.MaxInvisibilityTime);
+        PlayerPrefs.SetInt("MaxArrows", playerStats.MaxArrows);
+        PlayerPrefs.SetInt("MaxSpears", playerStats.MaxSpears);
+        PlayerPrefs.SetInt("MaxPlatformspears", playerStats.MaxPlatformspears);
+        PlayerPrefs.SetInt("MaxBombNormal", playerStats.MaxBombNormal);
+        PlayerPrefs.SetInt("MaxStickyBomb", playerStats.MaxStickyBomb);
+        PlayerPrefs.SetInt("MaxMegaBomb", playerStats.MaxMegaBomb);
+
+        PlayerPrefs.SetInt("HasSaveData", 0);
+        PlayerPrefs.SetInt("Level1Finished", 0);
+        PlayerPrefs.SetInt("Level2Finished", 0);
+        PlayerPrefs.SetInt("Level3Finished", 0);
+        PlayerPrefs.SetInt("Level4Finished", 0);
+        PlayerPrefs.SetInt("Level5Finished", 0);
 
         if (itemLoader != null)
         {
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    if(i == 0)
-            //    {
-            //        for (int j = 0; j < itemLoader.ItemsToSave.pickUpItems.Length; j++)
-            //        {
-
-            //            if (levelStats.pickUpItemInfos.ContainsKey($"_{SceneManager.GetActiveScene().buildIndex}{i}{j}"))
-            //            {
-            //                PlayerPrefs.SetInt($"_{SceneManager.GetActiveScene().buildIndex}{i}{j}", Convert.ToInt32(levelStats.pickUpItemInfos[$"_{SceneManager.GetActiveScene().buildIndex}{i}{j}"]));
-            //                levelStats.pickUpItemInfos[$"_{SceneManager.GetActiveScene().buildIndex}{i}{j}"] = true;
-            //                Debug.Log("Key renewed");
-            //            }
-            //            else
-            //            {
-            //                levelStats.pickUpItemInfos.Add($"_{SceneManager.GetActiveScene().buildIndex}{i}{j}", true);
-                            
-            //                PlayerPrefs.SetInt($"_{SceneManager.GetActiveScene().buildIndex}{i}{j}", 1);
-            //                Debug.Log("Playerpref here: " + PlayerPrefs.GetInt($"_{SceneManager.GetActiveScene().buildIndex}{i}{j}"));
-            //            }
-            //        }
-            //    }
-            //}
             itemLoader.LoadItemStatus();
             PlayerPrefs.Save();
         }
@@ -329,21 +384,24 @@ public class GameManager : MonoBehaviour
         // Deactivate the UI Manager in the MainmenuScene.
         if (SceneManager.GetActiveScene().buildIndex == 0 && UIManager.instance != null)
             UIManager.instance.gameObject.SetActive(false);
-        else if(UIManager.instance != null)
+        else if (UIManager.instance != null)
+        {
+            UIManager.instance.GetPlayer();
+            UIManager.instance.UpdateUI();
+            UIManager.instance.HideEscapeMenu();
             UIManager.instance.gameObject.SetActive(true);
+        }
 
         // Get the new LevelItemLoader of the new Scene.
         if (next.buildIndex == SceneManager.GetActiveScene().buildIndex)
         {
-            try { itemLoader = GameObject.Find("LevelItemLoader").GetComponent<LevelItemHolder>(); }
+            try { itemLoader = GameObject.Find("LevelItemLoader").GetComponent<LevelItemHolder>();
+                if (itemLoader != null)
+                    LoadStats();
+            }
             catch (System.Exception) { itemLoader = null; }
         }
     }
-
-    
-
-
-        
 
     /// <summary>
     /// Quits the game.

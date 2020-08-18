@@ -90,6 +90,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool insideBush = false;
     public bool InsideBush { get => insideBush; set => insideBush = value; }
     private bool stealthSoundHasPlayed = false;
+    // Event to update invisible fill amount.
+    public delegate void InvisibleChanged(float invisibleFillAmount);
+    public event InvisibleChanged OnInvisibleChanged;
 
 
     [Header("Damage taken related:")]
@@ -135,6 +138,9 @@ public class PlayerController : MonoBehaviour
         characterSounds = GetComponent<CharacterSounds>();
         ragdoll = GetComponent<RagdollController>();
 
+        characterResources.SetHealth(playerStats.MaxHealth);
+        characterResources.SetStamina(playerStats.MaxStamina);
+
         // Restock the palyers ammo.
         currentMunition.Add(ActiveWeaponType.ArrowNormal, playerStats.MaxArrows);
         currentMunition.Add(ActiveWeaponType.SpearNormal, playerStats.MaxSpears);
@@ -142,6 +148,9 @@ public class PlayerController : MonoBehaviour
         currentMunition.Add(ActiveWeaponType.BombNormal, playerStats.MaxBombNormal);
         currentMunition.Add(ActiveWeaponType.BombSticky, playerStats.MaxStickyBomb);
         currentMunition.Add(ActiveWeaponType.BombMega, playerStats.MaxMegaBomb);
+
+        // Get some defalut values from playerstats.
+        invisibileTime = playerStats.MaxInvisibilityTime;
 
         // Subscribe to event which gets triggered when equipped weapon is changed.
         PlayerWeaponChanger.instance.OnWeaponChanged += (ActiveWeaponType activeWeapon, ActiveWeaponHand activeHand, Sprite weaponIcon) => { this.activeWeapon = activeWeapon;
@@ -179,8 +188,27 @@ public class PlayerController : MonoBehaviour
             ragdoll.EnableRagdoll();
             IsAlive = false;
             characterSounds.PlaySound(CharacterSounds.Sound.Dead, 0, true, false);
+            playerStats.CurrentCrystals = 0;
+            // Todo check if no more lifes left.
+            playerStats.NumberOfHearts--;
+
+            if (playerStats.NumberOfHearts > 0)
+                UIManager.instance.ShowRetryMenu();
+            else if(playerStats.NumberOfHearts<1)
+            { 
+                //show game end screen
+            }
+
+            playerStats.ValuesChanged();
             // ToDo: show message on screen to press l to reload last save or esc to open menu.
         };
+
+
+        // Set the player pos based on last checkpoint.
+        if(playerStats.SpawnPosX != 666)
+        {
+            transform.position = new Vector3(playerStats.SpawnPosX, playerStats.SpawnPosY, 0);
+        }
     }
 
     // Update is called once per frame
@@ -351,6 +379,8 @@ public class PlayerController : MonoBehaviour
         {
             invisibleCounter += Time.deltaTime;
 
+            OnInvisibleChanged?.Invoke(invisibleCounter/invisibileTime);
+
             if (invisibleCounter < invisibileTime)
                 return;
 
@@ -369,6 +399,7 @@ public class PlayerController : MonoBehaviour
             ChangeAlpha(invisible);
             invisibleCounter = 0f;
             stealthSoundHasPlayed = false;
+            OnInvisibleChanged?.Invoke(1f);
         }
     }
 
@@ -630,21 +661,46 @@ public class PlayerController : MonoBehaviour
             line.SetPosition(i, new Vector3(PointPosition(i * spaceBetweenPoints).x, PointPosition(i * spaceBetweenPoints).y, 0));
     }
 
-    public void RespawnPlayer(Vector2 position)
+    //public void RespawnPlayer(Vector2 position)
+    //{
+    //    // Set the playerstats to default values.
+    //    characterResources.RestoreValues();
+
+    //    // Disable the ragdoll system and give the control back to the player.
+    //    ragdoll.DisableRagdoll();
+    //    blockInput = false;
+    //    anim.enabled = true;
+    //    gameObject.GetComponent<Collider2D>().enabled = true;
+    //    rb.isKinematic = false;
+    //    IsAlive = true;
+
+    //    // Set the position of the player.
+    //    transform.position = position;
+    //}
+
+    public void SetSpawnPosition(float xPos, float yPos)
     {
-        // Set the playerstats to default values.
-        characterResources.RestoreValues();
+        playerStats.SpawnPosX = xPos;
+        playerStats.SpawnPosY = yPos;
+    }
 
-        // Disable the ragdoll system and give the control back to the player.
-        ragdoll.DisableRagdoll();
-        blockInput = false;
-        anim.enabled = true;
-        gameObject.GetComponent<Collider2D>().enabled = true;
-        rb.isKinematic = false;
-        IsAlive = true;
+    public void RefeillAllValues()
+    {
+        // Restock the palyers ammo.
+        currentMunition[ActiveWeaponType.ArrowNormal] = playerStats.MaxArrows;
+        currentMunition[ActiveWeaponType.SpearNormal] = playerStats.MaxSpears;
+        currentMunition[ActiveWeaponType.SpearPlatform] = playerStats.MaxPlatformspears;
+        currentMunition[ActiveWeaponType.BombNormal] = playerStats.MaxBombNormal;
+        currentMunition[ActiveWeaponType.BombSticky] = playerStats.MaxStickyBomb;
+        currentMunition[ActiveWeaponType.BombMega] = playerStats.MaxMegaBomb;
 
-        // Set the position of the player.
-        transform.position = position;
+        UIManager.instance.AmmoChanged("", ActiveWeaponHand.Right1);
+        UIManager.instance.AmmoChanged(currentMunition[ActiveWeaponType.ArrowNormal].ToString(), ActiveWeaponHand.Left);
+
+        // ToDo: Dont refresh players health.
+        // Restock other Values. 
+        //characterResources.SetHealth(playerStats.MaxHealth);
+        characterResources.SetStamina(playerStats.MaxStamina);
     }
 
     public void BlockInput(bool block)

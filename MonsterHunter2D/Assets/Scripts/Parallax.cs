@@ -6,6 +6,7 @@ public class Parallax : MonoBehaviour
 {
     [SerializeField] Vector2 parallaxEffectMultilpier;
     private float textureUnitSizeX;
+    private float textureUnitSizeY;
 
 
 
@@ -39,6 +40,7 @@ public class Parallax : MonoBehaviour
         Sprite sprite = GetComponent<SpriteRenderer>().sprite;
         Texture2D texture = sprite.texture;
         textureUnitSizeX = texture.width / sprite.pixelsPerUnit;
+        textureUnitSizeY = texture.height / sprite.pixelsPerUnit;
     }
 
     // Update is called once per frame
@@ -75,5 +77,11 @@ public class Parallax : MonoBehaviour
             float offsetPositionX = (cam.transform.position.x - transform.position.x) % textureUnitSizeX;
             transform.position = new Vector3(cam.transform.position.x + offsetPositionX, transform.position.y);
         }
+
+        //if (Mathf.Abs(cam.transform.position.y - transform.position.y) >= textureUnitSizeY)
+        //{
+        //    float offsetPositionY = (cam.transform.position.y - transform.position.y) % textureUnitSizeY;
+        //    transform.position = new Vector3(transform.position.x, cam.transform.position.y + offsetPositionY);
+        //}
     }
 }

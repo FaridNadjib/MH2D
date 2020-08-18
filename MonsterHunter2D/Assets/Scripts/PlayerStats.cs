@@ -16,7 +16,7 @@ public class PlayerStats : ScriptableObject
     [SerializeField] int defStickyBomb;
     [SerializeField] int defMegaBomb;
 
-    public int CurrentCrystals { get; set; }
+    public int CurrentCrystals { get ; set ; }
     public int NumberOfHearts { get; set; }
     public int CurrentNumberOfHearts { get; set; }
     public float MaxHealth { get; set; }
@@ -29,9 +29,13 @@ public class PlayerStats : ScriptableObject
     public int MaxStickyBomb { get; set; }
     public int MaxMegaBomb { get; set; }
 
+    public float SpawnPosX { get; set; } = 666;
+    public float SpawnPosY { get; set; } = 666;
+
     // Two properties to update to the correct munition type.
     public ActiveWeaponType WeaponType { get; set; }
     public int Amount { get; set; }
+    
 
     public event StatsChanged OnStatsChanged;
     public delegate void StatsChanged();
@@ -70,5 +74,10 @@ public class PlayerStats : ScriptableObject
     public void ValuesChanged()
     {
         OnStatsChanged?.Invoke();
+    }
+
+    public void DeleteSpawnPos()
+    {
+        SpawnPosX = 666;
     }
 }
