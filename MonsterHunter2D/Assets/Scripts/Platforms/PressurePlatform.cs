@@ -13,6 +13,8 @@ public class PressurePlatform : MovingPlatform
     [SerializeField] protected float objectSpeed;
     [SerializeField] protected CinemachineVirtualCamera objectCam;
 
+    [SerializeField] private GameObject objectToHide;
+
     private PlayerController player;
 
     protected bool pushed = false;
@@ -43,6 +45,8 @@ public class PressurePlatform : MovingPlatform
 
         cameraEventTime -= Time.deltaTime;
 
+        print("cameraEventTime: " + cameraEventTime);
+
         if (cameraEventTime > 0)
             return;
 
@@ -69,17 +73,27 @@ public class PressurePlatform : MovingPlatform
 
     protected override void OnCollisionEnter2D(Collision2D other) 
     {
-        if (other.gameObject.tag == "Player" && other.enabled)
+        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled)
         {                
             pushed = true;
             pushedOnce = true;
-            other.gameObject.transform.SetParent(this.gameObject.transform);
+
+            if (objectToHide != null)
+                objectToHide.SetActive(false);
+
+            if (setAsChild)
+                other.gameObject.transform.SetParent(this.gameObject.transform);
+
             player = other.gameObject.GetComponent<PlayerController>();
 
             if (!cameraEventTriggered && objectCam != null)
             {
-                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                player.blockInput = true;
+                if (hold || setAsChild)
+                {
+                    player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                    player.blockInput = true;
+                }
+
                 cameraEventTriggered = true;
                 cameraEventActive = true;
                 objectCam.enabled = true;
@@ -92,7 +106,9 @@ public class PressurePlatform : MovingPlatform
         if (other.gameObject.tag == "Player" && other.enabled)
         {
             pushed = false;
-            other.gameObject.transform.SetParent(null);
+
+            if (setAsChild)
+                other.gameObject.transform.SetParent(null);
         }
     }
 }

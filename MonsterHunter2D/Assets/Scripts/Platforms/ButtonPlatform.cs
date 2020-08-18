@@ -10,6 +10,7 @@ public class ButtonPlatform : PressurePlatform
         if ((pushed || pushedOnce) && transform.position == endPos.position && objectToMove.transform.position != objectEndPos.position)
         {
             MoveObject();
+            CameraEvent();
         }
 
         if (hold)

@@ -123,7 +123,7 @@ PlatformEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RotationalOffset: 180
+  m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
   m_SurfaceArc: 90
@@ -144,10 +144,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endPos: {fileID: 2613207546157884193}
   startPos: {fileID: 2613207544597051970}
-  stayAtEndTime: 0
-  stayAtStartTime: 0
-  speedToEnd: 0
-  speedToStart: 0
+  stayAtEndTime: 2
+  stayAtStartTime: 2
+  speedToEnd: 1
+  speedToStart: 1
   hold: 0
 --- !u!1 &2613207544597051971
 GameObject:
@@ -202,7 +202,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2613207545069232321}
-  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
   m_LocalPosition: {x: -7.590393, y: -0.80789566, z: 31.113281}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

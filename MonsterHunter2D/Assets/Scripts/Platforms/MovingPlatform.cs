@@ -15,6 +15,8 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float speedToStart;
     [Tooltip("Should the button be pushed once or held down to activate?")]
     [SerializeField] protected bool hold = false;
+    [Tooltip("Should the player become a child on collision?")]
+    [SerializeField] protected bool setAsChild = false;
 
     private float currentTime = 0;
     private bool extending = true;
@@ -68,7 +70,8 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && other.enabled)
         {
-            other.gameObject.transform.SetParent(this.gameObject.transform);
+            if (setAsChild)
+                other.gameObject.transform.SetParent(this.gameObject.transform);
         }
     }
 
@@ -76,7 +79,8 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && other.enabled)
         {
-            other.gameObject.transform.SetParent(null);
+            if (setAsChild)
+                other.gameObject.transform.SetParent(null);
         }
     }
 
