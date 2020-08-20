@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Cinemachine;
 
-public class PressurePlatform : MovingPlatform
+public class PressureOneTapPlatform : MovingPlatform
 {
     [Header("Moving Object")]
     [SerializeField] protected GameObject objectToMove;
@@ -14,7 +14,7 @@ public class PressurePlatform : MovingPlatform
 
     private PlayerController player;
 
-    public bool pushed = false;
+    protected bool pushed = false;
     protected bool pushedOnce = false;
     private bool cameraEventTriggered = false;
     protected bool cameraEventActive = false;
@@ -22,13 +22,21 @@ public class PressurePlatform : MovingPlatform
 
     protected override void Update()
     {
-        if (pushed && transform.position.y == endPos.position.y || !pushed && transform.position.y == startPos.position.y)
+        CameraEvent();
+
+        if (!hold)
         {
-            if (audioSource != null)
-                audioSource.Stop();
-            print("endPos reached");
-            return;
+            if (pushed && transform.position == endPos.position || !pushed && transform.position == startPos.position)
+                return;
         }
+        else
+        {
+            if (pushed && transform.position == endPos.position || !pushed && transform.position == startPos.position)
+            {
+                pushed = false;
+            }
+        }
+
 
         if (pushed)
             Extend();
@@ -37,7 +45,6 @@ public class PressurePlatform : MovingPlatform
 
         MoveObject();
 
-        CameraEvent();
     }
 
     protected void CameraEvent()
@@ -64,19 +71,31 @@ public class PressurePlatform : MovingPlatform
 
     protected virtual void MoveObject()
     {
-        objectToMove.transform.position = Vector2.Lerp(objectStartPos.position, objectEndPos.position, GetCurrentPushedValue());
+        Vector2 objectPos = Vector2.zero;
+
+        try
+        {
+            objectPos = Vector2.Lerp(objectStartPos.position, objectEndPos.position, GetCurrentPushedValue());
+        }
+        catch
+        {
+            return;
+        }
+
+        objectToMove.transform.position = objectPos;
+
     }
 
     private float GetCurrentPushedValue()
     {
-        float pushedValue = transform.localPosition.y / endPos.localPosition.y;
+        float pushedValue = this.transform.localPosition.x / endPos.localPosition.x;
         return pushedValue;
     }
 
-    protected override void OnCollisionEnter2D(Collision2D other) 
+    protected override void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled)
-        {                
+        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled || other.gameObject.GetComponent<Projectile>().Type == ActiveWeaponType.BombNormal)
+        {
             pushed = true;
             pushedOnce = true;
 
@@ -90,7 +109,7 @@ public class PressurePlatform : MovingPlatform
 
             if (!cameraEventTriggered && objectCam != null)
             {
-                if (hold || setAsChild)
+                if ((hold || setAsChild) && player != null)
                 {
                     player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                     player.blockInput = true;
@@ -103,7 +122,7 @@ public class PressurePlatform : MovingPlatform
         }
     }
 
-    protected override void OnCollisionExit2D(Collision2D other) 
+    protected override void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.tag == "Player" && other.enabled)
         {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class MovingPlatform : MonoBehaviour
 {
     [Header("Button/Platform")]
@@ -21,6 +17,8 @@ public class MovingPlatform : MonoBehaviour
     private float currentTime = 0;
     private bool extending = true;
 
+    [SerializeField] protected AudioSource audioSource;
+
     // Update is called once per frame
     protected virtual void Update()
     {
@@ -32,6 +30,9 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void Reset()
     {
+        if (audioSource != null && !audioSource.isPlaying)
+            audioSource.Play();
+
         currentTime += Time.deltaTime;
 
         if (currentTime < stayAtEndTime)
@@ -43,6 +44,9 @@ public class MovingPlatform : MonoBehaviour
 
         if (transform.position == startPos.position)
         {
+            if (audioSource != null)
+                audioSource.Stop();
+
             currentTime = 0;
             extending = true;
         }
@@ -50,6 +54,9 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void Extend()
     {
+        if (audioSource != null && !audioSource.isPlaying)
+            audioSource.Play();
+
         currentTime += Time.deltaTime;
 
         if (currentTime < stayAtStartTime)
@@ -61,6 +68,9 @@ public class MovingPlatform : MonoBehaviour
 
         if (transform.position == endPos.position)
         {
+            if (audioSource != null)
+                audioSource.Stop();
+
             currentTime = 0;
             extending = false;
         }
@@ -68,7 +78,7 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player" && other.enabled)
+        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled)
         {
             if (setAsChild)
                 other.gameObject.transform.SetParent(this.gameObject.transform);
@@ -77,7 +87,7 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player" && other.enabled)
+        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled)
         {
             if (setAsChild)
                 other.gameObject.transform.SetParent(null);

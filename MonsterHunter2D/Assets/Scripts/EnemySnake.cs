@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySnake : Enemy
@@ -77,6 +75,7 @@ public class EnemySnake : Enemy
             currentWaitTime = 0f;
             anim.SetTrigger("isAttacking");
             nextAttackType = AttackType.Melee;
+            characterSounds.PlaySound(CharacterSounds.Sound.Shoot, 0, false, false);
         }
         else if (currentWaitTime >= rangedAttackInterval && (distance > meleeAttackRange && distance < rangedAttackRange))
         {
