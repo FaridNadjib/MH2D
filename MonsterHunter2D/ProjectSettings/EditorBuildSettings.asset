@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level04.unity
     guid: 7eff0e2af7704e643b66129076d1a9fe
+  - enabled: 1
+    path: Assets/Scenes/Joachim/Temple.unity
+    guid: 43007ab3c12cc9e4aafb2aabebe7a5be
+  - enabled: 1
+    path: Assets/Scenes/Joachim/TempleInner1.unity
+    guid: 45312d1f1166a284f9e0aede6cd7bd0c
   m_configObjects: {}

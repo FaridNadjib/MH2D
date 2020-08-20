@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
 {
     [Header("The projectiles type and its speed:")]
     [SerializeField] ActiveWeaponType type;
+    public ActiveWeaponType Type { get => type; }
     [SerializeField] public float projectileSpeed;
     float currentDamage;
     [SerializeField] protected float normalDamage;
@@ -65,7 +66,7 @@ public class Projectile : MonoBehaviour
         lifeTimeCounter = 0;
 
         // Platformspear related.
-        if(type == ActiveWeaponType.SpearPlatform)
+        if(Type == ActiveWeaponType.SpearPlatform)
         {
             platformEffector = GetComponent<PlatformEffector2D>();
             platformEffectorBoxCol = GetComponent<BoxCollider2D>();
@@ -104,7 +105,7 @@ public class Projectile : MonoBehaviour
 
         rb.isKinematic = false;
 
-        if (type == ActiveWeaponType.SpearPlatform)
+        if (Type == ActiveWeaponType.SpearPlatform)
         {
             platformEffector.enabled = false;
             platformEffectorBoxCol.enabled = false;
@@ -115,7 +116,7 @@ public class Projectile : MonoBehaviour
             gameObject.GetComponent<Collider2D>().enabled = true;
         }
 
-        if (type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
+        if (Type == ActiveWeaponType.BombMega || Type == ActiveWeaponType.BombSticky)
         {
             if (bombExplosion != null)
                 bombExplosion.SetActive(false);
@@ -162,7 +163,7 @@ public class Projectile : MonoBehaviour
             image.color = Color.Lerp(startColor, endColor, disappearTimeCounter / disappearTime);
             lifeTimeCounter += Time.deltaTime;
 
-            if(type == ActiveWeaponType.BombMega || type == ActiveWeaponType.BombSticky)
+            if(Type == ActiveWeaponType.BombMega || Type == ActiveWeaponType.BombSticky)
             {
                 if(bombExplosion != null)
                 {
@@ -177,7 +178,7 @@ public class Projectile : MonoBehaviour
 
     protected virtual void AddToPool()
     {
-        ObjectPoolsController.instance.AddToPool(gameObject, type.ToString());
+        ObjectPoolsController.instance.AddToPool(gameObject, Type.ToString());
     }
 
     /// <summary>
@@ -235,7 +236,7 @@ public class Projectile : MonoBehaviour
                 //transform.SetParent(collision.gameObject.transform);
                 joint.enabled = true;
 
-                if (type == ActiveWeaponType.SpearPlatform)
+                if (Type == ActiveWeaponType.SpearPlatform)
                 {
                     rb.isKinematic = true;
                     rb.velocity = Vector2.zero;
@@ -264,7 +265,7 @@ public class Projectile : MonoBehaviour
     protected virtual void SetAsChildOfCharacter(Collision2D collision)
     {
 
-        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null || !onlyOnce && type == ActiveWeaponType.BombSticky)
+        if (!onlyOnce && collision.gameObject.GetComponent<Enemy>() != null || !onlyOnce && Type == ActiveWeaponType.BombSticky)
         {
             transform.SetParent(collision.gameObject.transform);
             rb.isKinematic = true;
@@ -278,7 +279,7 @@ public class Projectile : MonoBehaviour
                 gameObject.GetComponent<Collider2D>().enabled = false;
             }
 
-            if(type == ActiveWeaponType.BombSticky)
+            if(Type == ActiveWeaponType.BombSticky)
             {
                 //rb.freezeRotation = true;
                 rb.angularVelocity = 0f;
