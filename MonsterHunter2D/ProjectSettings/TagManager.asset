@@ -38,11 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: CaveBackgrounds
-    uniqueID: 1952001921
+  - name: BGUnlit
+    uniqueID: 1165429565
     locked: 0
   - name: ParalaxBG
     uniqueID: 2108186001
+    locked: 0
+  - name: CaveBackgrounds
+    uniqueID: 1952001921
     locked: 0
   - name: Background
     uniqueID: 3294004395
@@ -55,6 +58,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 4285238555
+    locked: 0
+  - name: CaveForeground
+    uniqueID: 1171822123
     locked: 0
   - name: Enemy
     uniqueID: 2788818891

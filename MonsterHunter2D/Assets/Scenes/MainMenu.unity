@@ -11367,7 +11367,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -20
   m_Sprite: {fileID: 21300000, guid: 0933aecb1bffc2c4fa0a7f4ab3d4c8df, type: 3}
   m_Color: {r: 1, g: 0.9938077, b: 0.3066038, a: 1}
@@ -13106,7 +13106,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -3
   m_RenderMode: 0
   m_SortMode: 0
@@ -18521,7 +18521,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -10
   m_RenderMode: 0
   m_SortMode: 0
@@ -26292,9 +26292,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: cde775caa8a54f540b5cb200c1ba8751, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e0108952cae4964aa8e87f84d33bab7, type: 3}
   m_Color: {r: 0.61959463, g: 0.990566, b: 0.4251958, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -26424,9 +26424,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: 6cfe289dcae58734d9e87f4b161b3b5b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7eb79f2f81926cc4b8958244482b16b1, type: 3}
   m_Color: {r: 0.0074369856, g: 0.33962262, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -26492,9 +26492,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2108186001
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: -4
-  m_Sprite: {fileID: 21300000, guid: d6fa175a5b7c1e744aa54df158b912df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7dcfa68f5470d9844b45fe83c0360dbe, type: 3}
   m_Color: {r: 0.29060608, g: 0.6981132, b: 0.15477037, a: 1}
   m_FlipX: 0
   m_FlipY: 0

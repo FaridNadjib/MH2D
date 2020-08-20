@@ -22,11 +22,15 @@ public class HubManager : MonoBehaviour
     [Header("Story related object, theyll get activated once a level is done:")]
     [SerializeField] GameObject bonFire;
     [SerializeField] GameObject rain;
+    [SerializeField] GameObject sunny;
     [SerializeField] GameObject foodStock;
+    [SerializeField] GameObject fan;
+    [SerializeField] GameObject flowers;
     [SerializeField] GameObject childOnWomen;
     [SerializeField] GameObject illChild;
-    [SerializeField] GameObject happyChild1;
-    [SerializeField] GameObject happyChild2;
+    [SerializeField] Animator child1;
+    [SerializeField] Animator child2;
+    [SerializeField] GameObject cry;
     [SerializeField] AudioClip sadMusic;
     [SerializeField] AudioClip happyMusic;
 
@@ -51,31 +55,14 @@ public class HubManager : MonoBehaviour
         level2.SetActive(false);
         level3.SetActive(false);
         level4.SetActive(false);
+        rain.SetActive(true);
+        cry.SetActive(true);
 
-        if (PlayerPrefs.HasKey("Level4Finished") && PlayerPrefs.GetInt("Level4Finished") == 1)
-        {
-            storyMessage.text = "Khaan, you are truely the King of the djungle. \n What do you want to do today?";
-            level2.SetActive(true);
-            level3.SetActive(true);
-            level4.SetActive(true);
-        }
-        else if (PlayerPrefs.HasKey("Level3Finished") && PlayerPrefs.GetInt("Level3Finished") == 1)
+        if (PlayerPrefs.HasKey("Level1Finished") && PlayerPrefs.GetInt("Level1Finished") == 1)
         {
             level2.SetActive(true);
-            level3.SetActive(true);
-            level4.SetActive(true);
-            storyMessage.text = "We love you so much. Please be careful when exploring the djungle.";
-        }
-        else if (PlayerPrefs.HasKey("Level2Finished") && PlayerPrefs.GetInt("Level2Finished") == 1)
-        {
-            level2.SetActive(true);
-            level3.SetActive(true);
-            storyMessage.text = "Oh no, something terrible has happend. Little Louisa got ill. She`s gonna die. \n Only the really rare cuthullu herb could save her. Can you find some?";
-        }
-        else if (PlayerPrefs.HasKey("Level1Finished") && PlayerPrefs.GetInt("Level1Finished") == 1)
-        {
-            level2.SetActive(true);
-            storyMessage.text = "They wont stop crying Khaan. \n We need to get some food. \n Please go and get some of those delicious mumbleberrys they like so much.";
+            storyMessage.text = "They wont stop crying Khaan. \n We need to get some food. \n Please go and get some of those delicious mumbleberrys they like so much.";         
+            bonFire.SetActive(true);
         }
         else
         {
@@ -83,8 +70,37 @@ public class HubManager : MonoBehaviour
             if (source != null)
                 source.PlayOneShot(sadMusic);
         }
-        //Todo activate the story objects.
-        // todo change position of the women.
+
+        if (PlayerPrefs.HasKey("Level2Finished") && PlayerPrefs.GetInt("Level2Finished") == 1)
+        {
+            level3.SetActive(true);
+            storyMessage.text = "Oh no, something terrible has happend. Little Louisa got ill. She`s gonna die. \n Only the really rare cuthullu herb could save her. Can you find some?";
+            foodStock.SetActive(true);
+            fan.SetActive(true);
+            rain.SetActive(false);
+            sunny.SetActive(true);
+            child2.SetBool("isHappy", true);
+            childOnWomen.SetActive(false);
+            illChild.SetActive(true);
+            cry.SetActive(false);
+        }
+
+        if (PlayerPrefs.HasKey("Level3Finished") && PlayerPrefs.GetInt("Level3Finished") == 1)
+        {
+            level4.SetActive(true);
+            storyMessage.text = "We love you so much. Please be careful when exploring the djungle.";
+            flowers.SetActive(true);
+            illChild.SetActive(false);
+            childOnWomen.SetActive(true);
+            child1.SetBool("isHappy", true);
+            source.PlayOneShot(happyMusic);
+        }
+
+        if (PlayerPrefs.HasKey("Level4Finished") && PlayerPrefs.GetInt("Level4Finished") == 1)
+        {
+            storyMessage.text = "Khaan, you are truely the King of the djungle. \n What do you want to do today?";
+        }
+        // Todo change position of the women.
     }
 
     private void Update()

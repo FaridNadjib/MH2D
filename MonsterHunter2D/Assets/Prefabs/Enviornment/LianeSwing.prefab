@@ -2178,7 +2178,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 10
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -2240,8 +2240,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoilStrength: 20
   trapDamage: 10
-  blood1: {fileID: 0}
-  blood2: {fileID: 0}
   activationSound: {fileID: 0}
 --- !u!1 &4115379848057366138
 GameObject:
