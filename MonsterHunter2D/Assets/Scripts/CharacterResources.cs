@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// This class handles our units stats like health and stamina and supplies some events for other classes like UIManager to listen to if those stats changed.

@@ -15,6 +15,18 @@ public class CameraTrigger : MonoBehaviour
         virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
     }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.GetComponent<PlayerController>() != null)
+            virtualCamera.enabled = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.GetComponent<PlayerController>() != null)
+            virtualCamera.enabled = false;
+    }
+
     public void On()
     {
         activatedOnce = true;

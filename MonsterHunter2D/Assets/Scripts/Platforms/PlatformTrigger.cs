@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A trigger to activate an object that will then move.
+/// </summary>
 public class PlatformTrigger : MonoBehaviour
 {
     [SerializeField] private TriggeredPlatform objectToMove;

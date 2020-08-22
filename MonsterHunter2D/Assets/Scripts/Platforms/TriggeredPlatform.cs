@@ -1,4 +1,7 @@
 ﻿
+/// <summary>
+/// A platform which position changes based on a trigger.
+/// </summary>
 public class TriggeredPlatform : MovingPlatform
 {
     private bool triggered = false;

@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using Cinemachine;
 
+/// <summary>
+/// A Pressure-Pad that reacts when the player has stepped on it. 
+/// The referenced object will then move between its start- and end-Point based on the pushed-value of the Pressure-Pad. 
+/// (Value between 0-1)
+/// </summary>
 public class PressurePlatform : MovingPlatform
 {
     [Header("Moving Object")]
@@ -26,7 +31,7 @@ public class PressurePlatform : MovingPlatform
         {
             if (audioSource != null)
                 audioSource.Stop();
-            print("endPos reached");
+
             return;
         }
 
@@ -40,14 +45,15 @@ public class PressurePlatform : MovingPlatform
         CameraEvent();
     }
 
+    /// <summary>
+    /// Enables the cinemachine override camera for the specified amount of time.
+    /// </summary>
     protected void CameraEvent()
     {
         if (!cameraEventActive)
             return;
 
         cameraEventTime -= Time.deltaTime;
-
-        print("cameraEventTime: " + cameraEventTime);
 
         if (cameraEventTime > 0)
             return;
@@ -62,11 +68,18 @@ public class PressurePlatform : MovingPlatform
         }
     }
 
+    /// <summary>
+    /// Moves the referenced object between its start- and end-position based on the current pushedvalue of the Pressure-Pad.
+    /// </summary>
     protected virtual void MoveObject()
     {
         objectToMove.transform.position = Vector2.Lerp(objectStartPos.position, objectEndPos.position, GetCurrentPushedValue());
     }
 
+    /// <summary>
+    /// Gets the current pushed-value by dividing the currentposition by the endposition. 
+    /// </summary>
+    /// <returns>A float Pushed-Value between 0 and 1</returns>
     private float GetCurrentPushedValue()
     {
         float pushedValue = transform.localPosition.y / endPos.localPosition.y;
@@ -105,7 +118,7 @@ public class PressurePlatform : MovingPlatform
 
     protected override void OnCollisionExit2D(Collision2D other) 
     {
-        if (other.gameObject.tag == "Player" && other.enabled)
+        if (other.gameObject.GetComponent<PlayerController>() != null && other.enabled)
         {
             pushed = false;
 

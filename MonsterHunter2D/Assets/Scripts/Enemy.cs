@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The base class for the enemies.
+/// </summary>
 [RequireComponent(typeof(CharacterResources), typeof(Animator), typeof(CharacterSounds))]
 [RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour
@@ -22,8 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float attackSpeed;
     protected float currentSpeed;
     [Tooltip("The offset-range from the player position where the enemy will move to after the attack")]
-    [SerializeField] private Vector2 minMaxPlayerOffsetX, minMaxPlayerOffsetY;
-    [SerializeField] private float minDistanceToAlwaysHitPlayer;
+    [SerializeField] protected Vector2 minMaxPlayerOffsetX, minMaxPlayerOffsetY;
+    [SerializeField] protected float minDistanceToAlwaysHitPlayer;
 
     [Header("Curve")]
     [Tooltip("The offset-range from the player position where the curve point will be created")]
@@ -43,9 +44,9 @@ public class Enemy : MonoBehaviour
     protected State lastState;
     [Space(3)]
 
-    private bool willHitTarget = false;
+    protected bool willHitTarget = false;
     protected bool alertedOnce = false;
-    private bool canHit = true;
+    protected bool canHit = true;
     public bool CanHit { get => canHit; set => canHit = value; }
 
     private bool hasHit = false;
@@ -225,10 +226,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     protected virtual void HitBehaviour()
     {
-
         rb.AddForce(forceDirection.normalized * Time.fixedDeltaTime);
-
-        print("Time: " + currentWaitTime + "\n velocity: " + rb.velocity);
 
         currentWaitTime += Time.fixedDeltaTime;
 
@@ -283,8 +281,6 @@ public class Enemy : MonoBehaviour
     {
         if (Mathf.Approximately(Vector3.Distance(transform.position, nextPos), 0))
         {
-            print("reached nextPos");
-
             if (currentState == State.Alerted)
             {
                 currentWaitTime += Time.deltaTime;
@@ -349,6 +345,8 @@ public class Enemy : MonoBehaviour
     {
         if (willHitTarget)
             nextPos = target.transform.position;
+
+        print("moving in " + currentMovementType);
 
         switch (currentMovementType)
         {

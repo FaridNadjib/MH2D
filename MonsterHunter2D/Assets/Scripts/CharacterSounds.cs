@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -47,7 +45,6 @@ public class CharacterSounds : MonoBehaviour
                     return soundAudioClip.audioClips[UnityEngine.Random.Range(0, soundAudioClip.audioClips.Length)];
             }
         }
-        Debug.LogError("Sound " + sound + " not found");
         return null;
     }
 

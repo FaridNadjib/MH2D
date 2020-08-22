@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingPlant : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class MovingPlant : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.tag == "Player")
+        if (other.GetComponent<PlayerController>() != null)
         {
             Vector2 newForce = new Vector2();
 

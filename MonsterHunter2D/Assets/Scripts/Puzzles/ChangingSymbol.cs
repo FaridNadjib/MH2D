@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
+/// <summary>
+/// An array of symbols that can be changed and light up. Everytime a symbol is changed, the sequence of symbols will be check by the referenced Door.
+/// </summary>
 public class ChangingSymbol : MonoBehaviour
 {
     [SerializeField] private SymbolPuzzlePlatform door;
@@ -55,7 +55,7 @@ public class ChangingSymbol : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.tag == "Player")
+        if (other.GetComponent<PlayerController>() != null)
         {
             inTrigger = true;
 
@@ -66,7 +66,7 @@ public class ChangingSymbol : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) 
     {
-        if (other.tag == "Player")
+        if (other.GetComponent<PlayerController>() != null)
         {
             inTrigger = false;
 
@@ -76,6 +76,9 @@ public class ChangingSymbol : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the sprite-light to the next symbol. Then calls the door function to let it check if the sequence of symbols are correct.
+    /// </summary>
     private void ChangeSymbol()
     {
         changing = true;
@@ -98,6 +101,9 @@ public class ChangingSymbol : MonoBehaviour
         door.CheckSymbol();
     }
 
+    /// <summary>
+    /// Transitions the light to maxIntensity over time by using a lerp.
+    /// </summary>
     private void Transition()
     {
         currentTime += Time.deltaTime;
@@ -113,6 +119,9 @@ public class ChangingSymbol : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Transitions the light to standardIntensity over time by using a lerp.
+    /// </summary>
     private void TransitionBack()
     {
         currentTime += Time.deltaTime;

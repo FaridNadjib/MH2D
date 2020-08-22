@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A platform that moves between End- and Start-Point.
+/// </summary>
 public class MovingPlatform : MonoBehaviour
 {
     [Header("Button/Platform")]

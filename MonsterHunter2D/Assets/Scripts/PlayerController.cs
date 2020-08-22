@@ -373,6 +373,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts the timer when being outside of the object that lets the player be invisible.
+    /// </summary>
     private void StealthCheck()
     {
         if (invisible && !insideBush)
@@ -383,14 +386,14 @@ public class PlayerController : MonoBehaviour
 
             if (invisibleCounter < invisibileTime)
                 return;
-
-            invisible = false;
-            invisibleCounter = 0f;
-            ChangeAlpha(invisible);
-            stealthSoundHasPlayed = false;
+            
+            MakeVisible();
         }
     }
 
+    /// <summary>
+    /// Turns the player visible again.
+    /// </summary>
     private void MakeVisible()
     {
         if (invisible)
@@ -403,11 +406,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ChangeAlpha(bool stealth)
+    /// <summary>
+    /// Changes the alpha of all player sprites to make him appear invisible or visible.
+    /// </summary>
+    /// <param name="invisible"></param>
+    private void ChangeAlpha(bool invisible)
     {
         for (int i = 0; i < spritesToBlink.Length; i++)
         {
-            if (stealth)
+            if (invisible)
                 spritesToBlink[i].color = new Color(spritesToBlink[i].color.r, spritesToBlink[i].color.g, spritesToBlink[i].color.b, 0.5f);
             else
                 spritesToBlink[i].color = new Color(spritesToBlink[i].color.r, spritesToBlink[i].color.g, spritesToBlink[i].color.b, 1f);

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A button that will move another object to its End-Position and back.
+/// </summary>
 public class ButtonPlatform : PressurePlatform
 {
     protected override void Update()

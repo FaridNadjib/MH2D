@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyProjectileVenom : EnemyProjectile
@@ -15,16 +13,17 @@ public class EnemyProjectileVenom : EnemyProjectile
         {
             if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
             {
-                // Gameobjects with that empty script attached to them wont allow projectiles to create joints with them.
-                //rb.isKinematic = true;
-                //transform.SetParent(collision.gameObject.transform);
-                //gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+                //  Gameobjects with that empty script attached to them wont allow projectiles to create joints with them.
+                //  rb.isKinematic = true;
+                //  transform.SetParent(collision.gameObject.transform);
+                //  gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             }
             else
             {
                 rb.velocity = Vector2.zero;
             }
 
+            transform.SetParent(collision.gameObject.transform);
             GetComponent<AudioSource>().Play();
             GetComponent<Collider2D>().enabled = false;
             rb.isKinematic = true;

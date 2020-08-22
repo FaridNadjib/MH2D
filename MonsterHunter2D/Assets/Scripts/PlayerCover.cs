@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// A cover for the player that lets him become invisible for some seconds after crouching behind it.
+/// </summary>
 [RequireComponent(typeof(BoxCollider2D), typeof(AudioSource))]
 public class PlayerCover : MonoBehaviour
 {
@@ -21,26 +22,15 @@ public class PlayerCover : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<PlayerController>() != null)
-        {
-            if (player == null)
-                player = other.GetComponent<PlayerController>();
-
-            player.InsideBush = true;
-
-            if (!audioSource.isPlaying && !startedSound)
-            {
-                audioSource.Play();
-                startedSound = true;
-            }
-            else if (!audioSource.isPlaying && startedSound && player.MoveInput != 0)
-                audioSource.UnPause();
-            else if (audioSource.isPlaying && startedSound && Mathf.Approximately(player.MoveInput, 0))
-                soundplaying = true;
-        }
+        PlayerInsideBush(other);
     }
 
-    private void OnTriggerStay2D(Collider2D other) 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        PlayerInsideBush(other);
+    }
+
+    private void PlayerInsideBush(Collider2D other)
     {
         if (other.GetComponent<PlayerController>() != null)
         {
