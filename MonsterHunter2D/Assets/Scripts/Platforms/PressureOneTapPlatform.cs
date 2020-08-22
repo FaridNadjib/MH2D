@@ -19,6 +19,8 @@ public class PressureOneTapPlatform : MovingPlatform
     private bool cameraEventTriggered = false;
     protected bool cameraEventActive = false;
     [SerializeField] private float cameraEventTime = 4f;
+    [SerializeField] private bool blockPlayer = false;
+
 
     protected override void Update()
     {
@@ -52,9 +54,13 @@ public class PressureOneTapPlatform : MovingPlatform
         if (!cameraEventActive)
             return;
 
-        cameraEventTime -= Time.deltaTime;
+        if (player == null && blockPlayer)
+        {
+            player = GameObject.Find("Player").GetComponent<PlayerController>();
+            FreezePlayer();
+        }
 
-        print("cameraEventTime: " + cameraEventTime);
+        cameraEventTime -= Time.deltaTime;
 
         if (cameraEventTime > 0)
             return;
@@ -62,33 +68,18 @@ public class PressureOneTapPlatform : MovingPlatform
         objectCam.enabled = false;
         cameraEventActive = false;
 
-        if (player != null)
-        {
-            player.blockInput = false;
-            player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
+        if (blockPlayer)
+            UnfreezePlayer();
     }
 
     protected virtual void MoveObject()
     {
-        Vector2 objectPos = Vector2.zero;
-
-        try
-        {
-            objectPos = Vector2.Lerp(objectStartPos.position, objectEndPos.position, GetCurrentPushedValue());
-        }
-        catch
-        {
-            return;
-        }
-
-        objectToMove.transform.position = objectPos;
-
+        objectToMove.transform.position = Vector2.Lerp(objectStartPos.position, objectEndPos.position, GetCurrentPushedValue());
     }
 
     private float GetCurrentPushedValue()
     {
-        float pushedValue = this.transform.localPosition.x / endPos.localPosition.x;
+        float pushedValue = this.transform.localPosition.y / endPos.localPosition.y;
         return pushedValue;
     }
 
@@ -109,17 +100,29 @@ public class PressureOneTapPlatform : MovingPlatform
 
             if (!cameraEventTriggered && objectCam != null)
             {
-                if ((hold || setAsChild) && player != null)
-                {
-                    player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                    player.blockInput = true;
-                }
+                if ((hold || setAsChild) && player != null && blockPlayer)
+                    FreezePlayer();
 
                 cameraEventTriggered = true;
                 cameraEventActive = true;
                 objectCam.enabled = true;
             }
         }
+    }
+
+    private void FreezePlayer()
+    {
+        print("player freezed");
+        player.gameObject.layer = 14;
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        player.BlockInput(true);
+    }
+
+    private void UnfreezePlayer()
+    {
+        player.gameObject.layer = 8;
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        player.BlockInput(false);
     }
 
     protected override void OnCollisionExit2D(Collision2D other)

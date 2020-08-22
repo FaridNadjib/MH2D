@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyFish : Enemy
@@ -9,9 +6,10 @@ public class EnemyFish : Enemy
     [SerializeField] private FishType type;
     public enum FishType { Passive, VerticalJump, CurveJump }
     [SerializeField] protected Vector2 jumpForce;
-    [SerializeField] private float curveJumpHeight;
+    [SerializeField] private Vector2 minMaxCurveJumpHeight;
     [SerializeField] protected float waitAfterJumpTime;
     [SerializeField] private float bitingTime;
+    [SerializeField] [Range(1, 100)] private int chanceToJump;
 
     [Header("Sine")]
     [SerializeField] protected float frequency;
@@ -43,6 +41,8 @@ public class EnemyFish : Enemy
             nextPos = waypoints[targetWaypointIndex].position;
             currentSpeed = standardSpeed;
             FlipTowardsPos(nextPos);
+
+            print(nextPos);
         }
     }
 
@@ -110,7 +110,7 @@ public class EnemyFish : Enemy
                 base.currentWaitTime = 0f;
                 startPos = transform.position;
 
-                if (UnityEngine.Random.Range(0, 9) <= 6)
+                if (UnityEngine.Random.Range(0, 99) < chanceToJump)
                 {
                     currentMovementType = MovementType.Curve;
                     curvePoint = CalculateCurvePoint();
@@ -258,7 +258,6 @@ public class EnemyFish : Enemy
 
         if (biting)
         {
-            print("test");
             biting = false;
             Destroy(gameObject, 5f);
         }
@@ -278,7 +277,8 @@ public class EnemyFish : Enemy
     /// </summary>
     protected override Vector3 CalculateCurvePoint()
     {
-        Vector3 pos = pos = new Vector3((transform.position.x + nextPos.x) * 0.5f, nextPos.y + curveJumpHeight, 0);
+        float nextJumpHeight = UnityEngine.Random.Range(minMaxCurveJumpHeight.x, minMaxCurveJumpHeight.y);
+        Vector3 pos = pos = new Vector3((transform.position.x + nextPos.x) * 0.5f, nextPos.y + nextJumpHeight, 0);
         return pos;
     }
 }

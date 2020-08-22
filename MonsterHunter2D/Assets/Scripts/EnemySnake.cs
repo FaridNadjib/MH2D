@@ -94,7 +94,7 @@ public class EnemySnake : Enemy
 
     protected override void HitBehaviour()
     {
-        currentWaitTime += Time.deltaTime;
+        currentWaitTime += Time.fixedDeltaTime;
 
         if (currentWaitTime >= waitAfterHitTime)
         {

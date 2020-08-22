@@ -131,7 +131,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: -3839169862173034940, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -277,7 +277,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: -6323814604665400865, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -427,7 +427,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -137420489879054570, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -551,7 +551,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -6323814604665400865, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -738,7 +738,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -491984804498230294, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -884,7 +884,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -2
   m_Sprite: {fileID: -8774391645129950137, guid: 086becb2bce060a48b446bd07163d235,
     type: 3}
@@ -982,7 +982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5099224575039562349
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,7 +1088,7 @@ MonoBehaviour:
   moveBetweenWaypoints: 0
   waypoints: []
   randomNextWaypoint: 0
-  waitAtWaypointTime: 1
+  waitAtWaypointTime: 0
   possibleMovements: 0000000001000000
   currentMovementType: 0
   standardSpeed: 0.3

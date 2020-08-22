@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for enemy-projectiles.
+/// </summary>
 public class EnemyProjectile : Projectile
 {
     [SerializeField] protected string pool; 
@@ -54,6 +55,7 @@ public class EnemyProjectile : Projectile
             if (GetComponent<AudioSource>() != null)
                 GetComponent<AudioSource>().Stop();
 
+            transform.SetParent(collision.gameObject.transform);
             GetComponent<Collider2D>().enabled = false;
             rb.isKinematic = true;
             rb.freezeRotation = true;

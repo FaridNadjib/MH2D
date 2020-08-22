@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TrapShootingSpikes : MonoBehaviour
 {   
@@ -27,6 +24,12 @@ public class TrapShootingSpikes : MonoBehaviour
             triggered = true;
     }
 
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.GetComponent<PlayerController>() != null && triggeredTrap)
+            triggered = false;
+    }
+
     private void Update() 
     {
         if (triggeredTrap)
@@ -39,7 +42,7 @@ public class TrapShootingSpikes : MonoBehaviour
             else if (triggered && Waited())
                 Shoot();
         }
-        else if (Waited())
+        else if (!triggeredTrap && Waited())
             Shoot();
     }
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAnkylo : Enemy
@@ -173,6 +170,7 @@ public class EnemyAnkylo : Enemy
         startPos = transform.position;
         playedSoundOnce = false;
 
+        // patrol to next waypoint
         if (currentState == State.Unalerted)
         {
             targetWaypointIndex = GetNextWaypointIndex();
@@ -183,6 +181,7 @@ public class EnemyAnkylo : Enemy
             if (!characterSounds.IsPlaying(CharacterSounds.Sound.Moving))
                 characterSounds.PlaySound(CharacterSounds.Sound.Moving, 0, false, true);
         }
+        // charge towards target position 
         else if (currentState == State.Alerted)
         {
             if (target.transform.position.x < transform.position.x)
@@ -266,9 +265,6 @@ public class EnemyAnkylo : Enemy
                     furthest = waypoints[i].position;
             }
         }
-
-        print("outer waypoint: " + furthest);
-
         return furthest;
     }
 

@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Cinemachine;
+﻿using UnityEngine;
 
+/// <summary>
+/// The door that opens when the symbols are in the right order.
+/// </summary>
 public class SymbolPuzzlePlatform : PressurePlatform
 {
     [SerializeField] private ChangingSymbol[] neededSymbols;
