@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     #region Special PlayerPref Keys
     // HasSaveData, int. 0 or Key not there means no save data.
     // LevelXFinished, int 0 means not finished 1 means was finished. X is the number of our level(not the scene index)
+    // Level{buildIndex}MaxSecrets and Level{buildIndex}CurrentSecrets save the secret count from the corresponding level.
     #endregion
 
 
@@ -207,6 +208,10 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("MaxMegaBomb", playerStats.MaxMegaBomb);
 
         PlayerPrefs.SetInt("HasSaveData", 1);
+
+        // Get current secrets unlocked by the player.
+        PlayerPrefs.SetInt($"Level{SceneManager.GetActiveScene().buildIndex}MaxSecrets", itemLoader.MaxSecrets);
+        PlayerPrefs.SetInt($"Level{SceneManager.GetActiveScene().buildIndex}CurrentSecrets", itemLoader.CurrentSecrets);
 
         int activeScene = SceneManager.GetActiveScene().buildIndex;
         if (itemLoader != null)

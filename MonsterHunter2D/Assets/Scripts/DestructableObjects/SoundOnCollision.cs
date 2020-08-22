@@ -34,7 +34,9 @@ public class SoundOnCollision : MonoBehaviour
     {
         if (source != null && !source.isPlaying)
         {
-            characterSounds.PlaySound(CharacterSounds.Sound.Collision, 0, true, false);
+            if(characterSounds != null)
+                characterSounds.PlaySound(CharacterSounds.Sound.Collision, 0, true, false);
+
             source.Play();
             //canPlay = false;
         }

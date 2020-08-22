@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1402624579667865474}
   - component: {fileID: 1402624579667865475}
   - component: {fileID: 1402624579667865472}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -208,8 +208,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 25
-  m_LinearDrag: 2
+  m_Mass: 20
+  m_LinearDrag: 1
   m_AngularDrag: 0.1
   m_GravityScale: 4
   m_Material: {fileID: 0}

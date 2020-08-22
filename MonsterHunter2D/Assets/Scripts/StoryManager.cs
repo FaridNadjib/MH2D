@@ -39,6 +39,7 @@ public class StoryManager : MonoBehaviour
                     dialogIndex = -1;
                     UIManager.instance.EnableDialogPanel(false);
                     player.BlockInput(false);
+                    player.SetKinematic(false);
 
                 }
             }
@@ -63,12 +64,14 @@ public class StoryManager : MonoBehaviour
             inDialog = true;
             UIManager.instance.EnableDialogPanel(true);
             player.BlockInput(true);
+            player.SetKinematic(true);
         }
         else
         {
             dialogIndex = -1;
             UIManager.instance.EnableDialogPanel(false);
             player.BlockInput(false);
+            player.SetKinematic(false);
         }
     }
 }

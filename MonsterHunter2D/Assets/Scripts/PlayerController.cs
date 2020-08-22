@@ -586,7 +586,7 @@ public class PlayerController : MonoBehaviour
                 DrawLine();
 
             // If the key was released activate the projectile.
-            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina || blockInput)
             {
                 GameObject tempProjectile = ObjectPoolsController.instance.GetFromPool(activeWeapon.ToString());
                 tempProj = tempProjectile;
@@ -712,6 +712,18 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isJumping", false);
         anim.SetBool("isSliding", false);
         anim.SetBool("isSprinting", false);
+
+        //Test:
+
+        characterSounds.StopAllSounds();
+    }
+
+    public void SetKinematic(bool kinematic)
+    {
+        if (kinematic)
+            rb.isKinematic = true;
+        else if (!kinematic)
+            rb.isKinematic = false;
     }
 
     public void ApplyRecoil(Vector3 direction, float strength, Vector2 ? pos, bool block)

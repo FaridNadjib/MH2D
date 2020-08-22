@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 3709810076880099180, guid: 0f1606717eb589f4095c84dada417e21,
     type: 3}
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   projectileSpeed: 25
-  normalDamage: 0
+  normalDamage: 5
   stealthDamage: 0
   projectileLifeTime: 5
   disappearTime: 3

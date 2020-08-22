@@ -9,7 +9,12 @@ public class LevelItemHolder : MonoBehaviour
 
     [SerializeField] LevelStats levelStats;
 
+    int currentSecrets;
+    int maxSecrets;
     public LevelItems ItemsToSave { get => itemsToSave; private set => itemsToSave = value; }
+    public int CurrentSecrets { get => currentSecrets; private set => currentSecrets = value; }
+    public int MaxSecrets { get => maxSecrets; private set => maxSecrets = value; }
+
 
     private void Start()
     {
@@ -19,6 +24,7 @@ public class LevelItemHolder : MonoBehaviour
 
     public void SaveItemStatus()
     {
+        
         for (int i = 0; i < 3; i++)
         {
             if(i == 0)
@@ -66,6 +72,8 @@ public class LevelItemHolder : MonoBehaviour
                 }
             }
         }
+
+        GetSecretRatio();
     }
 
     public void LoadItemStatus()
@@ -108,6 +116,17 @@ public class LevelItemHolder : MonoBehaviour
 
             //foreach (var k in levelStats.pickUpItemInfos)
             //    Debug.Log("Key: "+ k.Key + " Value: " + k.Value + ".");
+        }
+    }
+
+    void GetSecretRatio()
+    {
+        CurrentSecrets = 0;
+        MaxSecrets = itemsToSave.pickUpItems.Length;
+        for (int i = 0; i < itemsToSave.pickUpItems.Length; i++)
+        {
+            if (itemsToSave.pickUpItems[i] == null || itemsToSave.pickUpItems[i].activeSelf == false)
+                CurrentSecrets++;
         }
     }
 }

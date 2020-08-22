@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
+    [SerializeField] GameObject cam;
     [SerializeField] Vector2 parallaxEffectMultilpier;
     private float textureUnitSizeX;
     private float textureUnitSizeY;
 
-
-
-    float startposX, startposY;
-    float lengthX, lengthY;
-    public GameObject cam;
     public float parallaxEffectX;
     public float parallaxEffectY;
     public bool useParaX, useParaY;
@@ -21,7 +17,6 @@ public class Parallax : MonoBehaviour
     float dist;
     float heightDist;
     Vector3 newPos = new Vector3();
-    //float temp;
 
 
     Vector3 oldCamPos;
@@ -29,14 +24,7 @@ public class Parallax : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startposX = transform.position.x;
-        startposY = transform.position.y;
-        lengthX = GetComponent<SpriteRenderer>().bounds.size.x;
-        lengthY = GetComponent<SpriteRenderer>().bounds.size.y;
-
-
         oldCamPos = cam.transform.position;
-
         Sprite sprite = GetComponent<SpriteRenderer>().sprite;
         Texture2D texture = sprite.texture;
         textureUnitSizeX = texture.width / sprite.pixelsPerUnit;

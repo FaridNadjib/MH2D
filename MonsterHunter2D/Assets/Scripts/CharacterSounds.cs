@@ -57,6 +57,11 @@ public class CharacterSounds : MonoBehaviour
             audioSource.Stop();
     }
 
+    public void StopAllSounds()
+    {
+        audioSource.Stop();
+    }
+
     public void Pause()
     {
         if (audioSource != null)

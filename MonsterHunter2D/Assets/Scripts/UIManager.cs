@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// This class handles our ingame ui. It shows the player the character stats and lets him open the esc menu.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
+    #region Fields
     [Header("Player Stats related:")]
     [SerializeField] TextMeshProUGUI crystals;
     [SerializeField] Image healthBarFill;
@@ -39,28 +43,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject saveExitButton;
 
     AudioSource source;
+    PlayerController player;
 
     float timer;
     bool showPopUpMessage = false;
+    #endregion
 
+    #region Singleton
     public static UIManager instance;
-
-    PlayerController player;
-
     private void Awake()
     {
         if (instance == null)
-        {
-            Debug.Log("Instance is null");
             instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
-
         DontDestroyOnLoad(gameObject);
     }
+    #endregion
 
 
     // Start is called before the first frame update
@@ -114,9 +113,12 @@ public class UIManager : MonoBehaviour
 
         };
 
-        //GetPlayer();
+        GetPlayer();
     }
 
+    /// <summary>
+    /// This method is called once every time a new scene has loaded. Its called from the GameManager and sets some defaults and links the needed references.
+    /// </summary>
     public void UpdateUI()
     {
         selectionMarkerWeapon1.color = Color.green;
@@ -135,12 +137,7 @@ public class UIManager : MonoBehaviour
         staminaBarFill.rectTransform.sizeDelta = new Vector2(playerStats.MaxStamina * 5, staminaBarFill.rectTransform.rect.height);
         staminaBarFill.fillAmount = 1f;
 
-
-
         invisibleBar.fillAmount = 1f;
-
-        Debug.Log("all values form ui Updatet");
-
     }
 
     public void RetryLevel()

@@ -33,6 +33,7 @@ public class HubManager : MonoBehaviour
     [SerializeField] GameObject cry;
     [SerializeField] AudioClip sadMusic;
     [SerializeField] AudioClip happyMusic;
+    [SerializeField] AudioSource source2;
 
     bool talkArea = false;
 
@@ -52,6 +53,8 @@ public class HubManager : MonoBehaviour
     /// </summary>
     void UpdateLevelSelectionPanel()
     {
+        UpdateSecrets();
+
         level2.SetActive(false);
         level3.SetActive(false);
         level4.SetActive(false);
@@ -67,6 +70,7 @@ public class HubManager : MonoBehaviour
         else
         {
             storyMessage.text = "Brrr.. Kkk Khaan, it is so cold in here. P p please you have to get us some dry firewood.";
+            level1Secrets.text = "??? Secrets";
             if (source != null)
                 source.PlayOneShot(sadMusic);
         }
@@ -101,6 +105,23 @@ public class HubManager : MonoBehaviour
             storyMessage.text = "Khaan, you are truely the King of the djungle. \n What do you want to do today?";
         }
         // Todo change position of the women.
+    }
+
+    private void UpdateSecrets()
+    {
+        level1Secrets.text = "??? Secrets";
+        level2Secrets.text = "??? Secrets";
+        level3Secrets.text = "??? Secrets";
+        level4Secrets.text = "??? Secrets";
+
+        if (PlayerPrefs.HasKey("Level2MaxSecrets"))
+            level1Secrets.text = $"{PlayerPrefs.GetInt("Level2CurrentSecrets")} / {PlayerPrefs.GetInt("Level2MaxSecrets")}";
+        if (PlayerPrefs.HasKey("Level3MaxSecrets"))
+            level2Secrets.text = $"{PlayerPrefs.GetInt("Level3CurrentSecrets")} / {PlayerPrefs.GetInt("Level3MaxSecrets")}";
+        if (PlayerPrefs.HasKey("Level4MaxSecrets"))
+            level3Secrets.text = $"{PlayerPrefs.GetInt("Level4CurrentSecrets")} / {PlayerPrefs.GetInt("Level4MaxSecrets")}";
+        if (PlayerPrefs.HasKey("Level5MaxSecrets"))
+            level4Secrets.text = $"{PlayerPrefs.GetInt("Level5CurrentSecrets")} / {PlayerPrefs.GetInt("Level5MaxSecrets")}";
     }
 
     private void Update()
@@ -143,6 +164,7 @@ public class HubManager : MonoBehaviour
     public void StartLevel01()
     {
         GameManager.instance.LoadLevel(2);
+        source2.Play();
     }
     /// <summary>
     /// Loads the level from index. Its one more than the level since our hubScene has build index 1.
@@ -150,6 +172,7 @@ public class HubManager : MonoBehaviour
     public void StartLevel02()
     {
         GameManager.instance.LoadLevel(3);
+        source2.Play();
     }
     /// <summary>
     /// Loads the level from index. Its one more than the level since our hubScene has build index 1.
@@ -157,6 +180,7 @@ public class HubManager : MonoBehaviour
     public void StartLevel03()
     {
         GameManager.instance.LoadLevel(4);
+        source2.Play();
     }
     /// <summary>
     /// Loads the level from index. Its one more than the level since our hubScene has build index 1.
@@ -164,5 +188,6 @@ public class HubManager : MonoBehaviour
     public void StartLevel04()
     {
         GameManager.instance.LoadLevel(5);
+        source2.Play();
     }
 }

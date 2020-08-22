@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This class handles the damage and recoil made by traps.
+/// </summary>
 public class TrapDamageArea : MonoBehaviour
 {
+    #region Fields
+    [Tooltip("How strong should the applied force be?")]
     [SerializeField] float recoilStrength;
     [SerializeField] float trapDamage;
-    // [SerializeField] ParticleSystem blood1;
-    // [SerializeField] ParticleSystem blood2;
     [SerializeField] AudioClip activationSound;
     AudioSource source;
+    #endregion
 
+    #region Properties
     // TrapActive is default true, just for rolling boulder it gets set to false in the sound on rolling script, for every other trap its not important.
     public bool TrapActive { get; set; } = true;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -20,47 +27,22 @@ public class TrapDamageArea : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// If the player collides with a trap damage is dealt to him and he gets a push back.
+    /// </summary>
+    /// <param name="collision">Checks for the player.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.GetComponent<PlayerController>() != null && TrapActive)
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            //Vector3 direction = player.transform.position - (Vector3)collision.contacts[0].point;
-            //Vector3 direction = (Vector3)collision.contacts[0].point - transform.position;
             Vector3 direction = player.transform.position - transform.position;
             Vector2 pos = collision.GetContact(0).point;
             player.ApplyRecoil(direction.normalized, recoilStrength, pos, true);
             collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(trapDamage);
             if (source != null)
                 source.PlayOneShot(activationSound);
-            // if(blood1 != null)
-            // {
-            //     blood1.transform.position = collision.contacts[0].point;
-            //     blood1.Play();
-            // }
-            // if(blood2 != null)
-            // {
-            //     blood2.transform.position = collision.contacts[0].point;
-            //     blood2.Play();
-            // }
         }
     }
 
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.GetComponent<PlayerController>() != null)
-    //    {
-    //        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-    //        //Vector3 direction = player.transform.position - (Vector3)collision.contacts[0].point;
-    //        Vector3 direction = player.transform.position - transform.position;
-    //        player.ApplyRecoil(direction.normalized, recoilStrength);
-    //        collision.gameObject.GetComponent<CharacterResources>().ReduceHealth(trapDamage);
-    //    }
-    //}
 }
