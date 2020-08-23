@@ -33,13 +33,13 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void Reset()
     {
-        if (audioSource != null && !audioSource.isPlaying)
-            audioSource.Play();
-
         currentTime += Time.deltaTime;
 
         if (currentTime < stayAtEndTime)
             return;
+
+        if (audioSource != null && !audioSource.isPlaying)
+            audioSource.Play();
 
         float step = speedToStart * Time.deltaTime;
         
@@ -57,13 +57,13 @@ public class MovingPlatform : MonoBehaviour
 
     protected virtual void Extend()
     {
-        if (audioSource != null && !audioSource.isPlaying)
-            audioSource.Play();
-
         currentTime += Time.deltaTime;
 
         if (currentTime < stayAtStartTime)
             return;
+
+        if (audioSource != null && !audioSource.isPlaying)
+            audioSource.Play();
 
         float step = speedToEnd * Time.deltaTime;
 

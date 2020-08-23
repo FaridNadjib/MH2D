@@ -158,7 +158,7 @@ public class Enemy : MonoBehaviour
                 Physics2D.IgnoreCollision(other, GetComponent<CapsuleCollider2D>(), true);
                 return;
             }
-            else if (this is EnemyAnkylo || this is EnemySnake)
+            else //if (this is EnemyAnkylo || this is EnemySnake)
             {
                 player.CanHide = false;
                 Physics2D.IgnoreCollision(other, GetComponent<CapsuleCollider2D>(), false);

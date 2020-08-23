@@ -15,8 +15,8 @@ public class EnemyMeleeAttack : MonoBehaviour
     {
         if (other.GetComponent<PlayerController>() != null)
         {
-            if (other.GetComponent<PlayerController>().Invisible)
-                return;
+            // if (other.GetComponent<PlayerController>().Invisible)
+            //     return;
 
             if (enemy.CanHit)
             {
