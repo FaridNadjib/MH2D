@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    #region Fields, Properties and Events
     [Header("Maincamera:")]
     [SerializeField] Camera maincam;
 
@@ -61,13 +62,6 @@ public class PlayerController : MonoBehaviour
     GameObject tempProj;
     ActiveWeaponType activeWeapon;
 
-    // All the munition counter properties.
-    public int CurrentArrows { get; private set; }
-    public int CurrentSpears { get; private set; }
-    public int CurrentPlatformSpears { get; private set; }
-    public int CurrentStickyBombs { get; private set; }
-    public int CurrentMegaBombs { get; private set; }
-
     public Dictionary<ActiveWeaponType, int> currentMunition = new Dictionary<ActiveWeaponType, int>();
 
     [Header("Projectile trajectory related variables:")]
@@ -90,10 +84,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool insideBush = false;
     public bool InsideBush { get => insideBush; set => insideBush = value; }
     private bool stealthSoundHasPlayed = false;
+
     // Event to update invisible fill amount.
     public delegate void InvisibleChanged(float invisibleFillAmount);
     public event InvisibleChanged OnInvisibleChanged;
-
 
     [Header("Damage taken related:")]
     [SerializeField] float invincibleTime;
@@ -124,6 +118,7 @@ public class PlayerController : MonoBehaviour
 
     // Use this to check if the player is currently alive or not.
     public bool IsAlive { get; private set; } = true;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -166,14 +161,13 @@ public class PlayerController : MonoBehaviour
             ObjectPoolsController.instance.AddToPool(tempProjectile, activeWeapon.ToString());
         };
 
+        // Update the ammo ui.
         playerStats.OnStatsChanged += () => {
             if (currentMunition.ContainsKey(playerStats.WeaponType))
             {
                 currentMunition[playerStats.WeaponType] += playerStats.Amount;
                 if(activeWeapon == playerStats.WeaponType)
-                {
                     UIManager.instance.AmmoChanged(currentMunition[playerStats.WeaponType].ToString(), activeHand);
-                }
             }
         };
 
@@ -195,20 +189,18 @@ public class PlayerController : MonoBehaviour
             if (playerStats.NumberOfHearts > 0)
                 UIManager.instance.ShowRetryMenu();
             else if(playerStats.NumberOfHearts<1)
-            { 
+            {
                 //show game end screen
+                GameManager.instance.GameOver = true;
             }
 
             playerStats.ValuesChanged();
-            // ToDo: show message on screen to press l to reload last save or esc to open menu.
         };
 
 
         // Set the player pos based on last checkpoint.
         if(playerStats.SpawnPosX != 666)
-        {
             transform.position = new Vector3(playerStats.SpawnPosX, playerStats.SpawnPosY, 0);
-        }
     }
 
     // Update is called once per frame
@@ -235,7 +227,7 @@ public class PlayerController : MonoBehaviour
             // Jump calculations.
             JumpCheck();
 
-            // Set the the player speed and the animations for sprinting, walking and sliding.
+            // Set the the player speed and the animations for sprinting, walking and sliding. An play the according sounds.
             if (isGrounded)
             {
                 if (moveInput == 0)
@@ -337,17 +329,11 @@ public class PlayerController : MonoBehaviour
         if(!blockInput)
             ShootingCheck();
 
-        // Change the friction of the physicsmaterial of the player based on if he is grounded.
+        // Change the friction of the physicsmaterial of the player based on if he is grounded. Its never needed.
         if (isGrounded)
             physicsmat.friction = 1f;
         else
             physicsmat.friction = 0f;
-
-
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            characterResources.ReduceHealth(20f);
-        }
 
         // If the player was hurt, block his input for a short amount of time and make him invincible for a slightly longer period of time.
         if (damageTaken && IsAlive)
@@ -579,13 +565,6 @@ public class PlayerController : MonoBehaviour
             // Set the animation according to where the players is pointing.
             anim.SetFloat("shotAngle", aimDirection.normalized.y);
             
-            //if (shootTimeCounter >= 0.3f)
-            //    projectileSpeedMult = 1f;
-            //if (shootTimeCounter >= 0.6f)
-            //    projectileSpeedMult = 1.1f;
-            //if (shootTimeCounter >= shootTime)
-            //    projectileSpeedMult = 1.3f;
-
             projectileSpeedMult = Mathf.Lerp(0.9f, 1.8f, shootTimeCounter / shootTime);
 
             // Draw the trajectory line if that option is enabled.
@@ -593,7 +572,7 @@ public class PlayerController : MonoBehaviour
                 DrawLine();
 
             // If the key was released activate the projectile.
-            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina || blockInput)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina)
             {
                 GameObject tempProjectile = ObjectPoolsController.instance.GetFromPool(activeWeapon.ToString());
                 tempProj = tempProjectile;
@@ -614,8 +593,7 @@ public class PlayerController : MonoBehaviour
                 tempProjectile.SetActive(true);
                 tempProjectile.GetComponent<Projectile>().ShootProjectile(direction.normalized * projectileSpeedMult, Invisible);
 
-                MakeVisible();
-                
+                MakeVisible();                
 
                 if (activeHand == ActiveWeaponHand.Left)
                 {
@@ -634,6 +612,11 @@ public class PlayerController : MonoBehaviour
         }           
     }
 
+    /// <summary>
+    /// Calculate the points, where the projectile will fly along.
+    /// </summary>
+    /// <param name="time">the time.</param>
+    /// <returns>Returns the point of the projectile after flying for x amount of time.</returns>
     Vector2 PointPosition(float time)
     {
         Vector2 pos = new Vector2();
@@ -668,29 +651,20 @@ public class PlayerController : MonoBehaviour
             line.SetPosition(i, new Vector3(PointPosition(i * spaceBetweenPoints).x, PointPosition(i * spaceBetweenPoints).y, 0));
     }
 
-    //public void RespawnPlayer(Vector2 position)
-    //{
-    //    // Set the playerstats to default values.
-    //    characterResources.RestoreValues();
-
-    //    // Disable the ragdoll system and give the control back to the player.
-    //    ragdoll.DisableRagdoll();
-    //    blockInput = false;
-    //    anim.enabled = true;
-    //    gameObject.GetComponent<Collider2D>().enabled = true;
-    //    rb.isKinematic = false;
-    //    IsAlive = true;
-
-    //    // Set the position of the player.
-    //    transform.position = position;
-    //}
-
+    /// <summary>
+    /// Spawens the player at the given position, for checkpoints.
+    /// </summary>
+    /// <param name="xPos">xposition</param>
+    /// <param name="yPos">yposition.</param>
     public void SetSpawnPosition(float xPos, float yPos)
     {
         playerStats.SpawnPosX = xPos;
         playerStats.SpawnPosY = yPos;
     }
 
+    /// <summary>
+    /// Refills all the ammo of the player. Uncomment those lines to make him refill his health too.
+    /// </summary>
     public void RefeillAllValues()
     {
         // Restock the palyers ammo.
@@ -710,6 +684,10 @@ public class PlayerController : MonoBehaviour
         characterResources.SetStamina(playerStats.MaxStamina);
     }
 
+    /// <summary>
+    /// Stops all animations and blocks the input from the player.
+    /// </summary>
+    /// <param name="block">true to block and false to give player back control.</param>
     public void BlockInput(bool block)
     {
         blockInput = block;
@@ -719,20 +697,34 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isJumping", false);
         anim.SetBool("isSliding", false);
         anim.SetBool("isSprinting", false);
-
-        //Test:
+        anim.SetBool("isCrouching", false);
+        //anim.SetTrigger("releaseBow");
+        //anim.SetTrigger("releaseRightHandShot");
+        //isShooting = false;
 
         characterSounds.StopAllSounds();
     }
 
+    /// <summary>
+    /// Sets the players rigidbody to kinematic.
+    /// </summary>
+    /// <param name="kinematic">true for kinematic false for dynamic.</param>
     public void SetKinematic(bool kinematic)
     {
+        // rb.isKinematic = kinematic, saw it too late :S
         if (kinematic)
             rb.isKinematic = true;
         else if (!kinematic)
             rb.isKinematic = false;
     }
 
+    /// <summary>
+    /// Applys a recoild to the player, after he  got hit for example.
+    /// </summary>
+    /// <param name="direction">Where to push the player?</param>
+    /// <param name="strength">How strong to push him?</param>
+    /// <param name="pos">Where to set a particle effect like blood?</param>
+    /// <param name="block">Block his input?</param>
     public void ApplyRecoil(Vector3 direction, float strength, Vector2 ? pos, bool block)
     {
         BlockInput(block);
@@ -756,6 +748,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Blinks the players  sprites after taking damage for example.
+    /// </summary>
     public void BlinkPlayer()
     {
         if(blinkTimer < blinkIntervall)
@@ -764,13 +759,9 @@ public class PlayerController : MonoBehaviour
             for (int i = 0; i < spritesToBlink.Length; i++)
             {
                 if (swapColors)
-                {
                     spritesToBlink[i].color = Color.Lerp(dmgTakenColor1, dmgTakenColor2, blinkTimer / blinkIntervall);
-                }
                 else
-                {
                     spritesToBlink[i].color = Color.Lerp(dmgTakenColor2, dmgTakenColor1, blinkTimer / blinkIntervall);
-                }
             }
         }
         else
@@ -780,6 +771,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stops blinking and sets his colors to default again.
+    /// </summary>
     void StopBlinkPlayer()
     {
         blinkTimer = 0;

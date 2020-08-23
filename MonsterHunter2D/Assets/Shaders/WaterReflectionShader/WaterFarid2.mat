@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterFarid2
-  m_Shader: {fileID: -6465566751694194690, guid: 16df78db2bbae434b8a85d1a655c5c08,
+  m_Shader: {fileID: -6465566751694194690, guid: e114ce5104a11ff4fa067fd15f9b4f17,
     type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4

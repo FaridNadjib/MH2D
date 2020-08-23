@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A special trap, a boulder moving up to a certain point and then activates its dynamic rigidbody to fall down on the player.
+/// </summary>
 public class TrapFallingHammer : MonoBehaviour
 {
-
+    #region Fields
     [SerializeField] Transform anchorPos;
     [SerializeField] float allowedFallingTime;
     [SerializeField] float rechargeSpeed;
@@ -15,7 +18,7 @@ public class TrapFallingHammer : MonoBehaviour
     bool backToAnchor = true;
 
     Rigidbody2D rb;
-
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,7 @@ public class TrapFallingHammer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Goes back to its anchor point an from there activates the physics and falls down, after some time it returns back to its anchor point.
         if (backToAnchor)
         {
             transform.position = Vector3.MoveTowards(transform.position, anchorPos.position, rechargeSpeed * Time.deltaTime);

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Has an array of objects. Will activate their rigidbody and joints once the unit died to simulate a ragdoll effect.
+/// </summary>
 public class RagdollController : MonoBehaviour
 {
 
     [SerializeField]GameObject[] bodyParts;
 
+    /// <summary>
+    /// Enables the ragdoll.
+    /// </summary>
     public void EnableRagdoll()
     {
         for (int i = 0; i < bodyParts.Length; i++)
@@ -19,6 +25,9 @@ public class RagdollController : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Disables the ragdoll again. Never used since we just reloaded the scene instead.
+    /// </summary>
     public void DisableRagdoll()
     {
         for (int i = 0; i < bodyParts.Length; i++)

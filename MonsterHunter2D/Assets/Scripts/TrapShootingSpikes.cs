@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A shooting arrow trap.
+/// </summary>
 public class TrapShootingSpikes : MonoBehaviour
-{   
+{
+    #region Fields
     [Tooltip("Should this trap be triggered?")]
     [SerializeField] private bool triggeredTrap;
     private bool triggered = false;
@@ -12,6 +16,7 @@ public class TrapShootingSpikes : MonoBehaviour
     private float currentTime;
 
     private const string spikePool = "shootingSpikePool";
+    #endregion
 
     private void Awake() 
     {

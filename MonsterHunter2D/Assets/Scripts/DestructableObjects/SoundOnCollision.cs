@@ -2,34 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Play a sound on collision.
+/// </summary>
 public class SoundOnCollision : MonoBehaviour
 {
+    #region Fields
     AudioSource source;
     CharacterSounds characterSounds;
-    //bool canPlay = true;
-    //[SerializeField] float soundPlayIntervall;
-    //float timer;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         source = GetComponent<AudioSource>();
         characterSounds = GetComponent<CharacterSounds>();
-        //timer = soundPlayIntervall;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //if (!canPlay)
-        //    timer -= Time.deltaTime;
-        //if(timer < 0)
-        //{
-        //    timer = soundPlayIntervall;
-        //    canPlay = true;
-        //}
-    }
-
+    /// <summary>
+    /// Plays a sound on collision.
+    /// </summary>
+    /// <param name="collision">Any.</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (source != null && !source.isPlaying)
@@ -38,7 +31,6 @@ public class SoundOnCollision : MonoBehaviour
                 characterSounds.PlaySound(CharacterSounds.Sound.Collision, 0, true, false);
 
             source.Play();
-            //canPlay = false;
         }
     }
 
