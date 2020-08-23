@@ -25561,6 +25561,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5401076799582413826, guid: 4626cb6bcfe485744a8eaadb1e72be0c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5401076799582414847, guid: 4626cb6bcfe485744a8eaadb1e72be0c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26018,11 +26023,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 339695536975765118, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 339695537528188372, guid: c082a5e94e7dda0499561360a69bb379,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -26041,11 +26041,6 @@ PrefabInstance:
     - target: {fileID: 339695537528188372, guid: c082a5e94e7dda0499561360a69bb379,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537701271344, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 339695537803385416, guid: c082a5e94e7dda0499561360a69bb379,
@@ -26067,51 +26062,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537896395659, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_text
-      value: Khaan in "DjungleFeever"
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_fontStyle
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
-        type: 3}
-      propertyPath: m_margin.z
-      value: -64.60975
       objectReference: {fileID: 0}
     - target: {fileID: 339695537999687114, guid: c082a5e94e7dda0499561360a69bb379,
         type: 3}
@@ -26392,10 +26342,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1836237237}
   parallaxEffectMultilpier: {x: 0.8, y: 0}
-  parallaxEffectX: 0
-  parallaxEffectY: 0
-  useParaX: 0
-  useParaY: 0
 --- !u!4 &2488147932097994939
 Transform:
   m_ObjectHideFlags: 0
@@ -26506,10 +26452,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1836237237}
   parallaxEffectMultilpier: {x: 0.4, y: 0}
-  parallaxEffectX: 0
-  parallaxEffectY: 0
-  useParaX: 0
-  useParaY: 0
 --- !u!212 &2488147932666395188
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26592,10 +26534,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1836237237}
   parallaxEffectMultilpier: {x: 0.6, y: 0}
-  parallaxEffectX: 0
-  parallaxEffectY: 0
-  useParaX: 0
-  useParaY: 0
 --- !u!4 &2488147932666395191
 Transform:
   m_ObjectHideFlags: 0

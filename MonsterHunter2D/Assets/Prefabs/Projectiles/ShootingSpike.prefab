@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 7
   projectileSpeed: 20
-  normalDamage: 3
-  stealthDamage: 0
+  normalDamage: 7
+  stealthDamage: 7
   projectileLifeTime: 5
   disappearTime: 3
   bombExplosion: {fileID: 0}

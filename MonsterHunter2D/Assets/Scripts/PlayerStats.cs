@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A scriptable object that lets us save all the player related values.
+/// </summary>
 [CreateAssetMenu(menuName = "Player Stats")]
 public class PlayerStats : ScriptableObject
 {
+    #region Default Values to restore if needed
     [SerializeField] int defHeartNumber;
     [SerializeField] float defHealth;
     [SerializeField] float defStamina;
@@ -15,7 +19,9 @@ public class PlayerStats : ScriptableObject
     [SerializeField] int defBombNormal;
     [SerializeField] int defStickyBomb;
     [SerializeField] int defMegaBomb;
+    #endregion
 
+    #region Properties
     public int CurrentCrystals { get ; set ; }
     public int NumberOfHearts { get; set; }
     public int CurrentNumberOfHearts { get; set; }
@@ -35,17 +41,11 @@ public class PlayerStats : ScriptableObject
     // Two properties to update to the correct munition type.
     public ActiveWeaponType WeaponType { get; set; }
     public int Amount { get; set; }
-    
+    #endregion
 
+    // Events to let subscribers know that something changed, for UI for example.
     public event StatsChanged OnStatsChanged;
     public delegate void StatsChanged();
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
 
     /// <summary>
     /// Call this method anywhere when you want to restore the values of the scriptable object to default values you set in the inspector.
@@ -64,8 +64,6 @@ public class PlayerStats : ScriptableObject
         MaxBombNormal = defBombNormal;
         MaxStickyBomb = defStickyBomb;
         MaxMegaBomb = defMegaBomb;
-
-        Debug.Log("Resettet the playerstats.");
     }
 
     /// <summary>
@@ -76,6 +74,9 @@ public class PlayerStats : ScriptableObject
         OnStatsChanged?.Invoke();
     }
 
+    /// <summary>
+    /// Deletes the current Spawnposition by setting it on a default value.
+    /// </summary>
     public void DeleteSpawnPos()
     {
         SpawnPosX = 666;

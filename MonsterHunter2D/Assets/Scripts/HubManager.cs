@@ -107,6 +107,9 @@ public class HubManager : MonoBehaviour
         // Todo change position of the women.
     }
 
+    /// <summary>
+    /// Sets the secrets text according to how many secret have been discoverd.
+    /// </summary>
     private void UpdateSecrets()
     {
         level1Secrets.text = "??? Secrets";
@@ -126,6 +129,7 @@ public class HubManager : MonoBehaviour
 
     private void Update()
     {
+        // Checks if the player can talk to the woman.
         if(talkArea)
             if (Input.GetKeyDown(KeyCode.E))
                 levelSelection.SetActive(true);

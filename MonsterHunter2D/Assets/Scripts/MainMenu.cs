@@ -125,4 +125,68 @@ public class MainMenu : MonoBehaviour
         if (source != null)
             source.PlayOneShot(buttonDeactivation);
     }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenDevArt()
+    {
+        Application.OpenURL("https://www.deviantart.com/childofcreation");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenFreeSound()
+    {
+        Application.OpenURL("https://freesound.org/");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenOpenGameArt()
+    {
+        Application.OpenURL("https://opengameart.org/");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenAssetStore()
+    {
+        Application.OpenURL("https://assetstore.unity.com/");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenUnity()
+    {
+        Application.OpenURL("https://unity3d.com/de/get-unity/download");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenKrita()
+    {
+        Application.OpenURL("https://krita.org/en/download/krita-desktop/");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenGimp()
+    {
+        Application.OpenURL("https://www.gimp24.de/");
+    }
+
+    /// <summary>
+    /// Opens the link in web browser.
+    /// </summary>
+    public void OpenSAE()
+    {
+        Application.OpenURL("https://www.sae.edu/deu/de?utm_source=PS01&gclid=EAIaIQobChMI-LiVwI-x6wIVgfuyCh2o0g1hEAAYASAAEgIi9fD_BwE");
+    }
 }

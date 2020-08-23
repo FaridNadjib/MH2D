@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class handles various typs of moving platforms. Check the Fields for more info. Farid.
+/// </summary>
 public class MovingPlatforms : MonoBehaviour
 {
+    #region Fields
     [Header("Moveable Platform Variables:")]
     [Tooltip("Should the platform move?")]
     [SerializeField] bool shouldMove;
@@ -40,11 +44,12 @@ public class MovingPlatforms : MonoBehaviour
     [SerializeField] ParticleSystem flipWarning;
     [Tooltip("Duration in seconds before the platform flips and the ps should be emmiting.")]
     [SerializeField] float warningTime;
-
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get some defaults.
         if (shouldMove)
         {
             // First position to travel to will be the nearest poistion next to the platform.
@@ -65,6 +70,7 @@ public class MovingPlatforms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Depending on the settings from the FIelds section, perform the wanted action.
         if (shouldMove)
         {
             // Check for the next platformposition and then move the platform.
@@ -112,11 +118,8 @@ public class MovingPlatforms : MonoBehaviour
         if (shouldRotate)
         {
             transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-
             if (transform.Find("Player"))
-            {
                 transform.Find("Player").rotation = Quaternion.Euler(transform.rotation.x * -1, transform.rotation.y * -1, transform.rotation.z * -1);
-            }
         }
 
         // Filp the platform if enabled. It will flip after fFlipOccurance seconds for fFilpDuration seconds.
@@ -125,9 +128,7 @@ public class MovingPlatforms : MonoBehaviour
             if (!flipped)
             {
                 if (flipTimer > warningTime)
-                {
                     flipTimer -= Time.deltaTime;
-                }
                 else if(flipTimer > 0)
                 {
                     flipTimer -= Time.deltaTime;
@@ -171,11 +172,9 @@ public class MovingPlatforms : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // If a flippable platform has a dangerzone on it, set that specific collider to isTrigger and code what should happen here.
-    }
-
+    /// <summary>
+    /// To see better where the platforms are moving. FOr debugging.
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(currentPos, nextPos);

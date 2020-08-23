@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Objects with destructable parts have this script attached to them. It activates the destructable parts and them fades them out. Farid.
+/// </summary>
 public class DestructableObject : MonoBehaviour
 {
+    #region Fields
     [Header("The gameobject with the destructable parts:")]
     [SerializeField] GameObject destroyedParts;
     [SerializeField] SpriteRenderer[] partImages;
@@ -17,10 +21,12 @@ public class DestructableObject : MonoBehaviour
     bool startDeactivation = false;
     Collider2D col;
     SpriteRenderer spriteRenderer;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get some defaults.
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         oldColor = spriteRenderer.color;
@@ -30,6 +36,7 @@ public class DestructableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Fade the parts to, makes it look a little bit better.
         if (startDeactivation)
         {
             if (timer < deactivationTime - dissappearTime)
@@ -44,13 +51,13 @@ public class DestructableObject : MonoBehaviour
                 timer += Time.deltaTime;
             }
             else
-            {
-                // Disable or destroy the destroyed gam object.
                 destroyedParts.SetActive(false);
-            }
         }
     }
 
+    /// <summary>
+    /// Activate the destroyed parts.
+    /// </summary>
     public void ActivateDestruction()
     {
         if (col != null)
@@ -61,6 +68,5 @@ public class DestructableObject : MonoBehaviour
 
         startDeactivation = true;
     }
-
     
 }

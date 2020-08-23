@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ObjectPoolsController : MonoBehaviour
 {
-
+    #region Fields
     public Dictionary<string, Queue<GameObject>> poolDictionary;
     Dictionary<string, GameObject> prefabDictionary;
 
@@ -55,10 +55,9 @@ public class ObjectPoolsController : MonoBehaviour
     Queue<GameObject> ankyloSpikePool = new Queue<GameObject>();
     Queue<GameObject> shootingSpikePool = new Queue<GameObject>();
 
-
-
     // Enviorment related pools.
     Queue<GameObject> smallRocksPool = new Queue<GameObject>();
+    #endregion
 
     #region Singleton
     // Singleton.

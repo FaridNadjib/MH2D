@@ -50,6 +50,7 @@ public class PlayerWeaponChanger : MonoBehaviour
 
     private void Start()
     {
+        // Fill the dictionary with weapons.
         weaponKeysDictionary.Add("alpha1Weapons", alpha1Weapons);
         weaponKeysDictionary.Add("alpha2Weapons", alpha2Weapons);
         weaponKeysDictionary.Add("alpha3Weapons", alpha3Weapons);
@@ -61,8 +62,6 @@ public class PlayerWeaponChanger : MonoBehaviour
         alpha3Weapons.Enqueue(ActiveWeaponType.BombNormal);
         alpha3Weapons.Enqueue(ActiveWeaponType.BombSticky);
         alpha3Weapons.Enqueue(ActiveWeaponType.BombMega);
-
-
     }
 
 

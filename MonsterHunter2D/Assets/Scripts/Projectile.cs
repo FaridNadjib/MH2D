@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class Projectile : MonoBehaviour
 {
+    #region Fields
     [Header("The projectiles type and its speed:")]
     [SerializeField] ActiveWeaponType type;
     public ActiveWeaponType Type { get => type; }
@@ -46,6 +47,7 @@ public class Projectile : MonoBehaviour
     // Platformspear related.
     PlatformEffector2D platformEffector;
     BoxCollider2D platformEffectorBoxCol;
+    #endregion
 
     /// <summary>
     /// Initialize some projectile values. (Maybe we do this in Start())
@@ -86,6 +88,9 @@ public class Projectile : MonoBehaviour
         Setup();
     }
 
+    /// <summary>
+    /// Set all values to default ones.
+    /// </summary>
     protected void Setup()
     {
         lifeTimeCounter = 0f;
@@ -126,6 +131,9 @@ public class Projectile : MonoBehaviour
             trail.emitting = true;
     }
 
+    /// <summary>
+    /// Set the layer the projectile is on.
+    /// </summary>
     protected virtual void SetProjectileLayer()
     {
         gameObject.layer = 9;
@@ -176,6 +184,9 @@ public class Projectile : MonoBehaviour
             AddToPool();
     }
 
+    /// <summary>
+    /// Adds the object back to pool.
+    /// </summary>
     protected virtual void AddToPool()
     {
         ObjectPoolsController.instance.AddToPool(gameObject, Type.ToString());
@@ -191,49 +202,28 @@ public class Projectile : MonoBehaviour
 
         SetAsChildOfCharacter(collision);
 
-        // The stickybomb sticks to the object it collided with.
-        //if (!onlyOnce && type == ActiveWeaponType.BombSticky)
-        //{
-        //    if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
-        //    {
-
-        //    }
-        //    else
-        //    {
-        //        //rb.velocity = Vector2.zero;
-        //        rb.isKinematic = true;
-        //        rb.velocity = Vector2.zero;
-        //        rb.freezeRotation = true;
-        //        //transform.SetParent(collision.gameObject.transform);
-        //        onlyOnce = true;
-        //    }
-        //    Debug.Log("Gotcalled");
-
-        //}
-
         ConnectToCollisionObject(collision);
 
         SetGroundLayer();
     }
 
+    /// <summary>
+    /// Set the hinge joint so that it looks like the projectile is connected where its landed.
+    /// </summary>
+    /// <param name="collision">The object the projectile hit.</param>
     protected virtual void ConnectToCollisionObject(Collision2D collision)
     {
         // For spear and arrow types, make them connect via joint with the collision object.
         if (!onlyOnce && joint != null)
         {
-            if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null)
+            if (collision.gameObject.GetComponent<ProjectilesWillBounceFromMe>() != null || (collision.gameObject.GetComponent<Rigidbody2D>() != null && collision.gameObject.GetComponent<Rigidbody2D>().isKinematic == false))
             {
                 // Gameobjects with that empty script attached to them wont allow projectiles to create joints with them.
-                //rb.isKinematic = true;
-                //transform.SetParent(collision.gameObject.transform);
-                //gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             }
             else
             {
                 joint.anchor = transform.InverseTransformPoint(collision.contacts[0].point);
-                //joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
                 joint.connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
-                //transform.SetParent(collision.gameObject.transform);
                 joint.enabled = true;
 
                 if (Type == ActiveWeaponType.SpearPlatform)
@@ -245,14 +235,14 @@ public class Projectile : MonoBehaviour
                 }
             }
 
-            
-
             rb.freezeRotation = false;
             onlyOnce = true;
         }
     }
 
-    // Set the layer to default so the playercan collide with the projectiles again.
+    /// <summary>
+    /// Set the layer to default so the playercan collide with the projectiles again.
+    /// </summary>
     protected virtual void SetGroundLayer()
     {
         gameObject.layer = 13;
@@ -261,7 +251,7 @@ public class Projectile : MonoBehaviour
     /// <summary>
     /// On collision with an enemy the rigidbody and collider will be disabled and the projectile will become child of the enemy.
     /// </summary>
-    /// <param name="collision"></param>
+    /// <param name="collision">The collided object.</param>
     protected virtual void SetAsChildOfCharacter(Collision2D collision)
     {
 

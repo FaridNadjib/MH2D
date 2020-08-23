@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 
 /// <summary>
-/// This class is our gamemanager, it handles the scene loading and the loading and saving in general.
+/// This class is our gamemanager, it handles the scene loading and the loading and saving in general. Farid.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Fields
+    #region Fields & Properties
     [Header("For saving our Data:")]
     [SerializeField] PlayerStats playerStats;
     [SerializeField] LevelStats levelStats;
@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     [Header("Leveltransitions:")]
     [SerializeField] Animator transitionAnim;
     [SerializeField] float transitionTime;
+
+    public bool GameOver { get; set; } = false;
     #endregion
 
     #region Special PlayerPref Keys
@@ -67,45 +69,45 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Delete all this.
-        if (Input.GetKeyDown(KeyCode.H))
-            ResetGameStats();
-        if (Input.GetKeyDown(KeyCode.J))
-            ClearSavedData();
-
-        if (Input.GetKeyDown(KeyCode.Y))
-            LoadLevel(0);
-        if (Input.GetKeyDown(KeyCode.X))
-            LoadLevel(1);
-        if (Input.GetKeyDown(KeyCode.C))
-            LoadLevel(2);
-        if (Input.GetKeyDown(KeyCode.V))
-            LoadLevel(3);
-        if (Input.GetKeyDown(KeyCode.N))
-            LoadLevel(4);
-        if (Input.GetKeyDown(KeyCode.M))
-            LoadLevel(5);
-
-        if (Input.GetKeyDown(KeyCode.K))
-            SaveStats();
-        if (Input.GetKeyDown(KeyCode.L))
-            LoadStats();
-        
-
         // Activate/deactivate the ingame menu.
-        if (UIManager.instance != null && Input.GetKeyDown(KeyCode.Escape))
+        if (UIManager.instance != null && Input.GetKeyDown(KeyCode.Escape) && !GameOver)
         {
             if (SceneManager.GetActiveScene().buildIndex == 1)
                 UIManager.instance.ShowHubMenu();
             if (SceneManager.GetActiveScene().buildIndex != 1 && SceneManager.GetActiveScene().buildIndex != 0)
                 UIManager.instance.ShowRetryMenu();
         }
+
+        if (GameOver)
+        {
+            UIManager.instance.ShowGameOverScreen(true);
+            ClearSavedData();
+            StartCoroutine(GameLost());
+            GameOver = false;
+        }
     }
 
+    /// <summary>
+    /// The game is lost, wait and send the player back to main menu.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator GameLost()
+    {
+        yield return new WaitForSeconds(2f);
+        if (transitionAnim != null)
+            transitionAnim.SetTrigger("Start");
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadScene(0);
+    }
+
+    /// <summary>
+    /// Deletes all saved data.
+    /// </summary>
     void ClearSavedData()
     {
         PlayerPrefs.DeleteAll();
         levelStats.ClearSavedData();
+        playerStats.DeleteSpawnPos();
     }
 
 
@@ -394,6 +396,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.GetPlayer();
             UIManager.instance.UpdateUI();
             UIManager.instance.HideEscapeMenu();
+            UIManager.instance.ShowGameOverScreen(false);
             UIManager.instance.gameObject.SetActive(true);
         }
 

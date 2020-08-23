@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject backButton;
     [SerializeField] GameObject saveExitButton;
 
+    [Header("GameOverScreen:")]
+    [SerializeField] GameObject gameOverScreen;
+
     AudioSource source;
     PlayerController player;
 
@@ -61,11 +64,10 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-
     // Start is called before the first frame update
     void Start()
     {
-        // Set some defaults:
+        // Set some defaults and events to subscribe to:
         selectionMarkerWeapon1.color = Color.green;
         munitionAmount1.text = playerStats.MaxArrows.ToString();
         munitionAmount2.text = playerStats.MaxSpears.ToString();
@@ -140,16 +142,26 @@ public class UIManager : MonoBehaviour
         invisibleBar.fillAmount = 1f;
     }
 
+    /// <summary>
+    /// Plays a buttonSound and calls the corresponding method from the GameManager.
+    /// </summary>
     public void RetryLevel()
     {
+        // Todo: set crystals to 0.
         source.Play();
         GameManager.instance.RetryLevel();
     }
+    /// <summary>
+    /// Plays a buttonSound and calls the corresponding method from the GameManager.
+    /// </summary>
     public void BackToHub()
     {
         source.Play();
         GameManager.instance.BackToHub();
     }
+    /// <summary>
+    /// Plays a buttonSound and calls the corresponding method from the GameManager.
+    /// </summary>
     public void SaveAndExit()
     {
         source.Play();
@@ -183,6 +195,11 @@ public class UIManager : MonoBehaviour
         showPopUpMessage = true;
     }
 
+    /// <summary>
+    /// Update the ammo display.
+    /// </summary>
+    /// <param name="newAmount">The new amount.</param>
+    /// <param name="hand">The and the weapon is in.</param>
     public void AmmoChanged(string newAmount, ActiveWeaponHand hand)
     {
         if (hand == ActiveWeaponHand.Left)
@@ -191,6 +208,12 @@ public class UIManager : MonoBehaviour
             munitionAmount2.text = newAmount;
     }
 
+    /// <summary>
+    /// Shows messages in the dialog panel. Gets activated by the story manager.
+    /// </summary>
+    /// <param name="charIcon">The character speaking.</param>
+    /// <param name="message">The text.</param>
+    /// <param name="speaker">The character speaking.</param>
     public void ShowDialog(Sprite charIcon, string message, CharacterIcon speaker)
     {
         if (speaker == CharacterIcon.Women || speaker == CharacterIcon.Hero)
@@ -209,23 +232,35 @@ public class UIManager : MonoBehaviour
         dialogText.text = message;
     }
 
+    /// <summary>
+    /// Activates the dialog panel.
+    /// </summary>
+    /// <param name="status">Activate or deactivate.</param>
     public void EnableDialogPanel(bool status)
     {
         dialogPanel.SetActive(status);
     }
 
-
+    /// <summary>
+    /// Show the retry menu.
+    /// </summary>
     public void ShowRetryMenu()
     {
         retryButton.SetActive(!retryButton.activeSelf);
         backButton.SetActive(!backButton.activeSelf);
     }
 
+    /// <summary>
+    /// Shows the back to hub button.
+    /// </summary>
     public void ShowHubMenu()
     {
         saveExitButton.SetActive(!saveExitButton.activeSelf);
     }
 
+    /// <summary>
+    /// Hides the escape menu.
+    /// </summary>
     public void HideEscapeMenu()
     {
         retryButton.SetActive(false);
@@ -233,6 +268,9 @@ public class UIManager : MonoBehaviour
         saveExitButton.SetActive(false);
     }
 
+    /// <summary>
+    /// Since its dontdestroy on load, get all the references you need and subscribe to all events you need.
+    /// </summary>
     public void GetPlayer()
     {
         if (GameObject.FindGameObjectWithTag("Player") != null)
@@ -273,5 +311,13 @@ public class UIManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
             player.OnInvisibleChanged += (float invisibleTime) => { invisibleBar.fillAmount = invisibleTime;  };
         }
+    }
+
+    /// <summary>
+    /// Shows the game over screen.
+    /// </summary>
+    public void ShowGameOverScreen(bool show)
+    {
+        gameOverScreen.SetActive(show);
     }
 }

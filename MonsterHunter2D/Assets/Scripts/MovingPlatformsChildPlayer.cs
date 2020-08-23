@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Makes the player a child of a moving platform.
+/// </summary>
 public class MovingPlatformsChildPlayer : MonoBehaviour
 {
     ParticleSystem ps;
@@ -12,55 +15,30 @@ public class MovingPlatformsChildPlayer : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    // On bottom of the player there is a circleCollider2D Component which is a trigger, it is looking for if the player steps on a moveable platform and makes it his parent.
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.tag == "Platform" || other.tag == "MovablePlatform")
-    //    {
-    //        //Instantiate(dustCloud, groundCheck.position, dustCloud.transform.rotation);
-    //        //Instantiate(platformDrop, other.transform.position, platformDrop.transform.rotation);
-    //    }
-
-    //    if (other.tag == "MovablePlatform")
-    //        transform.parent = other.transform;
-    //}
-    //private void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.tag == "MovablePlatform")
-    //    {
-    //        transform.parent = null;
-    //        // Make sure it has no rotation, when leaving a moveable platform.
-    //        transform.rotation = Quaternion.identity;
-    //    }
-
-
-    //}
-
+    /// <summary>
+    /// Sets the player as child of the platform.
+    /// </summary>
+    /// <param name="collision">The player.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //play particles
             if(ps != null && !ps.isEmitting)
                 ps.Play();
-            Debug.Log("PLayer entered");
             collision.transform.parent = transform.parent;
         }
     }
 
+    /// <summary>
+    /// Delets the player as child.
+    /// </summary>
+    /// <param name="collision">The player.</param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.transform.parent = null;
             collision.transform.rotation = Quaternion.identity;
-            Debug.Log("PLayer gone");
         }
     }
 }
