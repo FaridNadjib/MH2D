@@ -26063,6 +26063,31 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 339695537896395659, guid: c082a5e94e7dda0499561360a69bb379,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
+        type: 3}
+      propertyPath: m_text
+      value: Khaan in "DjungleFever"
+      objectReference: {fileID: 0}
+    - target: {fileID: 339695537902454464, guid: c082a5e94e7dda0499561360a69bb379,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 339695537959020762, guid: c082a5e94e7dda0499561360a69bb379,
+        type: 3}
+      propertyPath: m_text
+      value: '"DjungleFever"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 339695537959020762, guid: c082a5e94e7dda0499561360a69bb379,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 339695537999687114, guid: c082a5e94e7dda0499561360a69bb379,
         type: 3}
       propertyPath: m_Camera

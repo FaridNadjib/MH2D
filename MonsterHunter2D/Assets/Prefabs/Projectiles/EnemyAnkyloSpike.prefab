@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1506148405
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -6992909399705339630, guid: 922955978bb1dd84d8f660ca11cba1fb,
     type: 3}
@@ -100,7 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 7
   projectileSpeed: 20
-  damage: 5
+  normalDamage: 4
+  stealthDamage: 4
   projectileLifeTime: 4
   disappearTime: 2
   bombExplosion: {fileID: 0}

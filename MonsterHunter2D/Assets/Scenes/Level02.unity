@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3097,6 +3097,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MaxArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 668784689607292184, guid: b0d2c960c3160ed47aac143b7e0e741d,
+        type: 3}
+      propertyPath: changeAmount
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 668784689607292190, guid: b0d2c960c3160ed47aac143b7e0e741d,
         type: 3}
@@ -19625,6 +19630,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3276102284042898410, guid: 0d29c7dc535b4934fb57f3714619da4f,
+        type: 3}
+      propertyPath: changeAmount
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3276102284042898413, guid: 0d29c7dc535b4934fb57f3714619da4f,
         type: 3}
       propertyPath: m_Name
@@ -34635,6 +34645,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276102284042898410, guid: 0d29c7dc535b4934fb57f3714619da4f,
+        type: 3}
+      propertyPath: changeAmount
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3276102284042898413, guid: 0d29c7dc535b4934fb57f3714619da4f,
         type: 3}
@@ -50923,6 +50938,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 681396656610997895, guid: a3685ca55e15eeb4b993a1e341b9d3fd,
+        type: 3}
+      propertyPath: changeAmount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3685ca55e15eeb4b993a1e341b9d3fd, type: 3}
 --- !u!4 &1403328428 stripped
@@ -62970,12 +62990,12 @@ PrefabInstance:
     - target: {fileID: 5219001628212472628, guid: 525b64f01e37ede4390da6222d19cbfa,
         type: 3}
       propertyPath: sprintStaminaConsumption
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5219001628212472628, guid: 525b64f01e37ede4390da6222d19cbfa,
         type: 3}
       propertyPath: shootStaminaConsumption
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5219001628212472630, guid: 525b64f01e37ede4390da6222d19cbfa,
         type: 3}
