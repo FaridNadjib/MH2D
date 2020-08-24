@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// snakes venom projectiles.!-- Joachim
+/// </summary>
 public class EnemyProjectileVenom : EnemyProjectile
 {
     protected new const string pool = "snakeVenomPool";

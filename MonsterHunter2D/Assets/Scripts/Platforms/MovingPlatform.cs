@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// A platform that moves between End- and Start-Point.
+/// A platform that moves between End- and Start-Point. Joachim
 /// </summary>
 public class MovingPlatform : MonoBehaviour
 {

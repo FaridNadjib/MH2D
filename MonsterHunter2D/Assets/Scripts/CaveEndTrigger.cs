@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// lets a boulder roll towards the player after he activated the trigger.!-- Joachim
+/// </summary>
 public class CaveEndTrigger : MonoBehaviour
 {
     [SerializeField] private GameObject boulder;

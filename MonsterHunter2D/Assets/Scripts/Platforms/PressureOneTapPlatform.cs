@@ -1,6 +1,9 @@
 using UnityEngine;
 using Cinemachine;
 
+/// <summary>
+/// a one-tap button moving a platform.!-- Joachim
+/// </summary>
 public class PressureOneTapPlatform : MovingPlatform
 {
     [Header("Moving Object")]
@@ -112,7 +115,6 @@ public class PressureOneTapPlatform : MovingPlatform
 
     private void FreezePlayer()
     {
-        print("player freezed");
         player.gameObject.layer = 14;
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         player.BlockInput(true);

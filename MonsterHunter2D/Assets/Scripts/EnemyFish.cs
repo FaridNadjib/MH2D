@@ -41,8 +41,6 @@ public class EnemyFish : Enemy
             nextPos = waypoints[targetWaypointIndex].position;
             currentSpeed = standardSpeed;
             FlipTowardsPos(nextPos);
-
-            print(nextPos);
         }
     }
 
@@ -68,6 +66,9 @@ public class EnemyFish : Enemy
         }
     }
 
+    /// <summary>
+    /// checks if the position on the y is smaller or equal to the startPos. then waits for the given amount of time
+    /// </summary>
     private void JumpVertical()
     {
         if (rb.gravityScale == 0f)
@@ -89,6 +90,9 @@ public class EnemyFish : Enemy
         }
     }
 
+    /// <summary>
+    /// checks if the nextPos has been reached and then decides whether to jump or to swim towards the next waypoint.
+    /// </summary>
     private void PatrolAndJump()
     {
         // if the enemy has reached the next position
@@ -144,6 +148,9 @@ public class EnemyFish : Enemy
         }
     }
 
+    /// <summary>
+    /// moves in a beziér-curve.
+    /// </summary>
     protected override void MoveInCurve()
     {
         if (currentCurvePos < 1f)
@@ -170,6 +177,9 @@ public class EnemyFish : Enemy
             currentCurvePos = 0f;
     }
 
+    /// <summary>
+    /// jumps into the air vertically by applying a force
+    /// </summary>
     private void Jump()
     {
         currentTime += Time.deltaTime;
@@ -191,6 +201,9 @@ public class EnemyFish : Enemy
         rb.gravityScale = 1f;
     }
 
+    /// <summary>
+    /// checks if the waypoint has been reached and waits until the timer has been reached.!-- then 
+    /// </summary>
     private void Patrol()
     {
         // if the enemy has reached the next position
@@ -222,6 +235,10 @@ public class EnemyFish : Enemy
         transform.position = pos + transform.up * Mathf.Sin(Time.time * frequency) * magnitude;
     }
 
+    /// <summary>
+    /// if the player has been hit make it stick to it
+    /// </summary>
+    /// <param name="other"></param>
     public override void HasHitPlayer(Collider2D other)
     {
         characterSounds.PlaySound(CharacterSounds.Sound.MeleeAttacking, 0, false, false);
@@ -242,6 +259,9 @@ public class EnemyFish : Enemy
         currentTime = 0f;
     }
 
+    /// <summary>
+    /// reduces the bite timer and if that is reached, make the fish fall down and destroy it after
+    /// </summary>
     private void Bite()
     {
         currentTime += Time.deltaTime;

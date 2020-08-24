@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// enemy-snake.!-- Joachim
+/// </summary>
 public class EnemySnake : Enemy
 {
     [Header("Snake")]
@@ -61,6 +64,9 @@ public class EnemySnake : Enemy
             currentState = State.Dead;
     }
 
+    /// <summary>
+    /// decides which attack to trigger based on the range to the player.
+    /// </summary>
     protected override void AttackingBehaviour()
     {
         FlipTowardsPos(target.transform.position);
@@ -92,6 +98,9 @@ public class EnemySnake : Enemy
         }
     }
 
+    /// <summary>
+    /// waits after the enemy has been hit
+    /// </summary>
     protected override void HitBehaviour()
     {
         currentWaitTime += Time.fixedDeltaTime;
@@ -115,6 +124,9 @@ public class EnemySnake : Enemy
         }
     }
 
+    /// <summary>
+    /// Gets called from the animation event.!-- Decides which and how many projectiles to spawn.
+    /// </summary>
     public void ShootVenom()
     {
         float distance = Vector2.Distance(transform.position, target.transform.position);

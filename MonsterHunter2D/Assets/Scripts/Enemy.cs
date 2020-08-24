@@ -148,6 +148,10 @@ public class Enemy : MonoBehaviour
             CollisionWithWater();
     }
 
+    /// <summary>
+    /// Checks if the player becomes visible inside of the trigger range of the enemy.
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerStay2D(Collider2D other) 
     {
         if (other.GetComponent<PlayerController>() != null && currentState != State.Dead)
@@ -174,6 +178,10 @@ public class Enemy : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// if the player is in range and is not invisible, become alerted.
+    /// </summary>
+    /// <param name="other"></param>
     public void PlayerInRange(Collider2D other)
     {
         if (!alertedOnce && currentState != State.Dead)
@@ -207,6 +215,10 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Alerted(Collider2D other){}
 
+    /// <summary>
+    /// Handle collisions with projectiles and with the player.
+    /// </summary>
+    /// <param name="other"></param>
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.GetComponent<Projectile>() != null && other.gameObject.GetComponent<EnemyProjectile>() == null && currentState != State.Dead)
@@ -277,6 +289,10 @@ public class Enemy : MonoBehaviour
         return index;
     }
 
+    /// <summary>
+    /// checks the distance to the nextPos and waits if it has been reached.
+    /// otherwise moves further towards the nextPos.
+    /// </summary>
     protected virtual void CheckDistanceToNextPos()
     {
         if (Mathf.Approximately(Vector3.Distance(transform.position, nextPos), 0))
@@ -301,12 +317,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets a next behaviour based on the current state.
+    /// </summary>
     protected virtual void SetupNextBehaviour()
     {
         if (possibleMovements.Length >= 1)
             currentMovementType = GetNextMovementType();
-
-        print(currentMovementType);
 
         if (currentMovementType == MovementType.Curve)
             curvePoint = CalculateCurvePoint();
@@ -341,12 +358,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// chooses the movement method based on the current movement type
+    /// </summary>
     protected virtual void Move()
     {
         if (willHitTarget)
             nextPos = target.transform.position;
-
-        print("moving in " + currentMovementType);
 
         switch (currentMovementType)
         {
@@ -359,6 +377,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// gets a random movement type from the array
+    /// </summary>
+    /// <returns></returns>
     protected MovementType GetNextMovementType()
     {
         MovementType moveType = possibleMovements[Random.Range(0, possibleMovements.Length)];

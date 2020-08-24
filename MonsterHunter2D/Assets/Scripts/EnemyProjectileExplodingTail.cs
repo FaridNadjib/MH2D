@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// the ankylos exploding tail projectile.!-- Joachim
+/// </summary>
 public class EnemyProjectileExplodingTail : EnemyProjectile
 {
     [SerializeField] private Vector2Int minMaxNumberOfSpikes;
@@ -41,6 +44,9 @@ public class EnemyProjectileExplodingTail : EnemyProjectile
             Explode();  
     }
 
+    /// <summary>
+    /// lets the projectile explode into spikes in a circular facing direction with a random offset
+    /// </summary>
     private void Explode()
     {
         GetComponent<AudioSource>().Play();

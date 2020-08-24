@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// A button that will move another object to its End-Position and back.
+/// A button that will move another object to its End-Position and back. Joachim
 /// </summary>
 public class ButtonPlatform : PressurePlatform
 {

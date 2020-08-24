@@ -122,8 +122,6 @@ public class EnemyFlyingDino : Enemy
             anim.SetBool("isAttacking", false);
             currentSpeed = standardSpeed;
 
-            print("waypoint index: " + targetWaypointIndex);
-
             // if (!characterSounds.IsPlaying(CharacterSounds.Sound.Moving))
             //     characterSounds.PlaySound(CharacterSounds.Sound.Moving, 0, false, true);
         }

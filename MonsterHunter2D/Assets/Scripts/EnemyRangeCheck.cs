@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// range check for enemies.!-- Joachim
+/// </summary>
 public class EnemyRangeCheck : MonoBehaviour
 {
     private Enemy enemy;

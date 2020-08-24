@@ -4,7 +4,7 @@ using Cinemachine;
 /// <summary>
 /// A Pressure-Pad that reacts when the player has stepped on it. 
 /// The referenced object will then move between its start- and end-Point based on the pushed-value of the Pressure-Pad. 
-/// (Value between 0-1)
+/// (Value between 0-1) Joachim
 /// </summary>
 public class PressurePlatform : MovingPlatform
 {
