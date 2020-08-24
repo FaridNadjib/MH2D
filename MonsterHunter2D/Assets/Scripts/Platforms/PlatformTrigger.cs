@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// A trigger to activate an object that will then move.
+/// A trigger to activate an object that will then move. Joachim
 /// </summary>
 public class PlatformTrigger : MonoBehaviour
 {
@@ -14,7 +14,6 @@ public class PlatformTrigger : MonoBehaviour
         if (other.GetComponent<PlayerController>() != null)
         {
             objectToMove.Trigger();
-            print("triggered");
         }
     }
 

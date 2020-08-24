@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// an event that spawns boulders once triggered. Joachim
+/// </summary>
 public class BoulderEvent : MonoBehaviour
 {
     [SerializeField] private Vector2 minMaxSpawnIntervalTime;

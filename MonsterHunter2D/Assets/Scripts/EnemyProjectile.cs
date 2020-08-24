@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Base class for enemy-projectiles.
+/// class for enemy-projectiles. Joachim
 /// </summary>
 public class EnemyProjectile : Projectile
 {

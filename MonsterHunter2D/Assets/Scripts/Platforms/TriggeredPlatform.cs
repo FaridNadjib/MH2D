@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// A platform which position changes based on a trigger.
+/// A platform which position changes based on a trigger. Joachim
 /// </summary>
 public class TriggeredPlatform : MovingPlatform
 {
