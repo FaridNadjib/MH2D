@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviour
         StealthCheck();
 
         // Shooting calculations.
-        if(!blockInput)
+        //if(!blockInput)
             ShootingCheck();
 
         // Change the friction of the physicsmaterial of the player based on if he is grounded. Its never needed.
@@ -572,7 +572,7 @@ public class PlayerController : MonoBehaviour
                 DrawLine();
 
             // If the key was released activate the projectile.
-            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && isGrounded || !characterResources.HasStamina || blockInput)
             {
                 GameObject tempProjectile = ObjectPoolsController.instance.GetFromPool(activeWeapon.ToString());
                 tempProj = tempProjectile;
